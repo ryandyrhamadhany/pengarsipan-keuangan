@@ -53,7 +53,7 @@ class ArchiveFileController extends Controller
     public function create_with_folder($id)
     {
         $folders = DocumentFolder::where('id', $id)->first();
-        return view('admin.archive.form-create-file', compact('folders'));
+        return view('admin.input_archive.document.form-create-file', compact('folders'));
     }
 
     /**
@@ -93,7 +93,7 @@ class ArchiveFileController extends Controller
         $path = $archives->path_file;
 
 
-        return view('admin.archive.archive-show-file', compact('archives'));
+        return view('admin.input_archive.document.archive-show-file', compact('archives'));
     }
 
     /**
@@ -102,7 +102,7 @@ class ArchiveFileController extends Controller
     public function edit(string $id)
     {
         $file = ArchiveFile::findOrFail($id);
-        return view('admin.form.archive-file-edit-form', compact('file'));
+        return view('admin.input_archive.document.archive-file-edit-form', compact('file'));
     }
 
     /**
@@ -149,12 +149,12 @@ class ArchiveFileController extends Controller
     {
         $archive = ArchiveFile::findOrFail($id);
 
-        if ($archive->path_file && Storage::disk('public')->exists($archive->path_file)) {
-            Storage::disk('public')->delete($archive->path_file);
-        }
+        // if ($archive->path_file && Storage::disk('public')->exists($archive->path_file)) {
+        //     Storage::disk('public')->delete($archive->path_file);
+        // }
 
         $archive->delete();
 
-        return back()->with('success', 'File berhasil dihapus!');
+        return redirect()->route('folder.show', ['folder' => $archive->document_folder_id])->with('success', 'File berhasil Dihapus!');
     }
 }

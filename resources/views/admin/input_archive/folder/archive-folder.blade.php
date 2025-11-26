@@ -76,7 +76,7 @@
 
             {{-- Tombol Kembali --}}
             <div class="mt-6">
-                <a href="{{ route('admin.rack.archive') }}"
+                <a href="{{ route('year.show', $raks->year_id) }}"
                     class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-700 rounded-lg font-medium transition">
                     {{-- <img src="https://img.icons8.com/?size=20&id=118774&format=png&color=4b5563" alt="back"> --}}
                     Kembali

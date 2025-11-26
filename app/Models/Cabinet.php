@@ -5,30 +5,36 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Cabinet extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'cabinet_id',
-        'category_name',
+        'cabinet_name',
+        'cabinet_code',
+        'total_racks',
         'deskripsi',
-        'url_icon',
     ];
 
-    public function cabinet()
+    public function categories()
     {
-        return $this->belongsTo(Cabinet::class, 'cabinet_id');
+        return $this->hasMany(Category::class, 'cabinet_id');
     }
 
     public function subcategories()
     {
-        return $this->hasMany(SubCategory::class, 'category_id');
+        return SubCategory::whereIn(
+            'category_id',
+            $this->categories()->pluck('id')
+        );
     }
 
     public function years()
     {
-        return $this->morphMany(Year::class, 'yearable');
+        return Year::whereIn(
+            'subcategory_id',
+            $this->subcategories()->pluck('id')
+        );
     }
 
     public function racks()

@@ -13,11 +13,24 @@ class DocumentRack extends Model
         'rack_name',
         'kode_rack',
         'keterangan',
-        'category_id',
+        'year_id',
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function folders()
+    {
+        return $this->hasMany(DocumentFolder::class, 'document_rack_id');
+    }
+
+    public function allFiles()
+    {
+        return ArchiveFile::whereIn(
+            'document_folder_id',
+            $this->folders()->pluck('id')
+        )->get();
     }
 }

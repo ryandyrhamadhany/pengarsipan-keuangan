@@ -102,12 +102,42 @@
                     </div>
                 </div>
 
-                {{-- Tombol Kembali --}}
-                <div class="pt-4">
+                <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+
+                    {{-- Tombol Kembali --}}
                     <a href="{{ route('folder.show', $archives->document_folder_id) }}"
-                        class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition">
-                        ← Kembali
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition shadow-sm">
+                        {{-- <img src="https://img.icons8.com/?size=22&id=11596&format=png&color=4b5563" class="w-5" /> --}}
+                        Kembali
                     </a>
+
+                    {{-- Tombol Aksi --}}
+                    <div class="flex items-center gap-3">
+
+                        {{-- Edit --}}
+                        <a href="{{ route('file.edit', $archives->id) }}"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition shadow-sm">
+                            <img src="https://img.icons8.com/?size=22&id=88584&format=png&color=ffffff"
+                                class="w-5" />
+                            Edit
+                        </a>
+
+                        {{-- Hapus --}}
+                        <form action="{{ route('file.destroy', $archives->id) }}" method="POST"
+                            onsubmit="return confirm('Yakin ingin menghapus file ini?')">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition shadow-sm">
+                                <img src="https://img.icons8.com/?size=22&id=43949&format=png&color=ffffff"
+                                    class="w-5" />
+                                Hapus
+                            </button>
+                        </form>
+
+                    </div>
+
                 </div>
 
             </div>

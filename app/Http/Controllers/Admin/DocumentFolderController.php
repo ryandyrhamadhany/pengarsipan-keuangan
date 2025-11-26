@@ -30,7 +30,7 @@ class DocumentFolderController extends Controller
     public function create_wit_rack(string $id)
     {
         $raks = DocumentRack::where('id', $id)->first();
-        return view('admin.archive.form-create-folder', compact('raks'));
+        return view('admin.input_archive.folder.form-create-folder', compact('raks'));
     }
 
     /**
@@ -55,7 +55,7 @@ class DocumentFolderController extends Controller
     {
         $folders = DocumentFolder::where('id', $id)->first();
         $files = ArchiveFile::where('document_folder_id', $id)->get();
-        return view('admin.archive.archive-file', compact('folders', 'files'));
+        return view('admin.input_archive.document.archive-file', compact('folders', 'files'));
     }
 
     /**
@@ -64,7 +64,7 @@ class DocumentFolderController extends Controller
     public function edit(string $id)
     {
         $folder = DocumentFolder::findOrFail($id);
-        return view('admin.form.archive-folder-edit-form', compact('folder'));
+        return view('admin.input_archive.folder.archive-folder-edit-form', compact('folder'));
     }
 
     /**
@@ -89,17 +89,18 @@ class DocumentFolderController extends Controller
     public function destroy(string $id)
     {
         $folder = DocumentFolder::findOrFail($id);
-        $files = ArchiveFile::where('document_folder_id', $folder->id)->get();
+        $id = $folder->document_rack_id;
+        // $files = ArchiveFile::where('document_folder_id', $folder->id)->get();
 
-        // Hapus semua file PDF di storage
-        foreach ($files as $file) {
-            if ($file->path_file && Storage::disk('public')->exists($file->path_file)) {
-                Storage::disk('public')->delete($file->path_file);
-            }
-        }
+        // // Hapus semua file PDF di storage
+        // foreach ($files as $file) {
+        //     if ($file->path_file && Storage::disk('public')->exists($file->path_file)) {
+        //         Storage::disk('public')->delete($file->path_file);
+        //     }
+        // }
 
         $folder->delete();
 
-        return redirect()->route('rak.show', ['rak' => $folder->document_rack_id])->with('success', 'Berhasil Menghapus rak!!');
+        return redirect()->route('rak.show', ['rak' => $id])->with('success', 'Berhasil Menghapus rak!!');
     }
 }

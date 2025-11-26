@@ -4,26 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Category extends Model
+class SubCategory extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'cabinet_id',
-        'category_name',
-        'deskripsi',
-        'url_icon',
+        'category_id',
+        'sub_category_name',
+        'sub_category_code',
+        'keterangan',
     ];
 
-    public function cabinet()
+    public function category()
     {
-        return $this->belongsTo(Cabinet::class, 'cabinet_id');
-    }
-
-    public function subcategories()
-    {
-        return $this->hasMany(SubCategory::class, 'category_id');
+        return $this->BelongsTo(Category::class);
     }
 
     public function years()

@@ -18,7 +18,7 @@
                     };
 
                     $roleInputArsip = match (Auth::user()->role) {
-                        'admin' => route('admin.rack.archive'),
+                        'admin' => route('admin.archive'),
                         'user' => abort(403),
                         default => '#',
                     };

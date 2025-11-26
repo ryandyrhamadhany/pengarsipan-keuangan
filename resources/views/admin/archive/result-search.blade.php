@@ -9,12 +9,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
-                {{-- Tombol Kembali --}}
                 <div class="p-6">
-                    <a href="{{ route('admin.rack.archive') }}"
-                        class="inline-flex items-center gap-2 mb-4 bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-lg hover:bg-gray-300 transition">
-                        {{-- <img src="https://img.icons8.com/?size=24&id=114402&format=png&color=4b5563" class="w-5"> --}}
-                        Kembali
+
+                    {{-- Tombol Kembali --}}
+                    <a href="{{ route('admin.archive') }}"
+                        class="inline-flex items-center gap-2 mb-6 bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-lg hover:bg-gray-300 transition shadow-sm">
+                        ← Kembali
                     </a>
 
                     {{-- Hasil Pencarian --}}
@@ -22,36 +22,58 @@
                         <div class="space-y-4">
                             @foreach ($files as $file)
                                 <div
-                                    class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                                    class="flex items-center justify-between p-5 border border-gray-200 rounded-xl hover:bg-gray-50 transition">
 
                                     {{-- Info File --}}
-                                    <div class="flex flex-col">
-                                        <p class="text-lg font-semibold text-gray-800">
-                                            {{ $file->name_file }}
+                                    <div class="flex flex-col gap-1">
+
+                                        {{-- Judul + Status --}}
+                                        <div class="flex items-center gap-3">
+                                            <p class="text-lg font-semibold text-gray-800">
+                                                {{ $file->name_file }}
+                                            </p>
+
+                                            @if ($file->path_file)
+                                                <span
+                                                    class="text-sm bg-green-100 text-green-700 px-2 py-0.5 rounded-lg font-medium">
+                                                    File tersedia
+                                                </span>
+                                            @else
+                                                <span
+                                                    class="text-sm bg-red-100 text-red-600 px-2 py-0.5 rounded-lg font-medium">
+                                                    Belum ada file
+                                                </span>
+                                            @endif
+                                        </div>
+
+                                        {{-- Folder --}}
+                                        <p class="text-sm text-gray-600">
+                                            <span class="font-medium">Folder:</span>
+                                            {{ $file->folder->folder_name ?? 'Tidak ada folder' }}
                                         </p>
 
-                                        <p class="text-sm text-gray-600">
-                                            Folder:
-                                            <span class="font-medium">
-                                                {{ $file->folder->folder_name ?? 'Tidak ada folder' }}
-                                            </span>
-                                        </p>
-
-                                        <p class="text-sm text-gray-600">
-                                            Rak:
-                                            <span class="font-medium">
+                                        {{-- Rak & Kategori --}}
+                                        <div class="flex gap-12">
+                                            <p class="text-sm text-gray-600">
+                                                <span class="font-medium">Rak:</span>
                                                 {{ $file->folder->rak->rack_name ?? 'Tidak ada rak' }}
-                                            </span>
-                                        </p>
+                                            </p>
+
+                                            {{-- <p class="text-sm text-gray-600">
+                                                <span class="font-medium">Kategori:</span>
+                                                {{ $file->folder->rak->category->category_name ?? 'Tidak ada kategori' }}
+                                            </p> --}}
+                                        </div>
                                     </div>
 
                                     {{-- Tombol Aksi --}}
-                                    <div>
+                                    <div class="flex-shrink-0">
                                         <a href="{{ route('file.show', $file->id) }}"
-                                            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                                            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition shadow-sm">
                                             Lihat Detail
                                         </a>
                                     </div>
+
                                 </div>
                             @endforeach
                         </div>

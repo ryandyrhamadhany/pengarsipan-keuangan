@@ -12,7 +12,7 @@ class SearchController extends Controller
     {
         $search = $request->input('search');
 
-        $files = ArchiveFile::with('folder')->with('folder.rak')   // ← tambah relasi
+        $files = ArchiveFile::with('folder')->with('folder.rak')->with('folder.rak.category')   // ← tambah relasi
             ->when($search, function ($query) use ($search) {
                 $query->where('name_file', 'like', '%' . $search . '%');
             })
