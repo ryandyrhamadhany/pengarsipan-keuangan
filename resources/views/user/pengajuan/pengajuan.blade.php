@@ -26,7 +26,7 @@
                     </div>
 
                     {{-- Divisi --}}
-                    <div>
+                    {{-- <div>
                         <label class="block text-gray-600 font-medium mb-1">Divisi / Bagian</label>
                         <select name="divisi"
                             class="w-full border border-gray-300 rounded-lg p-3 bg-white focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
@@ -41,7 +41,7 @@
                                 @endif
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
 
                     {{-- File --}}
                     <div>

@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('cabinet_id')->constrained()->cascadeOnDelete();
             $table->string('category_name');
-            $table->string('deskripsi');
+            $table->string('category_code');
+            $table->string('url_icon')->nullable();
+            $table->string('path_icon')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

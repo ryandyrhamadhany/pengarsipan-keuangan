@@ -12,18 +12,24 @@ class Pengajuan extends Model
 
     protected $fillable = [
         'user_id',
+        'finance_officers_id',
         'pengajuan_name',
         'path_file_pengajuan',
-        'bagian',
         'status_kelengkapan',
         'status_verifikasi',
         'path_file_status_kelengkapan',
-        'message',
         'status_diarsipkan',
+        'status_dikembalikan',
+        'message',
     ];
 
     public function user()
     {
-        return $this->BelongsTo(User::class);
+        return $this->BelongsTo(User::class, 'user_id');
+    }
+
+    public function finance_officer()
+    {
+        return $this->BelongsTo(User::class, 'finance_officers_id');
     }
 }

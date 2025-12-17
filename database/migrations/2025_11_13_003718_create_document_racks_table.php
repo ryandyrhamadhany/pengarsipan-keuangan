@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('document_racks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('year_id')->constrained('years')->cascadeOnDelete();
             $table->string('rack_name');
-            $table->string('keterangan');
+            $table->string('rack_code');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

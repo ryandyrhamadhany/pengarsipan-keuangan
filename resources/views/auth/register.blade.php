@@ -24,17 +24,16 @@
 
             <select id="divisi" name="divisi"
                 class="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">
-
                 <option value="" disabled selected>Pilih Divisi</option>
-
-                @foreach ($roles as $role)
-                    @if (strtolower($role->role_name) !== 'admin')
-                        <option value="{{ $role->id }}">
-                            {{ $role->role_name }}
-                        </option>
-                    @endif
-                @endforeach
-
+                <option value="Program">Program</option>
+                <option value="Berita">Berita</option>
+                <option value="Teknik">Teknik</option>
+                <option value="KMB">KMB</option>
+                <option value="Promo">Promo</option>
+                <option value="Umum">Umum</option>
+                <option value="Tata usaha">Tata usaha</option>
+                <option value="Pengembangan usaha">Pengembangan usaha</option>
+                <option value="Keuangan" class="font-semibold text-blue-950 bg-blue-200">Keuangan</option>
             </select>
         </div>
 

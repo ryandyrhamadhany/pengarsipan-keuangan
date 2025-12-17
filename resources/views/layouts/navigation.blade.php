@@ -11,32 +11,35 @@
                 </div>
 
                 @php
-                    $roleDashboard = match (Auth::user()->role_id) {
-                        10 => route('admin.dashboard'),
-                        9 => route('bendahara.dashboard'),
+                    $roleDashboard = match (Auth::user()->role) {
+                        'Admin' => route('admin.dashboard'),
+                        'Keuangan' => route('keuangan.dashboard'),
+                        'Bendahara' => route('bendahara.dashboard'),
                         default => route('user.dashboard'),
                     };
 
-                    $roleInputArsip = match (Auth::user()->role_id) {
-                        10 => route('admin.archive'),
+                    $roleInputArsip = match (Auth::user()->role) {
+                        'Admin' => route('admin.archive'),
+                        'Keuangan' => route('keuangan.input'),
+                        'Bendahara' => route('admin.archive'),
                         'user' => '#',
                         default => '#',
                     };
 
-                    $roleKelolaUser = match (Auth::user()->role_id) {
-                        10 => route('account.index'),
+                    $roleKelolaUser = match (Auth::user()->role) {
+                        'Admin' => route('account.index'),
                         'user' => '#',
                         default => '#',
                     };
 
                     // ============================================= bagian user
-                    $pengajuan = match (Auth::user()->role_id) {
-                        10, 9 => '#',
+                    $pengajuan = match (Auth::user()->role) {
+                        'Admin', 'Keuangan' => '#',
                         default => route('pengajuan.index'),
                     };
 
                     $worklist = match (Auth::user()->role) {
-                        10, 9 => '#',
+                        'Admin', 'Keuangan' => '#',
                         default => route('user.worklist'),
                     };
                 @endphp
@@ -47,7 +50,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                @if (Auth::user()->role_id == 10)
+                @if (Auth::user()->role == 'Admin')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link href="{{ $roleInputArsip }}" :active="request()->routeIs('dashboard')">
                             {{ __('Input Arsip') }}
@@ -58,7 +61,13 @@
                             {{ __('kelola user') }}
                         </x-nav-link>
                     </div>
-                @elseif (Auth::user()->role_id == 9)
+                @elseif (Auth::user()->role == 'Keuangan')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="{{ $roleInputArsip }}" :active="request()->routeIs('dashboard')">
+                            {{ __('Input Arsip') }}
+                        </x-nav-link>
+                    </div>
+                @elseif (Auth::user()->role == 'Bendahara')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link href="{{ $roleInputArsip }}" :active="request()->routeIs('dashboard')">
                             {{ __('Input Arsip') }}

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('archive_files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('document_folder_id')->constrained('document_folders')->onDelete('cascade');
-            $table->string('name_file');
-            $table->string('path_file')->nullable();
-            $table->string('keterangan');
+            $table->string('file_name');
+            $table->string('file_path')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

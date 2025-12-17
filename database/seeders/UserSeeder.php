@@ -18,13 +18,13 @@ class UserSeeder extends Seeder
             'name' => 'Administrator',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'), // ganti dengan password sendiri
-            'role' => 'admin', // kalau tabel user kamu ada kolom 'role'
+            'role' => 'Admin', // kalau tabel user kamu ada kolom 'role'
         ]);
-        User::create([
-            'name' => 'User',
-            'email' => 'user@gmail.com',
-            'password' => Hash::make('password'), // ganti dengan password sendiri
-            'role' => 'user', // kalau tabel user kamu ada kolom 'role'
-        ]);
+        // User::create([
+        //     'name' => 'User',
+        //     'email' => 'user@gmail.com',
+        //     'password' => Hash::make('password'), // ganti dengan password sendiri
+        //     'role' => 'user', // kalau tabel user kamu ada kolom 'role'
+        // ]);
     }
 }

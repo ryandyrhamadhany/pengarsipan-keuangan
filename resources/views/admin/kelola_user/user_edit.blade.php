@@ -49,10 +49,19 @@
                         <label class="block text-gray-700 font-medium mb-2">Role</label>
                         <select name="role" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
                             required>
-                            <option value="">-- Pilih Role --</option>
-                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staff</option>
-                            <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                            <option value="" disabled selected>Pilih Divisi</option>
+                            <option value="Kepala">Kepala Kantor</option>
+                            <option value="Program">Program</option>
+                            <option value="Berita">Berita</option>
+                            <option value="Teknik">Teknik</option>
+                            <option value="KMB">KMB</option>
+                            <option value="Promo">Promo</option>
+                            <option value="Umum">Umum</option>
+                            <option value="Tata usaha">Tata usaha</option>
+                            <option value="Pengembangan usaha">Pengembangan usaha</option>
+                            <option value="Keuangan">Keuangan</option>
+                            <option value="Bendahara">Bendahara</option>
+                            <option value="Admin">Admin</option>
                         </select>
                     </div>
 
@@ -73,7 +82,7 @@
                         <button type="submit"
                             class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold
                rounded-xl shadow transition">
-                            Buat Akun
+                            Update Akun
                         </button>
                     </div>
                 </form>

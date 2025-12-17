@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sub_categories', function (Blueprint $table) {
+        Schema::create('cabinets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-            $table->string('sub_category_name');
-            $table->string('sub_category_code');
-            $table->string('keterangan');
+            $table->string('cabinet_name');
+            $table->string('cabinet_code');
+            $table->integer('total_racks')->nullable();
+            $table->integer('total_document')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_categories');
+        Schema::dropIfExists('cabinets');
     }
 };

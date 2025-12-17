@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('document_rack_id')->constrained('document_racks')->onDelete('cascade');
             $table->string('folder_name');
-            $table->string('kode_folder');
-            $table->string('deskripsi');
+            $table->string('folder_code');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

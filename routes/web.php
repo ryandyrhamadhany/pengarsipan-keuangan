@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\YearController;
 use App\Http\Controllers\Bendahara\BendaharaController;
+use App\Http\Controllers\Keuangan\KeuanganController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\PengajuanController;
 use App\Http\Controllers\User\UserController;
@@ -27,23 +28,21 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth', 'verified')->get('/dashboard', function () {
-    $role = Auth::user()->role_id;
-    if ($role == 10) {
+    $role = Auth::user()->role;
+    if ($role == "Admin") {
         return redirect()->route('admin.dashboard');
-    } else if ($role == 9) {
+    } else if ($role == "Keuangan") {
+        return redirect()->route('keuangan.dashboard');
+    } else if ($role == "Bendahara") {
         return redirect()->route('bendahara.dashboard');
     } else {
         return redirect()->route('user.dashboard');
     }
-    // return match ($role) {
-    //     '10' => redirect()->route('admin.dashboard'),
-    //     'user' => redirect()->route('user.dashboard'),
-    //     default => abort(403),
-    // };
 })->name('dashboard');
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/keuangan/dashboard', [KeuanganController::class, 'index'])->name('keuangan.dashboard');
     Route::get('/bendahara/dashboard', [BendaharaController::class, 'index'])->name('bendahara.dashboard');
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
 });
@@ -75,6 +74,17 @@ Route::get('/kelola/user', [AdminController::class, 'kelola_user'])->name('admin
 // Route::get('/pengajuan', [UserController::class, 'pengajuan'])->name('user.pengajuan');
 Route::get('/worklist', [UserController::class, 'worklist'])->name('user.worklist');
 
+
+// ==================================================================== Route Keuangan
+Route::get('/keuangan/input', [KeuanganController::class, 'input_arsip'])->name('keuangan.input');
+Route::get('/keuangan/check/{id}', [KeuanganController::class, 'check_pengajuan'])->name('keuangan.check');
+Route::put('/keuangan/update/{id}', [PengajuanController::class, 'update_check'])->name('keuangan.checkandupate');
+Route::put('/keuangan/perbaiki/{id}', [PengajuanController::class, 'perbaikan'])->name('keuangan.perbaiki');
+Route::get('/keuangan/download/{id}', [PengajuanController::class, 'download_pengajuan'])->name('keuangan.download');
+
+// ===================================================================== Route Bendahara
+Route::get('/bendahara/sign/{id}', [BendaharaController::class, 'document_sign'])->name('bendahara.sign');
+Route::put('/bendahara/verifikasi/{id}', [PengajuanController::class, 'final_verification'])->name('bendahara.verification');
 
 // =================================================================== Route Resource
 Route::resource('/cabinet', CabinetController::class);
