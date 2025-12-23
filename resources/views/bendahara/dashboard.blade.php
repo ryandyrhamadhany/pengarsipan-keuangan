@@ -10,7 +10,7 @@
             <div class="space-y-6">
 
                 {{-- ================= HERO SECTION ================= --}}
-                <div class="bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-xl shadow-lg overflow-hidden">
                     <div class="p-8">
                         <div class="flex items-center justify-between">
                             <div>
@@ -22,8 +22,8 @@
                                 </p>
                             </div>
                             <div class="hidden md:block">
-                                <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
-                                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor"
+                                <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
+                                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
@@ -154,7 +154,7 @@
                         {{-- Buttons --}}
                         <div class="flex gap-3">
                             <button type="submit"
-                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500 text-white font-medium rounded-lg shadow-sm">
+                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-medium rounded-lg shadow-sm">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z">
@@ -205,7 +205,7 @@
 
                                     {{-- NOMOR --}}
                                     <div
-                                        class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gradient-to-br from-purple-500 to-purple-600 text-white font-bold text-sm rounded-lg shadow-md">
+                                        class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-bold text-sm rounded-lg shadow-md">
                                         {{ $no++ }}
                                     </div>
 
@@ -258,7 +258,7 @@
                                     {{-- Arrow Icon --}}
                                     <div class="flex-shrink-0 ml-4">
                                         <div
-                                            class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg group-hover:bg-purple-500 transition-all duration-300">
+                                            class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg group-hover:bg-[#003A8F] transition-all duration-300">
                                             <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-all duration-300"
                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -291,7 +291,7 @@
                 {{-- ================= INFO SECTION ================= --}}
                 <div class="bg-gradient-to-br from-purple-50 to-violet-100/50 rounded-xl p-6 border border-purple-200">
                     <div class="flex items-start gap-4">
-                        <div class="p-3 bg-purple-500 rounded-lg flex-shrink-0">
+                        <div class="p-3 bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-lg flex-shrink-0">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

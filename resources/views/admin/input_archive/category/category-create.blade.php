@@ -1,150 +1,252 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Input Arsip') }}
+            {{ __('Tambah Kategori Arsip') }}
         </h2>
     </x-slot>
 
-    <div class="py-10 bg-gray-50">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-md sm:rounded-xl p-8 border border-gray-200">
-                <form action="{{ route('category.store') }}" method="POST" class="space-y-6">
+    {{-- TOMBOL KEMBALI --}}
+    <div class="#">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <a href="{{ route('cabinet.show', $cabinet->id) }}"
+               class="inline-flex items-center gap-2 bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-lg hover:bg-gray-300 transition shadow-sm">
+                ← Kembali
+            </a>
+        </div>
+    </div>
+
+    <div class="py-10 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+
+            {{-- Breadcrumb --}}
+            <div class="mb-6 flex items-center gap-2 text-sm">
+                <a href="{{ route('admin.archive') }}" class="text-gray-500 hover:text-purple-600 transition-colors">
+                    Input Arsip
+                </a>
+                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <a href="{{ route('cabinet.show', $cabinet->id) }}" class="text-gray-500 hover:text-purple-600 transition-colors">
+                    {{ $cabinet->cabinet_name }}
+                </a>
+                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700 font-semibold">Tambah Kategori</span>
+            </div>
+
+            <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-200">
+
+                {{-- Header Section --}}
+                <div class="relative bg-gradient-to-b from-[#003A8F] to-[#002766] p-4">
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-white opacity-10 rounded-full"></div>
+                    <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-20 h-20 bg-white opacity-10 rounded-full"></div>
+                    
+                    <div class="relative z-10 flex items-center gap-4">
+                        <div class="p-4 bg-white bg-opacity-20 rounded-2xl backdrop-blur-sm">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">
+                                Buat Kategori Baru
+                            </h3>
+                            <p class="text-pink-100 mt-2">Tambahkan kategori untuk: <span class="font-semibold">{{ $cabinet->cabinet_name }}</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                {{-- FORM --}}
+                <form action="{{ route('category.store') }}" method="POST" class="p-8">
                     @csrf
 
-                    <input type="text" name="cabinet_id" value="{{ $cabinet->id }}" class="hidden">
+                    <input type="hidden" name="cabinet_id" value="{{ $cabinet->id }}">
 
-                    {{-- Nama Rak Arsip --}}
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
-                            Nama Kategori Arsip
-                        </label>
-                        <input type="text" name="name" id="name"
-                            class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-                            placeholder="Masukkan nama rak arsip" required>
-                    </div>
+                    <div class="space-y-6">
 
-                    {{-- Keterangan --}}
-                    <div>
-                        <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-1">
-                            Deskripsi
-                        </label>
-                        <input type="text" name="deskripsi" id="deskripsi"
-                            class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-                            placeholder="Masukkan keterangan" required>
-                    </div>
-
-                    {{-- URL Icon --}}
-                    <div class="mb-4">
-                        <label for="url" class="block text-sm font-medium text-gray-700 mb-1">
-                            URL Icon
-                        </label>
-
-                        <div
-                            class="text-xs text-gray-600 bg-gray-50 p-3 rounded-lg border border-gray-200 leading-relaxed mb-2">
-                            <p class="font-semibold mb-1">Instruksi memasukkan URL icon dari Icon8:</p>
-
-                            <ol class="list-decimal list-inside space-y-1">
-                                <li>Buka situs <strong>icons8.com</strong> dan cari icon yang ingin dipakai.</li>
-                                <li>Klik icon tersebut hingga terbuka halaman detailnya, lalu pilih copy > link to png
-                                    "jumlahnya hurufnya harus sama"
-                                </li>
-                                <li>Ganti warna icon menjadi <strong>putih</strong> pada bagian <em>“color=000000
-                                        menjadi color=ffffff”</em>.
-                                </li>
-                                <li>Ganti ukuran (size) menjadi <strong>100 px</strong>. contohnya size=100 </li>
-                            </ol>
-
-                            <p class="mt-2 font-semibold">Contoh URL yang benar:</p>
-                            <code class="block bg-white p-2 rounded border text-[11px]">
-                                https://img.icons8.com/?size=100&id=2HU1G5leSjOg&format=png&color=ffffff
-                            </code>
+                        {{-- Nama Kategori --}}
+                        <div class="group">
+                            <label for="name" class="flex items-center gap-2 text-gray-700 font-semibold mb-3">
+                                <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
+                                </svg>
+                                Nama Kategori Arsip
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="text" 
+                                       name="name" 
+                                       id="name"
+                                       class="w-full px-5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
+                                       placeholder="Contoh: Surat Masuk, Laporan Keuangan, Dokumen Legal" 
+                                       required>
+                                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
+                                </svg>
+                            </div>
+                            <p class="mt-2 text-xs text-gray-500 ml-1">Gunakan nama yang spesifik dan mudah dikenali</p>
                         </div>
 
-                        <input type="text" name="url" id="url"
-                            class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-                            placeholder="Masukkan URL Icon dari Icons8 atau bisa kosongkan sementara" required>
+                        {{-- Deskripsi --}}
+                        <div class="group">
+                            <label for="deskripsi" class="flex items-center gap-2 text-gray-700 font-semibold mb-3">
+                                <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+                                </svg>
+                                Deskripsi
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <textarea 
+                                    name="deskripsi" 
+                                    id="deskripsi"
+                                    rows="4"
+                                    class="w-full px-5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12 resize-none"
+                                    placeholder="Jelaskan jenis dokumen apa saja yang masuk dalam kategori ini. Contoh: Kategori untuk menyimpan semua surat masuk dari instansi eksternal"
+                                    required></textarea>
+                                <svg class="absolute left-4 top-4 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <p class="mt-2 text-xs text-gray-500 ml-1">Berikan deskripsi yang detail tentang isi kategori</p>
+                        </div>
+
+                        {{-- URL Icon --}}
+                        <div class="group">
+                            <label for="url" class="flex items-center gap-2 text-gray-700 font-semibold mb-3">
+                                <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                </svg>
+                                URL Icon
+                            </label>
+
+                            {{-- Instructions Box --}}
+                            <div class="mb-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-5 shadow-sm">
+                                <div class="flex items-start gap-3 mb-3">
+                                    <div class="flex-shrink-0 p-2 bg-blue-100 rounded-lg">
+                                        <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-blue-900 mb-2">Panduan Memasukkan URL Icon dari Icons8</h5>
+                                        <ol class="text-sm text-blue-800 space-y-2">
+                                            <li class="flex items-start gap-2">
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">1</span>
+                                                <span>Buka situs <strong class="text-blue-900">icons8.com</strong> dan cari icon yang ingin dipakai.</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">2</span>
+                                                <span>Klik icon tersebut hingga terbuka halaman detailnya, lalu pilih copy  <strong>link to png </strong>"jumlahnya hurufnya harus sama"</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">3</span>
+                                                <span>Ganti warna icon menjadi <code class="bg-blue-100 px-2 py-1 rounded text-xs">color=000000</code> → <code class="bg-blue-100 px-2 py-1 rounded text-xs">
+                                                    putih pada bagian “color=000000 menjadi color=ffffff”</code></span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">4</span>
+                                                <span>Ganti ukuran (size) menjadi. <code class="bg-blue-100 px-2 py-1 rounded text-xs">contohnya size=100 </code></span>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                {{-- Example URL --}}
+                                <div class="mt-4 pt-4 border-t border-blue-200">
+                                    <p class="text-sm font-bold text-blue-900 mb-2">Contoh URL yang benar:</p>
+                                    <div class="bg-white p-3 rounded-lg border border-blue-200 shadow-sm">
+                                        <code class="text-xs text-gray-700 break-all">https://img.icons8.com/?size=100&id=2HU1G5leSjOg&format=png&color=ffffff</code>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- URL Input --}}
+                            <div class="relative">
+                                <input type="text" 
+                                       name="url" 
+                                       id="url"
+                                       class="w-full px-5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
+                                       placeholder="https://img.icons8.com/?size=100&id=...&format=png&color=ffffff">
+                                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <p class="mt-2 text-xs text-gray-500 ml-1 flex items-center gap-1">
+                                <svg class="w-3 h-3 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                Kosongkan jika tidak ingin menambahkan icon saat ini
+                            </p>
+                        </div>
+
                     </div>
 
+                    {{-- Action Buttons --}}
+                    <div class="text-right pt-8 mt-8 border-t-2 border-gray-200">
 
-                    {{-- Tombol Aksi --}}
-                    <div class="flex items-center justify-between pt-4">
-                        <a href="{{ route('cabinet.show', $cabinet->id) }}"
-                            class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition">
-                            ← Kembali
-                        </a>
-
+                        {{-- Tombol Buat Kategori --}}
                         <button type="submit"
-                            class="inline-flex items-center px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow transition">
-                            + Buat Kategori
+                            class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-md shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                            <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                            </svg>
+                            Buat Kategori
                         </button>
                     </div>
                 </form>
             </div>
 
-            {{-- @php
-                $no = 1;
-            @endphp
-            List Kategori Arsip
-            <div class="mt-5 bg-white shadow-md sm:rounded-xl p-6 border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4">Kategori yang Sudah Ada</h3>
-
-                @if ($categories->count() > 0)
-                    <div class="divide-y divide-gray-200 rounded-lg border border-gray-100">
-                        @php $no = 1; @endphp
-                        @foreach ($categories as $categori)
-                            <div
-                                class="flex items-center justify-between p-4 hover:bg-gray-50 transition duration-150 ease-in-out">
-
-                                <div class="flex items-center gap-4">
-                                    <div
-                                        class="w-8 h-8 flex items-center justify-center bg-indigo-100 text-indigo-600 font-semibold rounded-full">
-                                        {{ $no++ }}
-                                    </div>
-
-                                    <div>
-                                        <p class="text-gray-800 font-medium">
-                                            {{ $categori->category_name }}
-                                        </p>
-                                        <p class="text-sm text-gray-500">
-                                            {{ $categori->deskripsi }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                (Optional) Tambah tombol edit/delete jika dibutuhkan
-                                <div class="flex gap-2">
-                                    Tombol Edit
-                                    <a href="{{ route('category.edit', $categori->id) }}"
-                                        class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-md p-2 transition"
-                                        title="Edit">
-                                        <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff"
-                                            alt="edit">
-                                    </a>
-
-                                    Tombol Delete
-                                    <form action="{{ route('category.destroy', $categori->id) }}" method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-md p-2 transition"
-                                            title="Hapus">
-                                            <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff"
-                                                alt="hapus">
-                                        </button>
-                                    </form>
-                                </div>
-
-
-                            </div>
-                        @endforeach
+            {{-- Info Cards --}}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                
+                {{-- Card 1 --}}
+                <div class="bg-white p-5 rounded-xl shadow-lg border-l-4 border-purple-500 hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-start gap-3">
+                        <div class="p-2 bg-purple-100 rounded-lg">
+                            <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm mb-1">Kategori Spesifik</h4>
+                            <p class="text-xs text-gray-600">Buat kategori yang jelas untuk memudahkan klasifikasi dokumen</p>
+                        </div>
                     </div>
-                @else
-                    <div class="text-center py-6 text-gray-500">
-                        Belum ada kategori arsip.
+                </div>
+
+                {{-- Card 2 --}}
+                <div class="bg-white p-5 rounded-xl shadow-lg border-l-4 border-pink-500 hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-start gap-3">
+                        <div class="p-2 bg-pink-100 rounded-lg">
+                            <svg class="w-6 h-6 text-pink-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm mb-1">Deskripsi Lengkap</h4>
+                            <p class="text-xs text-gray-600">Jelaskan detail isi kategori untuk referensi tim</p>
+                        </div>
                     </div>
-                @endif
-            </div> --}}
+                </div>
+
+                {{-- Card 3 --}}
+                <div class="bg-white p-5 rounded-xl shadow-lg border-l-4 border-blue-500 hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-start gap-3">
+                        <div class="p-2 bg-blue-100 rounded-lg">
+                            <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm mb-1">Icon Visual</h4>
+                            <p class="text-xs text-gray-600">Tambahkan icon untuk identifikasi visual yang lebih mudah</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
         </div>
     </div>
