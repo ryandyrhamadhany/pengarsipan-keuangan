@@ -222,6 +222,14 @@
                                                 class="font-medium text-gray-700">{{ $pengajuan->user->name }}</span>
                                         </div>
 
+                                        {{-- Kepada --}}
+                                        <div class="text-xs text-gray-500 mb-2">
+                                            Diajukan Kepada: <span
+                                                class="font-medium text-gray-700">{{ $pengajuan->assigned_revenue_officer }}</span>
+                                        </div>
+
+
+
                                         {{-- STATUS --}}
                                         <div class="flex flex-wrap items-center gap-2">
                                             @if ($pengajuan->status_diarsipkan == 1)

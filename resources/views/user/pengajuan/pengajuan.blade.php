@@ -148,7 +148,11 @@
                                         required>
                                         <option value="" selected disabled class="text-gray-400">Pilih tujuan
                                             bendahara...</option>
-                                        <option value="bendahara svm" class="text-gray-800">Bendahara SVM</option>
+                                        <option value="IP KKP" class="text-gray-800">UP KKP</option>
+                                        <option value="UP RM" class="text-gray-800">UP RM</option>
+                                        <option value="UP TUP" class="text-gray-800">UP TUP</option>
+                                        <option value="SVM" class="text-gray-800">SVM</option>
+                                        <option value="PNBP" class="text-gray-800">PNBP</option>
                                         {{-- Tambahkan option bendahara lainnya di sini --}}
                                     </select>
 
