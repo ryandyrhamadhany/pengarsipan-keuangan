@@ -90,12 +90,18 @@
             } elseif ($role === 'Keuangan') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
+                    ['label' => 'Pengajuan', 'href' => route('keuangan.pengajuan'), 'icon' => $icons['Pengajuan']],
                     ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
                     ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                 ];
             } elseif ($role === 'Bendahara') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
+                    [
+                        'label' => 'Pengajuan',
+                        'href'  => route('bendahara.pengajuan'),
+                        'icon'  => $icons['Pengajuan']
+                    ],
                     ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
                     ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                 ];
@@ -233,3 +239,5 @@
         }
     });
 </script>
+
+<!-- testtest -->

@@ -81,12 +81,21 @@ Route::get('/keuangan/input', [KeuanganController::class, 'input_arsip'])->name(
 Route::get('/keuangan/check/{id}', [KeuanganController::class, 'check_pengajuan'])->name('keuangan.check');
 Route::put('/keuangan/update/{id}', [PengajuanController::class, 'update_check'])->name('keuangan.checkandupate');
 Route::put('/keuangan/perbaiki/{id}', [PengajuanController::class, 'perbaikan'])->name('keuangan.perbaiki');
+Route::middleware('auth')->get('/keuangan/pengajuan', function () {
+    $pengajuans = \App\Models\Pengajuan::all();
+    return view('keuangan.pengajuan', compact('pengajuans'));
+})->name('keuangan.pengajuan');
+
 
 // ===================================================================== Route Bendahara
 Route::get('/bendahara/sign/{id}', [BendaharaController::class, 'document_sign'])->name('bendahara.sign');
 Route::put('/bendahara/verifikasi/{id}', [PengajuanController::class, 'final_verification'])->name('bendahara.verification');
 Route::get('/archive/pengajuan/{id}', [DigitalArchiveController::class, 'show_in_year'])->name('digital.archive');
 Route::get('/archive/pengajuan/show/{id}', [DigitalArchiveController::class, 'show_digital_archive'])->name('digital.archive.show');
+Route::get(
+    '/bendahara/pengajuan',
+    [BendaharaController::class, 'pengajuan']
+)->name('bendahara.pengajuan');
 
 // =================================================================== Route Resource
 Route::resource('/cabinet', CabinetController::class);
