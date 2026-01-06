@@ -24,4 +24,13 @@ class BendaharaController extends Controller
             ->where('id', $id)->first();
         return view('bendahara.final-verifikasi', compact('pengajuan'));
     }
+
+    public function pengajuan()
+    {
+        $pengajuans = Pengajuan::where('status_kelengkapan', 'Lengkap')
+            ->where('status_verifikasi', 1)
+            ->get();
+
+        return view('bendahara.pengajuan', compact('pengajuans'));
+    }
 }
