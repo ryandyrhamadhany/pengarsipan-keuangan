@@ -137,7 +137,7 @@
                                                 </div>
                                             </div>
 
-                                            <a href="{{ asset('storage/' . $pengajuan->path_file_pengajuan) }}" target="_blank"
+                                            <a href="{{ route('view.file', $pengajuan->id) }}" target="_blank"
                                                 class="group flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                                                 <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -189,7 +189,7 @@
                         <div class="space-y-3 pt-2">
                             <button type="submit"
                                 class="w-full bg-blue-500 text-white px-5 py-3 rounded-lg shadow-md
-                                    font-semibold text-lg hover:scale-85 transition-all">
+                                    font-semibold text-lg hover:scale-95 transition-all">
                                 Simpan Perubahan
                             </button>
                             <a href="{{ route('user.worklist') }}"

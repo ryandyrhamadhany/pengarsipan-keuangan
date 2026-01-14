@@ -39,8 +39,7 @@
             };
 
             $roleInputArsip = match ($role) {
-                'Admin', 'Bendahara' => route('admin.archive'),
-                'Keuangan' => route('keuangan.input'),
+                'Admin', 'Bendahara', 'Keuangan' => route('admin.archive'),
                 default => '#',
             };
 
@@ -123,17 +122,7 @@
 
         @foreach ($menuItems as $item)
             @php
-                $isActive = false;
-                if (isset($item['route'])) {
-                    foreach ((array)$item['route'] as $routeName) {
-                        if (request()->routeIs($routeName)) {
-                            $isActive = true;
-                            break;
-                        }
-                    }
-                } else {
-                    $isActive = request()->url() == $item['href'] && $item['href'] != '#';
-                }
+                $isActive = request()->url() == $item['href'] && $item['href'] != '#';
                 $isDisabled = $item['href'] == '#';
             @endphp
 
