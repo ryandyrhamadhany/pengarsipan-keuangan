@@ -43,6 +43,7 @@ class AccountManageController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'is_privileged' => 0,
         ]);
 
         return redirect()->route('account.index')->with('success', 'Berhasil Menambahkan Account');
@@ -76,6 +77,8 @@ class AccountManageController extends Controller
             'name' => 'required|string',
             'email' => 'required|email',
             'role' => 'required|string',
+            'sub_role' => 'required|string',
+            'izin_akses_arsip' => 'required|string',
         ];
 
         // password hanya divalidasi jika diisi
@@ -89,6 +92,8 @@ class AccountManageController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
+            'sub_role' => $request->sub_role,
+            'is_privileged' => $request->izin_akses_arsip,
         ];
 
         // hanya update password jika user mengisi password baru

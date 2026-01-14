@@ -8,7 +8,11 @@
     {{-- TOMBOL KEMBALI --}}
     <div class="#">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+<<<<<<< HEAD
             <a href="{{ route('category.show', $year->category_id) }}"
+=======
+            <a href="{{ route('cabinet.show', $year->cabinet_id) }}"
+>>>>>>> main
                 class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
                     shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,7 +29,11 @@
             <div class="rounded-3xl shadow-2xl overflow-hidden border border-gray-100 bg-white">
 
                 {{-- HEADER GRADIENT (MENYATU) --}}
+<<<<<<< HEAD
                 <div class="relative bg-gradient-to-b from-[#003A8F] to-[#002766] p-8 py-6">
+=======
+                <div class="relative bg-gradient-to-b from-[#003A8F] to-[#002766] p-8 py-5">
+>>>>>>> main
                     <div class="flex items-center gap-4">
                         <div
                             class="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center shadow-lg">
@@ -35,7 +43,10 @@
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
                         </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
                         <div>
                             <h3 class="text-xl font-semibold text-white">
                                 Edit Tahun Arsip
@@ -49,11 +60,19 @@
 
                 {{-- FORM --}}
                 <div class="p-8 sm:p-6">
+<<<<<<< HEAD
                     <form action="{{ route('year.update', $year->id) }}" method="POST" class="space-y-6">
                         @csrf
                         @method('PUT')
 
                         {{-- INFO SAAT INI --}}
+=======
+                    <form action="{{ route('year.update', $year->id) }}" method="POST" class="space-y-4">
+                        @method('PUT')
+                        @csrf
+
+                        {{-- Tahun --}}
+>>>>>>> main
                         <div
                             class="bg-gradient-to-r from-rose-50 to-pink-50 border-l-4 border-rose-500 rounded-xl p-4">
                             <div class="flex gap-3">
@@ -109,19 +128,33 @@
 
                             <div class="flex gap-3 w-full sm:w-auto">
                                 <button type="submit"
+<<<<<<< HEAD
                                 class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
                                     Update
                                 </button>
 
                                 <a href="{{ route('category.show', $year->category_id) }}"
                                     class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400 text-gray-700 font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+=======
+                                class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-8 py-2.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                                    Update
+                                </button>
+
+                                <a href="{{ route('cabinet.show', $year->cabinet_id) }}"
+                                    class="flex-1 px-5 py-2.5 rounded-lg font-semibold text-gray-700
+                                      bg-gray-300 hover:bg-gray-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition text-center">
+>>>>>>> main
                                     Batal
                                 </a>
                             </div>
                         </div>
+<<<<<<< HEAD
 
                     </form>
                 </div>
+=======
+                </form>
+>>>>>>> main
             </div>
         </div>
     </div>

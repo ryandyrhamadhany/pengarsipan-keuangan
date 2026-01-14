@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('Detail Arsip') }}
         </h2>
     </x-slot>
@@ -310,7 +310,7 @@
                                 </div>
                             </div>
 
-                            <a href="{{ asset('storage/' . $pengajuan->path_file_pengajuan) }}" target="_blank"
+                            <a href="{{ route('view.file', $pengajuan->id) }}" target="_blank"
                                 class="ml-4 inline-flex items-center gap-2 px-5 py-2.5
                                bg-blue-500 text-white font-medium rounded-lg
                                shadow-md hover:bg-blue-600 hover:shadow-lg
@@ -327,6 +327,10 @@
                             </a>
                         </div>
                     </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
                 </div>
             </div>
         </div>

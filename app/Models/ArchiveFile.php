@@ -13,14 +13,9 @@ class ArchiveFile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'document_folder_id',
+        'folder_id',
         'file_name',
         'file_path',
         'description',
     ];
-
-    public function folder()
-    {
-        return $this->belongsTo(DocumentFolder::class, 'document_folder_id');
-    }
 }

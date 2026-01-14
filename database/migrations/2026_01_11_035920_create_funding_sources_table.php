@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('document_folders', function (Blueprint $table) {
+        Schema::create('funding_sources', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('document_rack_id')->constrained('document_racks')->onDelete('cascade');
-            $table->string('folder_name');
-            $table->string('folder_code');
+            $table->string('funding_source_name');
+            $table->string('sub_category')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
         });
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('document_folders');
+        Schema::dropIfExists('funding_sources');
     }
 };

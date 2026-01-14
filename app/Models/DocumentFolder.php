@@ -10,25 +10,14 @@ class DocumentFolder extends Model
     use HasFactory;
 
     protected $fillable = [
-        'document_rack_id',
+        'category_id',
+        'rack_name',
         'folder_name',
-        'folder_code',
         'description',
     ];
 
-    public function rak()
+    public function category()
     {
-        return $this->belongsTo(DocumentRack::class, 'document_rack_id');
-    }
-
-    public function files()
-    {
-        return $this->hasMany(ArchiveFile::class, 'document_folder_id');
-    }
-
-    // Opsional: alias supaya mudah dipanggil
-    public function allArchiveFiles()
-    {
-        return $this->files()->get();
+        return $this->belongsTo(Category::class);
     }
 }

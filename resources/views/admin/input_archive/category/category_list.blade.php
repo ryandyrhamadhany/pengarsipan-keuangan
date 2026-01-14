@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('Input Arsip') }}
         </h2>
     </x-slot>
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="py-6 bg-gray-100 min-h-screen">
+    <div class="py-6 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pb-12">
 
             {{-- Header Category --}}
@@ -26,7 +26,11 @@
                 <div class="flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-gray-700">Daftar Category</h3>
 
+<<<<<<< HEAD
                     <a href="{{ route('category.create_with_cabinet', $cabinet->id) }}"
+=======
+                    <a href="{{ route('category.create', $cabinet->id) }}"
+>>>>>>> main
                         class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600
                                 hover:from-emerald-600 hover:to-teal-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl
                                 transform hover:-translate-y-0.5 transition-all duration-200">
@@ -48,13 +52,12 @@
                             class="flex items-center justify-between p-5 transition duration-150 ease-in-out hover:bg-gray-50">
 
                             {{-- Link utama --}}
-                            <a href="{{ route('cabinet.show', $category->id) }}" class="flex items-center gap-4 flex-1">
+                            <a href="#" class="flex items-center gap-4 flex-1">
 
                                 <div
-                                    class="w-9 h-9 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-600 font-bold">
+                                    class="w-9 h-9 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-bold">
                                     {{ $no++ }}
                                 </div>
-
                                 <div class="space-y-1">
                                     <p class="text-gray-900 font-semibold text-base">
                                         {{ $category->category_name }}
@@ -77,7 +80,7 @@
                                     <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff">
                                 </a>
 
-                                <form action="{{ route('category.destroy', $category->id) }}" method="POST"
+                                <form action="{{ route('category.delete', $category->id) }}" method="POST"
                                     onsubmit="return confirm('Yakin ingin menghapus kabinet ini?')">
                                     @csrf
                                     @method('DELETE')

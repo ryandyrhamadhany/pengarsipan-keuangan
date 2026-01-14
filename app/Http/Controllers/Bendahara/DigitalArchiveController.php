@@ -14,11 +14,7 @@ class DigitalArchiveController extends Controller
      */
     public function index()
     {
-        $result = DigitalArchive::whereIn(
-            'id',
-            DigitalArchive::selectRaw('MAX(id)')
-                ->groupBy('divisi_name')
-        )->get();
+        $result = DigitalArchive::all();
         return view('bendahara.digital_arsip.digital_archive', compact('result'));
     }
 

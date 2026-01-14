@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('digital_archives', function (Blueprint $table) {
-            $table->id();
-            $table->string('divisi_name');
-            $table->year('year');
-            $table->timestamps();
+        Schema::table('archive_files', function (Blueprint $table) {
+            $table->foreignId('folder_id')->after('id')->constrained('document_folders')->cascadeOnDelete();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('digital_archives');
+        Schema::table('archive_files', function (Blueprint $table) {
+            //
+        });
     }
 };

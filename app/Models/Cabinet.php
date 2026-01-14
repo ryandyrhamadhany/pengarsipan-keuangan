@@ -17,43 +17,6 @@ class Cabinet extends Model
         'description',
     ];
 
-    public function categories()
-    {
-        return $this->hasMany(Category::class, 'cabinet_id');
-    }
-
-    public function subcategories()
-    {
-        return SubCategory::whereIn(
-            'category_id',
-            $this->categories()->pluck('id')
-        );
-    }
-
-    public function years()
-    {
-        return Year::whereIn(
-            'subcategory_id',
-            $this->subcategories()->pluck('id')
-        );
-    }
-
-    public function racks()
-    {
-        return DocumentRack::whereIn(
-            'year_id',
-            $this->years()->pluck('id')
-        );
-    }
-
-    public function folders()
-    {
-        return DocumentFolder::whereIn(
-            'document_rack_id',
-            $this->racks()->pluck('id')
-        );
-    }
-
     public function files()
     {
         return ArchiveFile::whereIn(

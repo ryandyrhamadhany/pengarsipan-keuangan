@@ -22,11 +22,20 @@ class ArchiveFileController extends Controller
     {
         $file = ArchiveFile::findOrFail($id);
 
-        $path = storage_path('app/public/' . $file->path_file);
+        $path = Storage::disk('private')->path($file->file_path);
 
-        $originalName = basename($file->path_file);
+        $originalName = basename($file->file_path);
 
         return response()->download($path, $originalName);
+    }
+
+    public function name_file($id) // id arsip
+    {
+        $file = ArchiveFile::findOrFail($id);
+
+        $path = Storage::disk('private')->path($file->file_path);
+
+        return response()->file($path);
     }
 
     public function update_new_file(Request $request, $id)
@@ -52,7 +61,7 @@ class ArchiveFileController extends Controller
      */
     public function create_with_folder($id)
     {
-        $folders = DocumentFolder::where('id', $id)->first();
+        $folders = DocumentFolder::findOrFail($id);
         return view('admin.input_archive.document.form-create-file', compact('folders'));
     }
 
@@ -63,7 +72,7 @@ class ArchiveFileController extends Controller
     {
         if (isset($request->file_archive)) {
             $file = $request->file('file_archive');
-            $path = $file->storeAs('uploads', $file->getClientOriginalName(), 'public');
+            $path = $file->storeAs('archive', $file->getClientOriginalName(), 'private');
         } else {
             $path = null;
         }
@@ -75,13 +84,13 @@ class ArchiveFileController extends Controller
         ]);
 
         ArchiveFile::create([
-            'document_folder_id' => $request->document_folder_id,
+            'folder_id' => $request->folders_id,
             'file_name' => $request->name,
             'file_path' => $path,
             'description' => $request->keterangan,
         ]);
 
-        return redirect()->route('folder.show', ['folder' => $request->document_folder_id])->with('success', 'Berhasil Upload file');
+        return redirect()->route('archive.list', ['id' => $request->folders_id])->with('success', 'Berhasil Upload file');
     }
 
     /**
@@ -119,8 +128,8 @@ class ArchiveFileController extends Controller
         if ($request->hasFile('file_archive')) {
 
             // 1. Hapus file lama jika ada
-            if ($file->path_file && Storage::disk('public')->exists($file->path_file)) {
-                Storage::disk('public')->delete($file->path_file);
+            if ($file->file_path && Storage::disk('private')->exists($file->file_path)) {
+                Storage::disk('private')->delete($file->file_path);
             }
 
             // 2. Upload file baru
@@ -128,18 +137,18 @@ class ArchiveFileController extends Controller
             $filename = $uploaded->getClientOriginalName();
 
             // Simpan ke storage/public/pdf
-            $uploaded->storeAs('uploads', $filename, 'public');
+            $uploaded->storeAs('archive', $filename, 'private');
 
             // 3. Update path di database
-            $file->path_file = 'uploads/' . $filename;
+            $file->file_path = 'archive/' . $filename;
         }
 
-        $file->name_file = $request->name;
-        $file->keterangan = $request->keterangan;
+        $file->file_name = $request->name;
+        $file->description = $request->keterangan;
 
         $file->save();
 
-        return redirect()->route('folder.show', ['folder' => $file->document_folder_id])->with('success', 'File berhasil diperbarui!');
+        return redirect()->route('archive.list', ['id' => $file->folder_id])->with('success', 'File berhasil diperbarui!');
     }
 
     /**
@@ -149,12 +158,12 @@ class ArchiveFileController extends Controller
     {
         $archive = ArchiveFile::findOrFail($id);
 
-        // if ($archive->path_file && Storage::disk('public')->exists($archive->path_file)) {
-        //     Storage::disk('public')->delete($archive->path_file);
-        // }
+        if ($archive->file_path && Storage::disk('private')->exists($archive->file_path)) {
+            Storage::disk('private')->delete($archive->file_path);
+        }
 
         $archive->delete();
 
-        return redirect()->route('folder.show', ['folder' => $archive->document_folder_id])->with('success', 'File berhasil Dihapus!');
+        return redirect()->route('archive.list', ['id' => $archive->folder_id])->with('success', 'File berhasil Dihapus!');
     }
 }

@@ -101,6 +101,7 @@
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
 
+<<<<<<< HEAD
                         {{-- <div>
                             <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="text-gray-700 font-semibold" />
                             <div class="mt-2 relative">
@@ -113,6 +114,8 @@
                             </div>
                         </div> --}}
 
+=======
+>>>>>>> main
                     <!-- Confirm Password -->
                     <div x-data="{ show: false }">
                         <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="text-gray-800 font-semibold" />
@@ -126,9 +129,15 @@
                             <x-text-input id="password_confirmation" 
                                 class="block w-full pl-10 pr-12 bg-white/50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
                                 ::type="show ? 'text' : 'password'" 
+<<<<<<< HEAD
                                 name="password"
                                 required 
                                 autocomplete="current-password"
+=======
+                                name="password_confirmation"
+                                required 
+                                autocomplete="new-password"
+>>>>>>> main
                                 placeholder="Confirm password"/>
                     
                             <button type="button"

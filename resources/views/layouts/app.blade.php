@@ -32,15 +32,6 @@
             {{-- TOP NAV --}}
             @include('layouts.navigation')
 
-            {{-- PAGE HEADER --}}
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="px-10 py-2">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
             {{-- SLOT CONTENT --}}
             <main class="flex-1 p-6">
                 {{ $slot }}

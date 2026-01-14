@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ArchiveFile;
 use App\Models\Cabinet;
 use App\Models\Category;
+use App\Models\DocumentFolder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CabinetController extends Controller
 {
@@ -51,9 +54,22 @@ class CabinetController extends Controller
      */
     public function show(string $id)
     {
-        $categories = Category::where('cabinet_id', $id)->get();
         $cabinet = Cabinet::findOrFail($id);
-        return view('admin.input_archive.category.category', compact('categories', 'cabinet'));
+        $result = Category::where('cabinet_id', $cabinet->id)->get(); // ambil category berdasarkan cabinet
+
+        $categories = collect();
+        $temp  = [];
+
+        // ambil kategori kabinet dan yang sama dilewati
+        foreach ($result as $category) {
+            if (in_array($category->category_name, $temp)) {
+                continue;
+            }
+
+            $temp[] = $category->category_name;
+            $categories->push($category);
+        }
+        return view('admin.input_archive.category.category', compact('cabinet', 'categories'));
     }
 
     /**
@@ -82,7 +98,7 @@ class CabinetController extends Controller
         $cabinet->update([
             'cabinet_name' => $request->name,
             'cabinet_code' => $request->code,
-            'deskripsi' => $request->deskripsi,
+            'description' => $request->deskripsi,
         ]);
 
         return redirect()->route('admin.archive')->with('success', 'Berhasil Mengupdate Cabinet');
@@ -95,8 +111,36 @@ class CabinetController extends Controller
     {
         $cabinet = Cabinet::findOrFail($id);
 
+        // 1. Ambil semua categories dalam cabinet ini
+        $categoryIds = Category::where('cabinet_id', $cabinet->id)->pluck('id');
+
+        if ($categoryIds->isNotEmpty()) {
+            // 2. Ambil semua folders dari categories tersebut
+            $folderIds = DocumentFolder::whereIn('category_id', $categoryIds)->pluck('id');
+
+            if ($folderIds->isNotEmpty()) {
+                // 3. Ambil semua files dari folders tersebut
+                $files = ArchiveFile::whereIn('folder_id', $folderIds)->get();
+
+                // 4. Delete physical files dari storage
+                foreach ($files as $file) {
+                    if (Storage::disk('private')->exists($file->file_path)) {
+                        Storage::disk('private')->delete($file->file_path);
+                    }
+                }
+
+                // 5. Delete records dari database (cascade dari bawah ke atas)
+                ArchiveFile::whereIn('folder_id', $folderIds)->delete();
+                DocumentFolder::whereIn('category_id', $categoryIds)->delete();
+            }
+
+            Category::where('cabinet_id', $cabinet->id)->delete();
+        }
+
+        // 6. Terakhir delete cabinet
         $cabinet->delete();
 
-        return redirect()->route('admin.archive')->with('success', 'Berhasil Menghapus Cabinet');
+        return redirect()->route('admin.archive')
+            ->with('success', 'Berhasil menghapus Cabinet beserta seluruh isinya');
     }
 }

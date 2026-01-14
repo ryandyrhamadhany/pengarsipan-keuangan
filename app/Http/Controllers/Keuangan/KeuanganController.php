@@ -7,6 +7,7 @@ use App\Models\Pengajuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class KeuanganController extends Controller
 {
@@ -24,14 +25,15 @@ class KeuanganController extends Controller
     public function check_pengajuan($id)
     {
         $pengajuan = Pengajuan::with('user')->findOrFail($id);
-        if (Storage::disk('public')->exists($pengajuan->path_file_status_kelengkapan)) {
-            $filePathMetadata = Storage::disk('public')->path($pengajuan->path_file_status_kelengkapan);
+        if (Storage::disk('private')->exists($pengajuan->path_file_status_kelengkapan)) {
+            $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_status_kelengkapan);
             $spreadsheet = IOFactory::load($filePathMetadata);
             $worksheet = $spreadsheet->getActiveSheet();
         }
 
         $namaKegiatan = $worksheet->getCell('B3')->getValue();
-        $no = $worksheet->getCell('B4')->getValue();
+        $nokuitansi = $worksheet->getCell('B4')->getValue();
+        $kuitansi = trim(preg_replace('/^Nomor\s*:\s*/i', '', $nokuitansi));
 
         $startCell = 7;
         $endCell = 38;
@@ -47,7 +49,18 @@ class KeuanganController extends Controller
         $startCell = 7;
         $ada = [];
         while ($startCell <= $endCell) {
-            $dataada = $worksheet->getCell("D{$startCell}")->getValue();
+            if (
+                $worksheet->getCell("D{$startCell}")->getValue() !== null ||
+                $worksheet->getCell("E{$startCell}")->getValue() !== null ||
+                $worksheet->getCell("F{$startCell}")->getValue() !== null
+            ) {
+                $dataada = $worksheet->getCell("D{$startCell}")->getValue();
+            } else {
+                $worksheet->setCellValue("D{$startCell}", 'Y');
+                $writer = new Xlsx($spreadsheet);
+                $writer->save($filePathMetadata);
+                $dataada = $worksheet->getCell("D{$startCell}")->getValue();
+            }
             $ada[] = $dataada;
             $startCell++;
         }
@@ -58,19 +71,37 @@ class KeuanganController extends Controller
             $tidakada[] = $datatidakada;
             $startCell++;
         }
+        $startCell = 7;
+        $tidakperlu = [];
+        while ($startCell <= $endCell) {
+            $datatidakperlu = $worksheet->getCell("F{$startCell}")->getValue();
+            $tidakperlu[] = $datatidakperlu;
+            $startCell++;
+        }
 
         // ========== tanda tangan
         $startCell = 7;
         $lengkap = [];
         while ($startCell <= $endCell) {
-            $datalengkap = $worksheet->getCell("F{$startCell}")->getValue();
+            if (
+                $worksheet->getCell("G{$startCell}")->getValue() !== null ||
+                $worksheet->getCell("H{$startCell}")->getValue() !== null ||
+                $worksheet->getCell("I{$startCell}")->getValue() !== null
+            ) {
+                $datalengkap = $worksheet->getCell("G{$startCell}")->getValue();
+            } else {
+                $worksheet->setCellValue("G{$startCell}", 'Y');
+                $writer = new Xlsx($spreadsheet);
+                $writer->save($filePathMetadata);
+                $datalengkap = $worksheet->getCell("G{$startCell}")->getValue();
+            }
             $lengkap[] = $datalengkap;
             $startCell++;
         }
         $startCell = 7;
         $belum = [];
         while ($startCell <= $endCell) {
-            $databelum = $worksheet->getCell("G{$startCell}")->getValue();
+            $databelum = $worksheet->getCell("H{$startCell}")->getValue();
             $belum[] = $databelum;
             $startCell++;
         }
@@ -78,13 +109,16 @@ class KeuanganController extends Controller
         $startCell = 7;
         $keterangan = [];
         while ($startCell <= $endCell) {
-            $dataketerangan = $worksheet->getCell("H{$startCell}")->getValue();
+            $dataketerangan = $worksheet->getCell("I{$startCell}")->getValue();
             $keterangan[] = $dataketerangan;
             $startCell++;
         }
 
         $catatan = $worksheet->getCell('B40')->getValue();
 
-        return view('keuangan.check-pengajuan', compact('pengajuan', 'namaKegiatan', 'no', 'syaratDoc', 'ada', 'tidakada', 'lengkap', 'belum', 'keterangan', 'catatan'));
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filePathMetadata);
+
+        return view('keuangan.check-pengajuan', compact('pengajuan', 'namaKegiatan', 'kuitansi', 'syaratDoc', 'ada', 'tidakada', 'tidakperlu', 'lengkap', 'belum', 'keterangan', 'catatan'));
     }
 }

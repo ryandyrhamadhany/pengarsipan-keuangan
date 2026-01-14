@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('Edit Kabinet') }}
         </h2>
     </x-slot>
@@ -18,7 +18,11 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <div class="py-4 min-h-screen">
+=======
+    <div class="min-h-screen">
+>>>>>>> main
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
             {{-- Breadcrumb --}}
@@ -27,7 +31,9 @@
                     Input Arsip
                 </a>
                 <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd" />
                 </svg>
                 <span class="text-gray-700 font-semibold">Edit Kabinet</span>
             </div>
@@ -36,20 +42,20 @@
 
                 {{-- Header Section --}}
                 <div class="relative bg-gradient-to-b from-[#003A8F] to-[#002766] p-4">
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-white opacity-10 rounded-full"></div>
-                    <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-20 h-20 bg-white opacity-10 rounded-full"></div>
-                    
+
                     <div class="relative z-10 flex items-center gap-4">
                         <div class="p-4 bg-white bg-opacity-20 rounded-2xl backdrop-blur-sm">
                             <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+                                <path
+                                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                             </svg>
                         </div>
                         <div>
                             <h3 class="text-lg font-bold text-white">
                                 Edit Informasi Kabinet
                             </h3>
-                            <p class="text-blue-100 mt-2">Perbarui data kabinet: <span class="font-semibold">{{ $cabinet->cabinet_name }}</span></p>
+                            <p class="text-blue-100 mt-2">Perbarui data kabinet: <span
+                                    class="font-semibold">{{ $cabinet->cabinet_name }}</span></p>
                         </div>
                     </div>
                 </div>
@@ -59,8 +65,10 @@
                     <div class="flex items-start gap-4">
                         <div class="flex-shrink-0 p-3 bg-blue-100 rounded-xl">
                             <svg class="w-7 h-7 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"/>
-                                <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"/>
+                                <path fill-rule="evenodd"
+                                    d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                                    clip-rule="evenodd" />
+                                <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
                             </svg>
                         </div>
                         <div class="flex-1">
@@ -68,19 +76,25 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
                                 <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-lg">
                                     <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"/>
+                                        <path fill-rule="evenodd"
+                                            d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                                            clip-rule="evenodd" />
                                     </svg>
                                     <span class="text-gray-600 font-semibold">{{ $cabinet->cabinet_name }}</span>
                                 </div>
                                 <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-lg">
                                     <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                                        <path fill-rule="evenodd"
+                                            d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                            clip-rule="evenodd" />
                                     </svg>
                                     <span class="text-gray-600 font-semibold">{{ $cabinet->cabinet_code }}</span>
                                 </div>
                                 <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-lg">
                                     <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                            clip-rule="evenodd" />
                                     </svg>
                                     <span class="text-gray-600">ID: #{{ $cabinet->id }}</span>
                                 </div>
@@ -103,24 +117,26 @@
                                 <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <input type="text" 
-                                       name="name" 
-                                       id="name"
-                                       value="{{ $cabinet->cabinet_name }}"
-                                       class="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
-                                       placeholder="Masukkan nama kabinet" 
-                                       required>
-                                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"/>
-                                    <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"/>
+                                <input type="text" name="name" id="name" value="{{ $cabinet->cabinet_name }}"
+                                    class="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
+                                    placeholder="Masukkan nama kabinet" required>
+                                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                                    fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                                        clip-rule="evenodd" />
+                                    <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
                                 </svg>
                             </div>
                             <p class="mt-2 text-xs text-gray-500 ml-1">
                                 <span class="inline-flex items-center gap-1">
                                     <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                            clip-rule="evenodd" />
                                     </svg>
-                                    Terakhir diubah: {{ $cabinet->updated_at ? $cabinet->updated_at->diffForHumans() : 'Belum pernah' }}
+                                    Terakhir diubah:
+                                    {{ $cabinet->updated_at ? $cabinet->updated_at->diffForHumans() : 'Belum pernah' }}
                                 </span>
                             </p>
                         </div>
@@ -132,15 +148,15 @@
                                 <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <input type="text" 
-                                       name="code" 
-                                       id="code"
-                                       value="{{ $cabinet->cabinet_code }}"
-                                       class="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12 uppercase"
-                                       placeholder="Masukkan kode kabinet" 
-                                       required>
-                                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                                <input type="text" name="code" id="code"
+                                    value="{{ $cabinet->cabinet_code }}"
+                                    class="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12 uppercase"
+                                    placeholder="Masukkan kode kabinet" required>
+                                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                                    fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                        clip-rule="evenodd" />
                                 </svg>
                             </div>
                         </div>
@@ -152,18 +168,18 @@
                                 <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <textarea 
-                                    name="deskripsi" 
-                                    id="deskripsi"
-                                    rows="4"
+                                <textarea name="deskripsi" id="deskripsi" rows="4"
                                     class="w-full px-5 py-1 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12 resize-none"
-                                    placeholder="Jelaskan fungsi atau isi dari kabinet ini"
-                                    required>{{ $cabinet->deskripsi }}</textarea>
-                                <svg class="absolute left-4 top-4 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+                                    placeholder="Jelaskan fungsi atau isi dari kabinet ini" required>{{ $cabinet->description }}</textarea>
+                                <svg class="absolute left-4 top-4 w-5 h-5 text-gray-400" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                                        clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <p class="mt-2 text-xs text-gray-500 ml-1">Perbarui deskripsi untuk mencerminkan perubahan fungsi atau isi kabinet</p>
+                            <p class="mt-2 text-xs text-gray-500 ml-1">Perbarui deskripsi untuk mencerminkan perubahan
+                                fungsi atau isi kabinet</p>
                         </div>
 
                     </div>
@@ -172,9 +188,12 @@
                     <div class="text-right pt-5 mt-5 border-t-2 border-gray-200">
                         {{-- Tombol Update --}}
                         <button type="submit"
-                            class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                            <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            class="group inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                            <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
                             </svg>
                             Update Kabinet
                         </button>
@@ -183,11 +202,14 @@
             </div>
 
             {{-- Change Log Info --}}
-            <div class="mt-6 bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-2xl p-6 shadow-lg">
+            <div
+                class="mt-6 bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-2xl p-6 shadow-lg">
                 <div class="flex items-start gap-4">
                     <div class="flex-shrink-0 p-3 bg-blue-100 rounded-xl">
                         <svg class="w-7 h-7 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                clip-rule="evenodd" />
                         </svg>
                     </div>
                     <div>
@@ -199,11 +221,13 @@
                             </div>
                             <div>
                                 <span class="font-semibold">Dibuat:</span>
-                                <span class="ml-2">{{ $cabinet->created_at ? $cabinet->created_at->format('d M Y') : '-' }}</span>
+                                <span
+                                    class="ml-2">{{ $cabinet->created_at ? $cabinet->created_at->format('d M Y') : '-' }}</span>
                             </div>
                             <div>
                                 <span class="font-semibold">Terakhir Update:</span>
-                                <span class="ml-2">{{ $cabinet->updated_at ? $cabinet->updated_at->format('d M Y H:i') : '-' }}</span>
+                                <span
+                                    class="ml-2">{{ $cabinet->updated_at ? $cabinet->updated_at->format('d M Y H:i') : '-' }}</span>
                             </div>
                         </div>
                     </div>

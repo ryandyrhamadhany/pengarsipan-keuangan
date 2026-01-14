@@ -1,5 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
+<<<<<<< HEAD
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Semua Arsip Digital') }}
@@ -11,6 +12,11 @@
                 <span class="text-sm font-semibold text-blue-700">{{ count($result) }} Divisi</span>
             </div>
         </div>
+=======
+        <h2 class="font-semibold text-xl leading-tight">
+            {{ __('Semua Arsip Digital') }}
+        </h2>
+>>>>>>> main
     </x-slot>
 
     <div class="py-8">

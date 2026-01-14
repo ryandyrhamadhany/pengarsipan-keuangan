@@ -1,6 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
+<<<<<<< HEAD
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+=======
+        <h2 class="font-semibold text-xl leading-tight">
+>>>>>>> main
             {{ __('Input Arsip') }}
         </h2>
     </x-slot>
@@ -31,7 +35,11 @@
                     </div>
 
                     <div class="flex gap-4">
+<<<<<<< HEAD
                         <a href="{{ route('subcategory.create_with_category', $category->id) }}"
+=======
+                        <a href="{{ route('subcategory.create', $category->id) }}"
+>>>>>>> main
                             class="inline-flex items-center gap-2 px-4 py-2
                                    bg-gradient-to-r from-emerald-500 to-teal-600
                                    hover:from-emerald-600 hover:to-teal-700
@@ -45,38 +53,58 @@
                         </a>
                     </div>
                 </div>
+<<<<<<< HEAD
             
+=======
+>>>>>>> main
 
             {{-- Daftar Category --}}
 
             @if ($subcategories->count() > 0)
+<<<<<<< HEAD
                 <div class="mt-10 space-y-4 rounded-lg ">
 
                     @php $no = 1; @endphp
                     @foreach ($subcategories as $subcategory)
                         <div class="flex items-center justify-between p-4 bg-white border border-gray-400 rounded-lg
                                 shadow-sm hover:shadow-md hover:bg-gray-300 transition-all duration-200 group">
+=======
+            <div class="mt-10 space-y-4 rounded-lg">
 
-                            {{-- Link utama --}}
-                            <a href="{{ route('subcategory.show', $subcategory->id) }}"
-                                class="flex items-center gap-4 flex-1">
+                    @php $no = 1; @endphp
+                    @foreach ($subcategories as $subcategory)
+                        @if ($subcategory->sub_category != null)
+                        <div class="flex items-center justify-between p-4 bg-white border border-gray-400 rounded-lg
+                                    shadow-sm hover:shadow-md hover:bg-gray-300 transition-all duration-200 group">
+>>>>>>> main
 
+                                {{-- Link utama --}}
+                                <a href="{{ route('subcategory.show', $subcategory->id) }}"
+                                    class="flex items-center gap-4 flex-1">
+    
+                                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-semibold">
+                                        {{ $no++ }}
+                                    </div>
+
+<<<<<<< HEAD
                                 <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-semibold">
                                     {{ $no++ }}
                                 </div>
+=======
+                                    <div class="space-y-1">
+                                        <p class="text-gray-900 font-semibold text-base">
+                                            {{ $subcategory->sub_category }}
+                                        </p>
+>>>>>>> main
 
-                                <div class="space-y-1">
-                                    <p class="text-gray-900 font-semibold text-base">
-                                        {{ $subcategory->sub_category_name }}
-                                    </p>
-
-                                    {{-- <div class="flex items-center gap-4 text-sm text-gray-600">
+                                        {{-- <div class="flex items-center gap-4 text-sm text-gray-600">
                                         <span class="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-lg">
                                             <img src="https://img.icons8.com/?size=16&id=7880&format=png&color=4b5563"
                                                 class="w-4 opacity-70">
                                             {{ $category->category_code ?? '-' }}
                                         </span>
                                     </div> --}}
+<<<<<<< HEAD
                                 </div>
                             </a>
 
@@ -85,24 +113,35 @@
                                 <a href="{{ route('subcategory.edit', $subcategory->id) }}"
                                     class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-lg p-2 shadow transition">
                                     <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff">
+=======
+                                    </div>
+>>>>>>> main
                                 </a>
 
-                                <form action="{{ route('subcategory.destroy', $subcategory->id) }}" method="POST"
-                                    onsubmit="return confirm('Yakin ingin menghapus kabinet ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-lg p-2 shadow transition">
-                                        <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff">
-                                    </button>
-                                </form>
+                                {{-- Tombol Aksi --}}
+                                <div class="flex items-center gap-2 ml-4">
+                                    <a href="{{ route('subcategory.edit', $subcategory->id) }}"
+                                        class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-lg p-2 shadow transition">
+                                        <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff">
+                                    </a>
+
+                                    <form action="{{ route('subcategory.delete', $subcategory->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus kabinet ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-lg p-2 shadow transition">
+                                            <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff">
+                                        </button>
+                                    </form>
+                                </div>
+
                             </div>
 
-                        </div>
-
-                        {{-- Border antar item --}}
-                        @if (!$loop->last)
-                            <div class="border-b border-gray-200"></div>
+                            {{-- Border antar item --}}
+                            @if (!$loop->last)
+                                <div class="border-b border-gray-200"></div>
+                            @endif
                         @endif
                     @endforeach
                 </div>
