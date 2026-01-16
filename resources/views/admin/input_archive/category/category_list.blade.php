@@ -1,21 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('Input Arsip') }}
         </h2>
     </x-slot>
 
     {{-- TOMBOL KEMBALI --}}
     <div class="#">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
             <a href="{{ route('cabinet.show', $cabinet->id) }}"
-                class="inline-flex items-center gap-2 bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-lg hover:bg-gray-300 transition shadow-sm">
-                ← Kembali
-            </a>
+                class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
+                    shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+            </a>             
         </div>
     </div>
 
-    <div class="py-6 bg-gray-100 min-h-screen">
+    <div class="py-6 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pb-12">
 
             {{-- Header Category --}}
@@ -23,8 +26,14 @@
                 <div class="flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-gray-700">Daftar Category</h3>
 
+<<<<<<< HEAD
+                    <a href="{{ route('category.create_with_cabinet', $cabinet->id) }}"
+=======
                     <a href="{{ route('category.create', $cabinet->id) }}"
-                        class="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-4 py-2 rounded-xl shadow-md transition">
+>>>>>>> main
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600
+                                hover:from-emerald-600 hover:to-teal-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl
+                                transform hover:-translate-y-0.5 transition-all duration-200">
                         <img src="https://img.icons8.com/?size=20&id=EkK2AS8KSyo0&format=png&color=ffffff"
                             class="w-5" />
                         Tambah Category
@@ -46,7 +55,7 @@
                             <a href="#" class="flex items-center gap-4 flex-1">
 
                                 <div
-                                    class="w-9 h-9 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-600 font-bold">
+                                    class="w-9 h-9 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-bold">
                                     {{ $no++ }}
                                 </div>
                                 <div class="space-y-1">
@@ -67,7 +76,7 @@
                             {{-- Tombol Aksi --}}
                             <div class="flex items-center gap-2 ml-4">
                                 <a href="{{ route('category.edit', $category->id) }}"
-                                    class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-lg p-2 shadow transition">
+                                    class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-lg p-2 shadow transition">
                                     <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff">
                                 </a>
 

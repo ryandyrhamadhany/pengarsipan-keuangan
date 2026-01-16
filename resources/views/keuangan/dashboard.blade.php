@@ -1,16 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('Dashboard Keuangan') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="space-y-6">
 
                 {{-- ================= HERO SECTION ================= --}}
-                <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-xl shadow-lg overflow-hidden">
                     <div class="p-8">
                         <div class="flex items-center justify-between">
                             <div>
@@ -108,31 +108,19 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-                {{-- ================= SEARCH & FILTER ================= --}}
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <form method="GET" action="#" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {{-- ================= PROGRESS BAR ================= --}}
+                <div class="bg-white border rounded-xl p-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2">
+                        Progress Verifikasi
+                    </h2>
 
-                            {{-- Search --}}
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Cari Pengajuan</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                        </svg>
-                                    </div>
-                                    <input type="text" name="search" value="{{ request('search') }}"
-                                        class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 focus:outline-none"
-                                        placeholder="Cari nama pengajuan...">
-                                </div>
-                            </div>
+                    @php
+                        $progress = $total_pengajuan > 0 ? round(($sudah_diverifikasi / $total_pengajuan) * 100) : 0;
+                    @endphp
 
+<<<<<<< HEAD
                             {{-- Filter Status --}}
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
@@ -170,7 +158,7 @@
                         {{-- Buttons --}}
                         <div class="flex gap-3">
                             <button type="submit"
-                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 text-white font-medium rounded-lg shadow-sm">
+                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-medium rounded-lg shadow-sm">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z">
@@ -209,18 +197,25 @@
                                 </p>
                             </div>
                         </div>
+=======
+                    <div 
+                        x-data="{ progress: {{ $progress ?? 0 }} }"
+                        class="h-2 bg-emerald-500 rounded-full"
+                        :style="`width: ${progress}%`">
+>>>>>>> main
                     </div>
 
-                    @php $no = 1; @endphp
 
-                    @forelse ($pengajuans as $pengajuan)
-                        <div class="group relative mb-4 last:mb-0">
-                            <div
-                                class="flex items-center p-5 bg-gray-50 rounded-xl shadow-sm border border-gray-200 hover:shadow-md hover:border-emerald-300 transition-all duration-300">
+                    <div class="flex justify-between text-sm text-gray-600 mt-2">
+                        <span>{{ $sudah_diverifikasi }} diverifikasi</span>
+                        <span>{{ $progress }}%</span>
+                    </div>
+                </div>
 
+<<<<<<< HEAD
                                 {{-- NOMOR --}}
                                 <div
-                                    class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gradient-to-br from-emerald-500 to-emerald-600 text-white font-bold text-sm rounded-lg shadow-md">
+                                    class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-bold text-sm rounded-lg shadow-md">
                                     {{ $no++ }}
                                 </div>
 
@@ -302,24 +297,39 @@
                                     </div>
                                 </div>
                             </div>
+=======
+                {{-- Aksi Cepat --}}
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200">
+                        <div class="p-2 bg-purple-100 rounded-lg">
+                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+>>>>>>> main
                         </div>
-                    @empty
-                        <div class="text-center py-12">
-                            <div
-                                class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor"
+                        <h3 class="text-lg font-semibold text-gray-800">Aksi Cepat</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {{-- Lihat Semua Pengajuan --}}
+                        <a href="{{ route('keuangan.pengajuan') }}"
+                            class="flex items-center gap-4 p-3 bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-lg border border-purple-200 hover:shadow-md transition-all">
+                            <div class="p-3 bg-purple-500 rounded-lg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
                                     </path>
                                 </svg>
                             </div>
-                            <p class="text-gray-500 font-medium text-lg mb-2">Tidak Ada Pengajuan</p>
-                            <p class="text-gray-400 text-sm">
-                                {{ request('search') || request('status') ? 'Tidak ada pengajuan yang sesuai dengan filter' : 'Belum ada pengajuan yang perlu diperiksa' }}
-                            </p>
-                        </div>
-                    @endforelse
+                            <div>
+                                <p class="font-semibold text-gray-800">Input Pengarsipan</p>
+                                <p class="text-xs text-gray-600">Kelola pengarsipan Anda</p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
 
             </div>

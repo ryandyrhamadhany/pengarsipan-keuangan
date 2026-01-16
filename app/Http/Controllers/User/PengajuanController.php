@@ -8,6 +8,7 @@ use App\Models\DigitalArchive;
 use App\Models\FundingSource;
 use App\Models\PaymentMethod;
 use App\Models\Pengajuan;
+use App\Models\Notification;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -56,12 +57,12 @@ class PengajuanController extends Controller
             // G = TTD Belum
             // H = Keterangan
 
-            $worksheet->setCellValue("D{$row}", ($ada == 1) ? 'Y' : '');
-            $worksheet->setCellValue("E{$row}", ($ada == 0) ? 'Y' : '');
-            $worksheet->setCellValue("F{$row}", ($ada == 2) ? 'Y' : '');
+            $worksheet->setCellValue("D{$row}", ($ada == 1) ? '✓' : '');
+            $worksheet->setCellValue("E{$row}", ($ada == 0) ? 'X' : '');
+            $worksheet->setCellValue("F{$row}", ($ada == 2) ? '✓' : '');
 
-            $worksheet->setCellValue("G{$row}", ($ttd == 1) ? 'Y' : '');
-            $worksheet->setCellValue("H{$row}", ($ttd == 0) ? 'Y' : '');
+            $worksheet->setCellValue("G{$row}", ($ttd == 1) ? '✓' : '');
+            $worksheet->setCellValue("H{$row}", ($ttd == 0) ? 'X' : '');
 
             $worksheet->setCellValue("I{$row}", $ket);
 
@@ -83,7 +84,7 @@ class PengajuanController extends Controller
             $valueADAtidakperlu = $worksheet->getCell("F{$row}")->getValue();
             $valueLengkap = $worksheet->getCell("G{$row}")->getValue();
 
-            if ($valueADAtidakperlu === 'Y') {
+            if ($valueADAtidakperlu === '✓') {
                 $status_lengkap = 'Lengkap';
                 $status_verifikasi = true;
             } else {
@@ -125,6 +126,42 @@ class PengajuanController extends Controller
             'is_marked' => ($status_lengkap == 'Lengkap' && $status_verifikasi == 1 ? 1 : 0),
             'status_dikembalikan' => ($status_lengkap == 'Lengkap' && $status_verifikasi == 1 ? 0 : 1),
         ]);
+
+        // === NOTIFIKASI SETELAH VERIFIKASI KEUANGAN ===
+        if ($status_verifikasi === false) {
+
+            // ke USER
+            Notification::create([
+                'user_id' => $pengajuan->user_id,
+                'title' => 'Pengajuan Dikembalikan',
+                'message' => 'Pengajuan Anda perlu perbaikan dokumen.',
+                'type' => 'warning',
+                'url' => route('pengajuan.show', $pengajuan->id),
+            ]);
+
+        } else {
+
+            Notification::create([
+                'user_id' => $pengajuan->user_id,
+                'title' => 'Berkas Diverifikasi Keuangan',
+                'message' => 'Berkas pengajuan Anda telah <span class="font-semibold text-blue-600">diverifikasi oleh Keuangan</span> dan siap ke tahap berikutnya.',
+                'type' => 'success',
+                'url' => route('pengajuan.show', $pengajuan->id),
+            ]);
+
+            // ke BENDAHARA
+            $bendaharaUsers = User::where('role', 'Bendahara')->get();
+
+            foreach ($bendaharaUsers as $user) {
+                Notification::create([
+                    'user_id' => $user->id,
+                    'title' => 'Pengajuan Siap Diverifikasi',
+                    'message' => 'Pengajuan "' . $pengajuan->pengajuan_name . '" siap ditandatangani.',
+                    'type' => 'success',
+                    'url' => route('bendahara.sign', $pengajuan->id),
+                ]);
+            }
+        }
 
         return redirect()->route('keuangan.dashboard')->with('success', 'Berhasil kirim tanggapan');
     }
@@ -238,6 +275,19 @@ class PengajuanController extends Controller
             'status_dikembalikan' => 0,
             // 'path_file_status_kelengkapan' => $destinationPath,
         ]);
+
+        // tambahan code
+        $keuanganUsers = User::where('role', 'Keuangan')->get();
+
+        foreach ($keuanganUsers as $user) {
+            Notification::create([
+                'user_id' => $user->id,
+                'title' => 'Pengajuan Diperbarui',
+                'message' => 'Pengajuan yang sebelumnya gagal telah diperbarui oleh pengaju.',
+                'type' => 'warning',
+                'url' => route('keuangan.check', $pengajuan->id),
+            ]);
+        }
 
         return redirect()->route('user.worklist')->with('success', 'Berhasil Mengirim Pengajuan');
     }
@@ -375,6 +425,14 @@ class PengajuanController extends Controller
             'assigned_funding_source' => $request->funding_source,
             'status_diarsipkan'   => 1,
             'nominal' => $request->biaya,
+        ]);
+
+        Notification::create([
+            'user_id' => $pengajuan->user_id,
+            'title' => 'Pengajuan Disetujui',
+            'message' => 'Pengajuan Anda telah <span class="font-semibold text-green-600">lengkap dan ditandatangani Bendahara</span>.',
+            'type' => 'success',
+            'url' => route('pengajuan.show', $pengajuan->id),
         ]);
 
         // create digital archive
@@ -565,6 +623,22 @@ class PengajuanController extends Controller
             'status_dikembalikan' => 0,
             'message' => null,
         ]);
+
+        // tambahan code
+        $keuanganUsers = User::where('role', 'Keuangan')->get();
+
+        $message = 'Ada pengajuan baru dari 
+        <span class="text-blue-600 font-bold">'. e($pengajuan->user->name) .'</span> 
+        (Divisi <span class="text-blue-600 font-bold">'. e($pengajuan->user->role) .'</span>) yang perlu diverifikasi.';
+        foreach ($keuanganUsers as $user) {
+            Notification::create([
+                'user_id' => $user->id,
+                'title' => 'Pengajuan Baru',
+                'message' => $message,
+                'type' => 'info',
+                'url' => route('keuangan.check', $pengajuan->id),
+            ]);
+        }
 
         if (Storage::disk('private')->exists($pengajuan->path_file_status_kelengkapan)) {
             $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_status_kelengkapan);

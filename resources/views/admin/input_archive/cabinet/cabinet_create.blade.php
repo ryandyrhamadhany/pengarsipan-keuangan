@@ -1,21 +1,28 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('Tambahkan Kabinet') }}
         </h2>
     </x-slot>
 
     {{-- TOMBOL KEMBALI --}}
     <div class="#">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
             <a href="{{ route('admin.archive') }}"
-               class="inline-flex items-center gap-2 bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-lg hover:bg-gray-300 transition shadow-sm">
-                ← Kembali
-            </a>
+                class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
+                    shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+            </a>             
         </div>
     </div>
 
-    <div class="py-12 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+<<<<<<< HEAD
+    <div class="py-4 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+=======
+    <div class="min-h-screen">
+>>>>>>> main
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
             {{-- Breadcrumb --}}
@@ -33,8 +40,6 @@
 
                 {{-- Header Section --}}
                 <div class="relative bg-gradient-to-b from-[#003A8F] to-[#002766] p-4">
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-white opacity-10 rounded-full"></div>
-                    <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-20 h-20 bg-white opacity-10 rounded-full"></div>
                     
                     <div class="relative z-10 flex items-center gap-4">
                         <div class="p-4 bg-white bg-opacity-20 rounded-2xl backdrop-blur-sm">
@@ -144,7 +149,7 @@
 
                         {{-- Tombol Buat Cabinet --}}
                         <button type="submit"
-                            class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-md shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                            class="group inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                             <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
                             </svg>

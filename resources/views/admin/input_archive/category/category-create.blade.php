@@ -1,21 +1,28 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
+<<<<<<< HEAD
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+=======
+        <h2 class="font-semibold text-xl leading-tight">
+>>>>>>> main
             {{ __('Tambah Kategori Arsip') }}
         </h2>
     </x-slot>
 
     {{-- TOMBOL KEMBALI --}}
     <div class="#">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
             <a href="{{ route('cabinet.show', $cabinet->id) }}"
-                class="inline-flex items-center gap-2 bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-lg hover:bg-gray-300 transition shadow-sm">
-                ← Kembali
-            </a>
+                class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
+                    shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+            </a>             
         </div>
     </div>
 
-    <div class="py-10 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div class="min-h-screen">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
             {{-- Breadcrumb --}}
@@ -198,57 +205,42 @@
                         <div class="group">
                             <label for="url" class="flex items-center gap-2 text-gray-700 font-semibold mb-3">
                                 <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                        clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
                                 </svg>
                                 URL Icon
                             </label>
 
                             {{-- Instructions Box --}}
-                            <div
-                                class="mb-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-5 shadow-sm">
+                            <div class="mb-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-5 shadow-sm">
                                 <div class="flex items-start gap-3 mb-3">
                                     <div class="flex-shrink-0 p-2 bg-blue-100 rounded-lg">
                                         <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                                clip-rule="evenodd" />
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                                         </svg>
                                     </div>
                                     <div>
-                                        <h5 class="font-bold text-blue-900 mb-2">Panduan Memasukkan URL Icon dari
-                                            Icons8
-                                        </h5>
+                                        <h5 class="font-bold text-blue-900 mb-2">Panduan Memasukkan URL Icon dari Icons8</h5>
                                         <ol class="text-sm text-blue-800 space-y-2">
                                             <li class="flex items-start gap-2">
-                                                <span
-                                                    class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">1</span>
-                                                <span>Buka situs <strong class="text-blue-900">icons8.com</strong> dan
-                                                    cari icon yang ingin dipakai.</span>
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">1</span>
+                                                <div>
+                                                    <span>Buka situs</span>
+                                                    <a href="https://icons8.com" target="_blank" class="text-red-600 hover:text-red-700 font-bold underline ml-1">icons8.com</a>
+                                                    <span> dan cari icon yang diinginkan</span>
+                                                </div>
                                             </li>
                                             <li class="flex items-start gap-2">
-                                                <span
-                                                    class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">2</span>
-                                                <span>Klik icon tersebut hingga terbuka halaman detailnya, lalu pilih
-                                                    copy <strong>link to png </strong>"jumlahnya hurufnya harus
-                                                    sama"</span>
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">2</span>
+                                                <span>Klik icon tersebut hingga terbuka halaman detailnya, lalu pilih copy  <strong>link to png </strong>"jumlahnya hurufnya harus sama"</span>
                                             </li>
                                             <li class="flex items-start gap-2">
-                                                <span
-                                                    class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">3</span>
-                                                <span>Ganti warna icon menjadi <code
-                                                        class="bg-blue-100 px-2 py-1 rounded text-xs">color=000000</code>
-                                                    → <code class="bg-blue-100 px-2 py-1 rounded text-xs">
-                                                        putih pada bagian “color=000000 menjadi
-                                                        color=ffffff”</code></span>
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">3</span>
+                                                <span>Ganti warna icon menjadi <code class="bg-blue-100 px-2 py-1 rounded text-xs">color=000000</code> → <code class="bg-blue-100 px-2 py-1 rounded text-xs">
+                                                    putih pada bagian “color=000000 menjadi color=ffffff”</code></span>
                                             </li>
                                             <li class="flex items-start gap-2">
-                                                <span
-                                                    class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">4</span>
-                                                <span>Ganti ukuran (size) menjadi. <code
-                                                        class="bg-blue-100 px-2 py-1 rounded text-xs">contohnya
-                                                        size=100 </code></span>
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full flex-shrink-0 mt-0.5">4</span>
+                                                <span>Ganti ukuran (size) menjadi. <code class="bg-blue-100 px-2 py-1 rounded text-xs">contohnya size=100 </code></span>
                                             </li>
                                         </ol>
                                     </div>
@@ -258,29 +250,25 @@
                                 <div class="mt-4 pt-4 border-t border-blue-200">
                                     <p class="text-sm font-bold text-blue-900 mb-2">Contoh URL yang benar:</p>
                                     <div class="bg-white p-3 rounded-lg border border-blue-200 shadow-sm">
-                                        <code
-                                            class="text-xs text-gray-700 break-all">https://img.icons8.com/?size=100&id=2HU1G5leSjOg&format=png&color=ffffff</code>
+                                        <code class="text-xs text-gray-700 break-all">https://img.icons8.com/?size=100&id=2HU1G5leSjOg&format=png&color=ffffff</code>
                                     </div>
                                 </div>
                             </div>
 
                             {{-- URL Input --}}
                             <div class="relative">
-                                <input type="text" name="url" id="url"
-                                    class="w-full px-5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
-                                    placeholder="https://img.icons8.com/?size=100&id=...&format=png&color=ffffff">
-                                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
-                                    fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                                        clip-rule="evenodd" />
+                                <input type="text" 
+                                       name="url" 
+                                       id="url"
+                                       class="w-full px-5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
+                                       placeholder="https://img.icons8.com/?size=100&id=...&format=png&color=ffffff">
+                                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/>
                                 </svg>
                             </div>
                             <p class="mt-2 text-xs text-gray-500 ml-1 flex items-center gap-1">
                                 <svg class="w-3 h-3 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                        clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                                 </svg>
                                 Kosongkan jika tidak ingin menambahkan icon saat ini
                             </p>
@@ -293,7 +281,7 @@
 
                         {{-- Tombol Buat Kategori --}}
                         <button type="submit"
-                            class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-md shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                            class="group inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                             <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300"
                                 fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"

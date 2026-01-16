@@ -31,4 +31,13 @@ class BendaharaController extends Controller
         $funding_source = FundingSource::all();
         return view('bendahara.final-verifikasi', compact('pengajuan', 'cabinets', 'payment_method', 'funding_source'));
     }
+
+    public function pengajuan()
+    {
+        $pengajuans = Pengajuan::where('status_kelengkapan', 'Lengkap')
+            ->where('status_verifikasi', 1)
+            ->get();
+
+        return view('bendahara.pengajuan', compact('pengajuans'));
+    }
 }

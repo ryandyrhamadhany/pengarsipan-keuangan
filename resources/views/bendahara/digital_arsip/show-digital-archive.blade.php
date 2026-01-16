@@ -1,9 +1,22 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('Detail Arsip') }}
         </h2>
     </x-slot>
+
+    {{-- TOMBOL KEMBALI --}}
+    <div class="#">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+            <a href="{{ route('digital.archive', $id) }}"
+                class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
+                    shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+            </a>             
+        </div>
+    </div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -314,25 +327,10 @@
                             </a>
                         </div>
                     </div>
+<<<<<<< HEAD
+=======
 
-                    {{-- Tombol Kembali --}}
-                    <div class="pt-6 border-t border-gray-200">
-                        <a href="{{ route('digital.archive', $id) }}"
-                            class="inline-flex items-center gap-2 px-6 py-3
-                           bg-white text-gray-700 font-medium rounded-lg
-                           border border-gray-300 shadow-sm
-                           hover:bg-gray-50 hover:border-gray-400 hover:shadow-md
-                           transition-all duration-300 group">
-                            <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-700
-                                group-hover:-translate-x-1 transition-all duration-300"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                            Kembali
-                        </a>
-                    </div>
-
+>>>>>>> main
                 </div>
             </div>
         </div>

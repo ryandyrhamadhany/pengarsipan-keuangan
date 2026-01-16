@@ -5,44 +5,58 @@
         </h2>
     </x-slot>
 
+<<<<<<< HEAD
+    {{-- Tombol Kembali --}}
+=======
+    {{-- TOMBOL KEMBALI --}}
+>>>>>>> main
+    <div class="#">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+            <a href="{{ route('user.worklist') }}"
+                class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
+                    shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+            </a>             
+        </div>
+    </div>
+
+<<<<<<< HEAD
     <div class="py-12">
+=======
+    <div class="min-h-screen">
+>>>>>>> main
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-8 bg-gradient-to-br from-gray-50 to-blue-50/30">
 
-                    {{-- Tombol Kembali --}}
-                    <div class="mb-6">
-                        <a href="{{ route('user.worklist') }}"
-                            class="inline-flex items-center gap-2 px-6 py-3
-                            bg-white text-gray-700 font-medium rounded-lg
-                            border border-gray-300 shadow-sm">
-                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                            Kembali
-                        </a>
-                    </div>
+<<<<<<< HEAD
+                    
 
+=======
+>>>>>>> main
                     {{-- Header Informasi --}}
-                    <div class="bg-white rounded-xl shadow-md border border-gray-200 p-6 mb-6">
-                        <div class="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200">
-                            <div class="p-2 bg-blue-100 rounded-lg">
-                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900">
-                                {{ $pengajuan->pengajuan_name }}
-                            </h3>
+                    <div class="bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-xl shadow-md border border-gray-200 p-6 mb-6">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="p-4 bg-white/20 backdrop-blur-sm rounded-2xl">
+                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-semibold text-white mb-2">
+                                        {{ $pengajuan->pengajuan_name }}
+                                    </h3>
+                                </div>
+                            </div> 
                         </div>
 
                         {{-- Timestamp --}}
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="flex flex-wrap items-center gap-6 mt-6 pt-4 border-t border-white/20">
                             <div class="flex items-center gap-3 text-sm">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -51,8 +65,8 @@
                                     </path>
                                 </svg>
                                 <div>
-                                    <span class="text-gray-500">Dibuat:</span>
-                                    <span class="font-medium text-gray-800 ml-1">
+                                    <span class="text-white">Dibuat:</span>
+                                    <span class="font-medium text-white ml-1">
                                         {{ $pengajuan->created_at->translatedFormat('d M Y — H:i') }}
                                     </span>
                                 </div>
@@ -65,8 +79,8 @@
                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 <div>
-                                    <span class="text-gray-500">Update:</span>
-                                    <span class="font-medium text-gray-800 ml-1">
+                                    <span class="text-white">Update:</span>
+                                    <span class="font-medium text-white ml-1">
                                         {{ $pengajuan->updated_at->translatedFormat('d M Y — H:i') }}
                                     </span>
                                 </div>
@@ -74,19 +88,18 @@
                         </div>
 
                         {{-- Metode Pembayaran & Sumber Dana --}}
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mb-4">
                             {{-- Metode Pembayaran --}}
-                            <div class="bg-white rounded-lg border border-gray-200 p-4">
-                                <div class="flex items-center gap-2 mb-3">
-                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor"
+                            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
-                                        </path>
+                                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                                     </svg>
-                                    <h3 class="text-sm font-semibold text-gray-700">Metode Pembayaran</h3>
+                                    <h3 class="text-sm font-semibold text-white">Metode Pembayaran</h3>
                                 </div>
-                                <div class="bg-gray-50 rounded px-3 py-2 border border-gray-200">
+                                <div class="bg-gray-50 rounded-md px-4 py-1 border border-gray-200">
                                     <p class="text-sm font-medium text-gray-800">
                                         {{ $pengajuan->payment_method->payment_method_name ?? '-' }}
                                     </p>
@@ -94,17 +107,16 @@
                             </div>
 
                             {{-- Sumber Dana --}}
-                            <div class="bg-white rounded-lg border border-gray-200 p-4">
-                                <div class="flex items-center gap-2 mb-3">
-                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor"
+                            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                                        </path>
+                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
-                                    <h3 class="text-sm font-semibold text-gray-700">Sumber Dana</h3>
+                                    <h3 class="text-sm font-semibold text-white">Sumber Dana</h3>
                                 </div>
-                                <div class="bg-gray-50 rounded px-3 py-2 border border-gray-200">
+                                <div class="bg-gray-50 rounded-md px-4 py-1 border border-gray-200">
                                     <p class="text-sm font-medium text-gray-800">
                                         {{ $pengajuan->funding_source->funding_source_name ?? '-' }}
                                     </p>
@@ -113,7 +125,7 @@
                         </div>
 
                         {{-- Status Badges --}}
-                        <div class="flex flex-wrap gap-2">
+                        <div class="flex flex-wrap gap-2 pt-4">
                             @if ($pengajuan->status_kelengkapan == 'Belum Lengkap' && $pengajuan->status_verifikasi == 0)
                                 <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
                                     Tahapan: Dalam Proses
@@ -138,52 +150,67 @@
                                 {{ $pengajuan->status_diarsipkan ? 'Diarsipkan' : 'Belum Diarsipkan' }}
                             </span>
                         </div>
-                    </div>
 
-                    {{-- Diperiksa Oleh --}}
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                        <div class="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200">
-                            <div class="p-2 bg-teal-100 rounded-lg">
-                                <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
+                        {{-- Diperiksa Oleh --}}
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 gap-6 mt-6 pt-6 p-6 py-4">
+                            <div class="flex items-center gap-3 pb-4">
+                                <div class="p-2 bg-teal-100 rounded-lg">
+                                    <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-lg text-white">Diperiksa Oleh</h3>
                             </div>
-                            <h3 class="font-semibold text-lg text-gray-800">Diperiksa Oleh</h3>
-                        </div>
 
-                        <div class="space-y-2 text-sm">
-                            <div class="flex items-center gap-2">
-                                <span class="text-gray-500 w-16">Nama:</span>
-                                <span
-                                    class="font-medium text-gray-800">{{ $pengajuan->finance_officer->name ?? '-' }}</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-gray-500 w-16">Email:</span>
-                                <span
-                                    class="font-medium text-gray-800">{{ $pengajuan->finance_officer->email ?? '-' }}</span>
+                            <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-purple-200 shadow-md">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-semibold text-purple-600 mb-1 uppercase tracking-wide">Nama</div>
+                                            <div class="text-gray-900 font-bold">{{ $pengajuan->finance_officer->name ?? '-' }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 bg-pink-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-semibold text-pink-600 mb-1 uppercase tracking-wide">Email</div>
+                                            <div class="text-gray-900 font-bold break-all">{{ $pengajuan->finance_officer->email ?? '-' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {{-- File Pengajuan --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                        <div class="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200">
-                            <div class="p-2 bg-red-100 rounded-lg">
-                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-8 h-8 bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-lg flex items-center justify-center shadow-md">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
-                                    </path>
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-lg text-gray-800">File Pengajuan</h3>
+                            <h3 class="font-bold text-gray-800 text-sm uppercase tracking-wide">File Pengajuan</h3>
                         </div>
 
                         {{-- Nama File Saat Ini dengan Tombol Lihat --}}
-                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 mb-4">
-                            <div class="flex items-center justify-between gap-4">
+                        <div class="flex items-center justify-between bg-gray-50 rounded-lg p-4 mb-4 bg-gradient-to-r from-gray-50 to-blue-50 border-2 border-dashed border-gray-300 hover:border-blue-400 transition-all duration-300">
+                            <div class="flex items-center gap-4 flex-1 min-w-0">
                                 <div class="flex-1 min-w-0">
                                     <p class="text-xs text-gray-500 mb-1">File Saat Ini:</p>
                                     <p class="text-sm font-semibold text-gray-800 break-all">
@@ -192,8 +219,7 @@
                                 </div>
 
                                 <a href="{{ route('view.file', $pengajuan->id) }}" target="_blank"
-                                    class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2.5
-               bg-blue-500 text-white text-sm font-medium rounded-lg shadow-sm">
+                                    class="group inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -219,14 +245,10 @@
                                     </label>
 
                                     <input type="file" name="file_pengajuan"
-                                        class="block w-full text-sm text-gray-700
-                    file:mr-4 file:py-2.5 file:px-5
-                    file:rounded-lg file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-blue-500 file:text-white
-                    file:cursor-pointer
-                    border border-gray-300 rounded-lg
-                    focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                                        class="block w-full text-sm text-gray-700 file:mr-4 file:py-2.5 file:px-5
+                                                file:rounded-lg file:border-0 file:text-sm file:font-semibold
+                                                file:bg-blue-500 file:text-white file:cursor-pointer
+                                                border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
                                 </div>
 
                                 <button type="submit"

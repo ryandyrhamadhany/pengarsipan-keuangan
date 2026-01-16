@@ -45,8 +45,7 @@
                         x-bind:type="show ? 'text' : 'password'" 
                         class="pl-12 pr-12 block w-full rounded-xl border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 focus:ring-2 transition-all duration-200 hover:border-gray-400 bg-gray-50 focus:bg-white" 
                         autocomplete="current-password"
-                        placeholder="Enter your current password"
-                    />
+                        placeholder="Enter your current password"/>
                     <button 
                         type="button"
                         @click="show = !show"

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('Semua Status Pengajuan') }}
         </h2>
     </x-slot>
@@ -11,6 +11,16 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-8 bg-gradient-to-br from-gray-50 to-blue-50/30 space-y-8">
 
+<<<<<<< HEAD
+                    {{-- Header Dashboard - Putih Bersih dengan Border Biru --}}
+                    <div class="relative overflow-hidden bg-white border-2 border-blue-600 p-10 rounded-2xl shadow-lg mb-8">
+                        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwMDNhOGYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0YzAtMi4yMSAxLjc5LTQgNC00czQgMS43OSA0IDQtMS43OSA0LTQgNC00LTEuNzktNC00em0wIDEwYzAtMi4yMSAxLjc5LTQgNC00czQgMS43OSA0IDQtMS43OSA0LTQgNC00LTEuNzktNC00eiIvPjwvZz48L2c+PC9zdmc+')] opacity-50"></div>
+                        <div class="relative flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center ring-2 ring-blue-100 shadow-sm">
+                                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+=======
                     {{-- Header Dashboard --}}
                     <div
                         class="relative overflow-hidden bg-gradient-to-b from-[#003A8F] to-[#002766] text-white p-10 rounded-2xl shadow-2xl mb-8">
@@ -27,13 +37,27 @@
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+>>>>>>> main
                                     </svg>
                                 </div>
+                                
                                 <div>
+<<<<<<< HEAD
+                                    <h2 class="text-xl font-extrabold text-blue-700 tracking-tight">Pengajuan Saya</h2>
+                                    <p class="text-blue-600/80 text-sm mt-1 font-medium">Kelola dan pantau semua pengajuan keuangan Anda dalam satu tempat</p>
+=======
                                     <h2 class="text-lg font-bold text-white">Pengajuan Saya</h2>
                                     <p class="text-white/90 text-sm mt-1">Kelola dan pantau semua pengajuan keuangan
                                         Anda dalam satu tempat</p>
+>>>>>>> main
                                 </div>
+                            </div>
+
+                            {{-- Badge Statistik Tambahan (Opsional) --}}
+                            <div class="hidden md:block">
+                                <span class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md">
+                                    {{ $my_pengajuan->count() }} Total Pengajuan
+                                </span>
                             </div>
                         </div>
                     </div>
