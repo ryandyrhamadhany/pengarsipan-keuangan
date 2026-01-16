@@ -51,20 +51,12 @@
                         </div>
                     </div>
 
-                    {{-- TOMBOL TAMBAH --}}
-                    <a href="{{ route('folder.create', $rack->id) }}"
-                        class="inline-flex items-center gap-2 px-4 py-2
-                               bg-gradient-to-r from-emerald-500 to-teal-600
-                               hover:from-emerald-600 hover:to-teal-700
-                               text-white font-medium rounded-lg
-                               shadow-lg hover:shadow-xl
-                               transform hover:-translate-y-0.5
-                               transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                             viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    <a href="#modalTambahFolder"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700
+                               text-white font-medium rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                         Tambah Folder Arsip
                     </a>
@@ -95,13 +87,12 @@
                                         </div>
                                         <div>
                                             <p class="text-gray-900 font-semibold text-base leading-tight">{{ $folder->folder_name }}</p>
-                                            <p class="text-sm text-gray-500">Kode folder: {{ $folder->kode_folder }}</p>
                                         </div>
                                     </a>
 
                                     {{-- AKSI --}}
                                     <div class="flex items-center gap-2 ml-4">
-                                        <a href="{{ route('folder.edit', $folder->id) }}"
+                                        <a href="#modalEditFolder-{{ $folder->id }}"
                                             class="p-2 bg-amber-500 hover:bg-orange-600
                                                    rounded-md transition"
                                             title="Edit">
@@ -122,6 +113,46 @@
                                                      alt="delete">
                                             </button>
                                         </form>
+                                    </div>
+
+                                    {{-- ========== MODAL EDIT Folder ========== --}}
+                                    <div id="modalEditFolder-{{ $folder->id }}"
+                                        class="modal fixed inset-0 hidden items-center justify-center bg-black/40 z-50">
+                                        <div class="bg-white rounded-xl w-150 max-w-lg shadow-xl">
+                                            <div class="px-6 py-4 bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-t-xl text-white font-semibold">
+                                                Edit Folder Arsip
+                                            </div>
+
+                                            <form action="{{ route('folder.update', $folder->id) }}" method="POST" class="p-6 space-y-3">
+                                                @csrf
+                                                @method('PUT')
+
+                                                <div>
+                                                    <label class="text-sm font-semibold">Nama Folder Arsip</label>
+                                                    <input type="text" name="name" value="{{ $folder->folder_name }}"
+                                                            class="w-full rounded-lg border-2 border focus:border-emerald-500
+                                                            focus:ring-4 focus:ring-emerald-100 px-4 py-2 transition"
+                                                            placeholder="Masukkan nama folder arsip" required>
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                                        Deskripsi
+                                                    </label>
+                                                    <textarea name="deskripsi" id="keterangan" rows="2"
+                                                        class="w-full rounded-lg border-2 border focus:border-blue-500
+                                                        focus:ring-4 focus:ring-blue-100 px-4 py-2 resize-none transition"
+                                                        placeholder="Masukkan deskripsi" required>{{ $folder->description }}</textarea>
+                                                </div>
+
+                                                <div class="flex justify-end gap-3">
+                                                    <button class="px-4 py-2 bg-gradient-to-b from-[#003A8F] to-[#002766] text-white rounded">
+                                                        Update
+                                                    </button>
+                                                    <a href="{{ route('rack.show', $folder->id) }}" class="px-4 py-2 bg-gray-300 rounded">Batal</a>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -157,8 +188,52 @@
                         </p>
                     </div>
                 @endif
-
             </div>
         </div>
     </div>
+{{-- ================= MODAL TAMBAH ================= --}}
+    <div id="modalTambahFolder"
+        class="modal fixed inset-0 hidden items-center justify-center bg-black/40 z-50">
+       <div class="bg-white rounded-xl w-150 max-w-lg shadow-xl">
+           <div class="px-6 py-4 bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-t-xl text-white font-semibold">
+               Tambah Folder Arsip
+           </div>
+
+           <form action="{{ route('folder.update', $folder->id) }}" method="POST" class="p-6 space-y-3">
+                @method('PUT')
+                @csrf
+
+                <div>
+                    <label class="text-sm font-semibold">Nama Folder Arsip</label>
+                    <input type="text" name="name"
+                            class="w-full rounded-lg border-2 border focus:border-emerald-500
+                            focus:ring-4 focus:ring-emerald-100 px-4 py-2 transition"
+                            placeholder="Masukkan nama folder arsip" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Deskripsi
+                    </label>
+                    <textarea name="deskripsi" rows="2"
+                        class="w-full rounded-lg border-2 border focus:border-blue-500
+                        focus:ring-4 focus:ring-blue-100 px-4 py-2 resize-none transition"
+                        placeholder="Masukkan deskripsi" required></textarea>
+                </div>
+
+                <div class="flex justify-end gap-3">
+                    <button type="submit" class="px-4 py-2 bg-gradient-to-b from-[#003A8F] to-[#002766] text-white rounded">
+                        Simpan
+                    </button>
+                    <a href="{{ route('rack.show', $folder->id) }}" class="px-4 py-2 bg-gray-300 rounded">Batal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .modal:target {
+            display: flex;
+        }
+    </style>
 </x-app-layout>

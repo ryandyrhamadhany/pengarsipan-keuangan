@@ -41,7 +41,7 @@
                                    transition-all duration-200">
                             <img src="https://img.icons8.com/?size=20&id=EkK2AS8KSyo0&format=png&color=ffffff"
                                 class="w-5" />
-                            Tambah sub kategori
+                            Tambah Sub Category
                         </a>
                     </div>
                 </div>

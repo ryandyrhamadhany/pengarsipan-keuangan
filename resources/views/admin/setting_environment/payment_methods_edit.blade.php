@@ -51,8 +51,8 @@
                         </label>
                         <input type="text" name="payment_method_name" id="payment_method_name"
                             value="{{ old('payment_method_name', $paymentMethod->payment_method_name) }}" required
-                            class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-gray-800 font-medium
-                            placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-500
+                            class="w-full border-2 border-gray-300 rounded-lg px-4 py-2 text-gray-800 font-medium
+                            placeholder-gray-400 focus:ring-1 focus:ring-blue-400 focus:border-blue-500
                             focus:outline-none transition-all duration-200 @error('payment_method_name') border-red-500 @enderror"
                             placeholder="Contoh: Transfer Bank">
                         @error('payment_method_name')
@@ -67,8 +67,8 @@
                         </label>
                         <input type="text" name="sub_category" id="sub_category"
                             value="{{ old('sub_category', $paymentMethod->sub_category) }}"
-                            class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-gray-800 font-medium
-                            placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-500
+                            class="w-full border-2 border-gray-300 rounded-lg px-4 py-2 text-gray-800 font-medium
+                            placeholder-gray-400 focus:ring-1 focus:ring-blue-400 focus:border-blue-500
                             focus:outline-none transition-all duration-200 @error('sub_category') border-red-500 @enderror"
                             placeholder="Contoh: BCA, Mandiri, BNI">
                         @error('sub_category')
@@ -81,9 +81,9 @@
                         <label for="description" class="block text-sm font-semibold text-gray-700 mb-2">
                             Deskripsi / Keterangan
                         </label>
-                        <textarea name="description" id="description" rows="4"
+                        <textarea name="description" id="description" rows="3"
                             class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-gray-800 font-medium
-                            placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-500
+                            placeholder-gray-400 focus:ring-1 focus:ring-blue-400 focus:border-blue-500
                             focus:outline-none transition-all duration-200 @error('description') border-red-500 @enderror"
                             placeholder="Jelaskan detail atau kepanjangan dari metode pembayaran ini...">{{ old('description', $paymentMethod->description) }}</textarea>
                         @error('description')
@@ -106,10 +106,6 @@
 
                     {{-- Action Buttons --}}
                     <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
-                        <a href="{{ route('admin.envi') }}"
-                            class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
-                            Batal
-                        </a>
                         <button type="submit"
                             class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600
                             text-white rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700
@@ -120,6 +116,10 @@
                             </svg>
                             Perbarui
                         </button>
+                        <a href="{{ route('admin.envi') }}"
+                            class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+                            Batal
+                        </a> 
                     </div>
                 </form>
             </div>

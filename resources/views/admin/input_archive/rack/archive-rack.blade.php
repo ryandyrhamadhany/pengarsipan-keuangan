@@ -19,86 +19,102 @@
     </div>
 
     <div class="py-8 bg-gray-50 min-h-screen">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-8">
 
-            {{-- Section Arsip Fisik --}}
-            <div class="bg-white shadow-md sm:rounded-xl p-6 border border-gray-200">
-                <div class="flex justify-between items-start mb-6">
+            {{-- =====================================================
+                 SECTION : ARSIP FISIK
+            ====================================================== --}}
+            <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200">
+
+                {{-- Header --}}
+                <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-semibold text-gray-700">Arsip Fisik</h3>
 
-                    <div class="flex items-center gap-3">
-                        {{-- Tombol Tambah Rak --}}
-                        <a href="{{ route('rack.create', $category->id) }}"
-                            class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700
-                                   text-white font-medium rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
-                            <img src="https://img.icons8.com/?size=24&id=48427&format=png&color=ffffff"
-                                class="w-5" />
-                            Tambah Rak Arsip
-                        </a>
-                    </div>
+                    <a href="#modalTambahRak"
+                       class="inline-flex items-center gap-2 px-4 py-2
+                              bg-gradient-to-r from-emerald-500 to-teal-600
+                              text-white rounded-lg shadow hover:shadow-xl transition">
+                        <img src="https://img.icons8.com/?size=24&id=48427&format=png&color=ffffff" class="w-5">
+                        Tambah Rak Arsip
+                    </a>
                 </div>
 
-                {{-- Daftar Rak --}}
+                {{-- List Rak --}}
                 @php $no = 1; @endphp
 
                 @if ($racks->count() > 0)
-                    <div class="divide-y divide-gray-200 rounded-lg border border-gray-100">
+                    <div class="space-y-3">
                         @foreach ($racks as $rak)
-                            <div
-                                class="flex items-center justify-between p-4 bg-white border border-gray-400 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-300 transition group">
+                            <div class="flex justify-between items-center p-4 bg-white
+                                        border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 transition">
 
-                                {{-- Bagian Klik Utama --}}
+                                {{-- Info Rak --}}
                                 <a href="{{ route('rack.show', $rak->id) }}"
-                                    class="flex items-center gap-4 flex-1 group-hover:text-indigo-600">
-                                    <div
-                                        class="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-semibold">
+                                   class="flex items-center gap-4 flex-1">
+                                    <div class="w-8 h-8 flex items-center justify-center rounded-full
+                                                bg-gradient-to-b from-[#003A8F] to-[#002766]
+                                                text-white font-semibold">
                                         {{ $no++ }}
                                     </div>
-                                    <div class="space-y-1">
-                                        {{-- Nama Rak --}}
-                                        <p class="text-gray-900 font-semibold text-base leading-tight">
+
+                                    <div>
+                                        <p class="font-semibold text-gray-800">
                                             {{ $rak->rack_name }}
                                         </p>
 
-                                        {{-- Informasi Detail --}}
-                                        <div class="flex items-center gap-4 text-sm text-gray-600">
-                                            {{-- Kode Rak --}}
-                                            <span class="flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-lg">
-                                                <img src="https://img.icons8.com/?size=16&id=7880&format=png&color=4b5563"
-                                                    class="w-4 opacity-70">
-                                                {{ $rak->kode_rack ?? '-' }}
-                                            </span>
-
-                                            {{-- Kategori --}}
-                                            <span
-                                                class="flex items-center gap-1 bg-indigo-100 px-2 py-0.5 rounded-lg text-indigo-700">
-                                                <img src="https://img.icons8.com/?size=16&id=99268&format=png&color=4f46e5"
-                                                    class="w-4 opacity-70">
-                                                {{ $rak->category->category_name ?? '-' }}
-                                            </span>
-                                        </div>
+                                        <span class="text-sm text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">
+                                            {{ $rak->category->category_name ?? '-' }}
+                                        </span>
                                     </div>
                                 </a>
 
-                                {{-- Tombol Aksi --}}
-                                <div class="flex items-center gap-2 ml-4">
-                                    <a href="{{ route('rack.edit', $rak->id) }}"
-                                        class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-md p-2 transition"
-                                        title="Edit">
-                                        <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff"
-                                            alt="edit">
+                                {{-- Aksi --}}
+                                <div class="flex gap-2">
+                                    <a href="#modalEditRak-{{ $rak->id }}"
+                                       class="p-2 bg-amber-500 rounded hover:bg-amber-600">
+                                        <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff">
                                     </a>
 
-                                    <form action="{{ route('rack.delete', $rak->id) }}" method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus rak ini?')">
+                                    <form action="{{ route('rack.delete', $rak->id) }}"
+                                          method="POST"
+                                          onsubmit="return confirm('Yakin ingin menghapus rak ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit"
-                                            class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-md p-2 transition"
-                                            title="Hapus">
-                                            <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff"
-                                                alt="delete">
+                                        <button class="p-2 bg-red-500 rounded hover:bg-red-600">
+                                            <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff">
                                         </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            {{-- ========== MODAL EDIT RAK ========== --}}
+                            <div id="modalEditRak-{{ $rak->id }}"
+                                 class="modal fixed inset-0 hidden items-center justify-center bg-black/40 z-50">
+                                <div class="bg-white rounded-xl w-80 max-w-lg shadow-xl">
+                                    <div class="px-6 py-4 bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-t-xl text-white font-semibold">
+                                        Edit Rak Arsip
+                                    </div>
+
+                                    <form action="{{ route('rack.update', $rak->id) }}"
+                                          method="POST"
+                                          class="p-6 space-y-5">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div>
+                                            <label class="text-sm font-semibold">Nama Rak Arsip</label>
+                                            <input type="text" name="name" value="{{ $rak->rack_name }}"
+                                                    class="w-full rounded-lg border-2  border focus:border-emerald-500
+                                                    focus:ring-4 focus:ring-emerald-100 px-4 py-2 transition"
+                                                    placeholder="Masukkan nama folder arsip" required>
+                                        </div>
+
+                                        <div class="flex justify-end gap-3">
+                                            <button class="px-4 py-2 bg-gradient-to-b from-[#003A8F] to-[#002766] text-white rounded">
+                                                Update
+                                            </button>
+                                            <a href="{{ route('year.show', $category->id) }}" class="px-4 py-2 bg-gray-300 rounded">Batal</a>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -227,8 +243,45 @@
                 </div>
                 @endif
             </div>
-
-            
         </div>
     </div>
+
+    {{-- ================= MODAL TAMBAH ================= --}}
+    <div id="modalTambahRak"
+        class="modal fixed inset-0 hidden items-center justify-center bg-black/40 z-50">
+       <div class="bg-white rounded-xl w-80 max-w-lg shadow-xl">
+           <div class="px-6 py-4 bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-t-xl text-white font-semibold">
+               Tambah Rak Arsip
+           </div>
+
+           <form action="{{ route('rack.store') }}" method="POST"
+                  class="p-6 space-y-5">
+                @csrf
+
+                <input type="hidden" name="year_id" value="{{ $category->id }}">
+
+                <div>
+                    <label class="text-sm font-semibold">Nama Rak Arsip</label>
+                    <input type="text" name="name"
+                            class="w-full rounded-lg border-2  border focus:border-emerald-500
+                            focus:ring-4 focus:ring-emerald-100 px-4 py-2 transition"
+                            placeholder="Masukkan nama folder arsip" required>
+                </div>
+
+                <div class="flex justify-end gap-3">
+                    <button type="submit" class="px-4 py-2 bg-gradient-to-b from-[#003A8F] to-[#002766] text-white rounded">
+                        Simpan
+                    </button>
+                    <a href="{{ route('year.show', $category->id) }}" class="px-4 py-2 bg-gray-300 rounded">Batal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <style>
+        .modal:target {
+            display: flex;
+        }
+    </style>
 </x-app-layout>

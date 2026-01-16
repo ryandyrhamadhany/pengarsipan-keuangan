@@ -108,10 +108,6 @@
 
                     {{-- Action Buttons --}}
                     <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
-                        <a href="{{ route('admin.envi') }}"
-                            class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
-                            Batal
-                        </a>
                         <button type="submit"
                             class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600
                             text-white rounded-lg font-semibold hover:from-emerald-600 hover:to-teal-700
@@ -122,6 +118,10 @@
                             </svg>
                             Simpan
                         </button>
+                        <a href="{{ route('admin.envi') }}"
+                            class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+                            Batal
+                        </a>
                     </div>
                 </form>
             </div>

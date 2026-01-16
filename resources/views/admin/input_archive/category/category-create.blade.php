@@ -20,38 +20,12 @@
 
     <div class="min-h-screen">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-
-            {{-- Breadcrumb --}}
-            <div class="mb-6 flex items-center gap-2 text-sm">
-                <a href="{{ route('admin.archive') }}" class="text-gray-500 hover:text-purple-600 transition-colors">
-                    Input Arsip
-                </a>
-                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" />
-                </svg>
-                <a href="{{ route('cabinet.show', $cabinet->id) }}"
-                    class="text-gray-500 hover:text-purple-600 transition-colors">
-                    {{ $cabinet->cabinet_name }}
-                </a>
-                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" />
-                </svg>
-                <span class="text-gray-700 font-semibold">Tambah Kategori</span>
-            </div>
-
-            <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-200">
+            <div class="bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-200">
 
                 {{-- Header Section --}}
                 <div class="relative bg-gradient-to-b from-[#003A8F] to-[#002766] p-4">
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-white opacity-10 rounded-full"></div>
-                    <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-20 h-20 bg-white opacity-10 rounded-full"></div>
-
                     <div class="relative z-10 flex items-center gap-4">
-                        <div class="p-4 bg-white bg-opacity-20 rounded-2xl backdrop-blur-sm">
+                        <div class="p-2 bg-white bg-opacity-20 rounded-lg backdrop-blur-sm">
                             <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
@@ -70,9 +44,7 @@
                 {{-- FORM --}}
                 <form action="{{ route('category.store') }}" method="POST" class="p-8">
                     @csrf
-
-                    <input type="hidden" name="cabinet_id" value="{{ $cabinet->id }}">
-
+                    <input type="hidden" name="cabinet_id" value="{{ $cabinet->id }}"> 
                     <div class="space-y-6">
 
                         {{-- Nama Kategori --}}
@@ -87,7 +59,7 @@
                             </label>
                             <div class="relative">
                                 <input type="text" name="name" id="name"
-                                    class="w-full px-5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
+                                    class="w-full px-5 border-2 border-gray-200 rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
                                     placeholder="Contoh: Surat Masuk, Laporan Keuangan, Dokumen Legal" required>
                                 <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
                                     fill="currentColor" viewBox="0 0 20 20">
@@ -183,8 +155,8 @@
                                 <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <textarea name="deskripsi" id="deskripsi" rows="4"
-                                    class="w-full px-5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12 resize-none"
+                                <textarea name="deskripsi" id="deskripsi" rows="3"
+                                    class="w-full px-5 border-2 border-gray-200 rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12 resize-none"
                                     placeholder="Jelaskan jenis dokumen apa saja yang masuk dalam kategori ini. Contoh: Kategori untuk menyimpan semua surat masuk dari instansi eksternal"></textarea>
                                 <svg class="absolute left-4 top-4 w-5 h-5 text-gray-400" fill="currentColor"
                                     viewBox="0 0 20 20">
@@ -193,8 +165,6 @@
                                         clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <p class="mt-2 text-xs text-gray-500 ml-1">Berikan deskripsi yang detail tentang isi
-                                kategori</p>
                         </div>
 
                         {{-- URL Icon --}}
@@ -256,7 +226,7 @@
                                 <input type="text" 
                                        name="url" 
                                        id="url"
-                                       class="w-full px-5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
+                                       class="w-full px-4 border-2 border-gray-200 rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
                                        placeholder="https://img.icons8.com/?size=100&id=...&format=png&color=ffffff">
                                 <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/>

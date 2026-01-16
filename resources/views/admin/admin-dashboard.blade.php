@@ -32,13 +32,13 @@
                 <div class="group relative p-8 bg-white shadow-lg rounded-2xl border-t-4 border-green-500 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-start justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Dokumen Tersimpan</p>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Dokumen Tersimpan</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ 124 }}
+                                {{ $dokumenTersimpan }}
                             </h3>
                             <p class="text-xs text-green-600 mt-2 font-semibold">+12% dari bulan lalu</p>
                         </div>
-                        <div class="p-4 bg-green-100 rounded-xl group-hover:bg-green-500 transition-colors duration-300">
+                        <div class="p-3 bg-green-100 rounded-lg group-hover:bg-green-500 transition-colors duration-300">
                             <svg class="w-8 h-8 text-green-600 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
                                 <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -51,13 +51,13 @@
                 <div class="group relative p-8 bg-white shadow-lg rounded-2xl border-t-4 border-red-500 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-start justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Dokumen Tidak Ditemukan</p>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Dokumen Tidak Ditemukan</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ 8 }}
+                                {{ $dokumenTidakTersimpan }}
                             </h3>
                             <p class="text-xs text-red-600 mt-2 font-semibold">Perlu perhatian</p>
                         </div>
-                        <div class="p-4 bg-red-100 rounded-xl group-hover:bg-red-500 transition-colors duration-300">
+                        <div class="p-3 bg-red-100 rounded-lg group-hover:bg-red-500 transition-colors duration-300">
                             <svg class="w-8 h-8 text-red-600 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                             </svg>
@@ -69,13 +69,13 @@
                 <div class="group relative p-8 bg-white shadow-lg rounded-2xl border-t-4 border-blue-500 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-start justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Jumlah User</p>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Jumlah User</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ 5 }}
+                                {{ $jumlahUser }}
                             </h3>
                             <p class="text-xs text-blue-600 mt-2 font-semibold">User aktif</p>
                         </div>
-                        <div class="p-4 bg-blue-100 rounded-xl group-hover:bg-blue-500 transition-colors duration-300">
+                        <div class="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-500 transition-colors duration-300">
                             <svg class="w-8 h-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
                             </svg>

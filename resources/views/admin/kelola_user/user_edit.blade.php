@@ -21,28 +21,13 @@
     <div class="py-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
-            {{-- Breadcrumb --}}
-            <div class="mb-6 flex items-center gap-2 text-sm">
-                <a href="{{ route('account.index') }}" class="text-gray-500 hover:text-blue-600 transition-colors">
-                    Kelola User
-                </a>
-                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" />
-                </svg>
-                <span class="text-gray-700 font-semibold">Edit User</span>
-            </div>
-
-            <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-200">
+            <div class="bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-200">
                 {{-- Header Section --}}
                 <div class="relative bg-gradient-to-b from-[#003A8F] to-[#002766] p-2 rounded-xl overflow-hidden">
-                    <div class="absolute top-0 right-0 -mt-6 -mr-6 w-40 h-40 bg-white/10 rounded-full"></div>
-                    <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-20 h-20 bg-white/10 rounded-full"></div>
                     <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
                         <div class="flex items-center gap-4">
-                            <div class="p-4 bg-white/20 rounded-2xl backdrop-blur-sm">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <div class="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                                     <path
                                         d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                 </svg>

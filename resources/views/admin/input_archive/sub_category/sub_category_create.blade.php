@@ -9,7 +9,7 @@
     {{-- TOMBOL KEMBALI --}}
     <div class="#">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-            <a href="{{ route('category.show', $category->id) }}"
+            <a href="{{ route('cabinet.show', $category->cabinet_id) }}"
                 class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
                     shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +163,7 @@
                                 Simpan
                             </button>
 
-                            <a href="{{ route('category.show', $category->id) }}"
+                            <a href="{{ route('cabinet.show', $category->cabinet_id) }}"
                                class="flex-1 px-5 py-2.5 rounded-lg font-semibold text-gray-700
                                       bg-gray-300 hover:bg-gray-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition text-center">
                                 Batal 

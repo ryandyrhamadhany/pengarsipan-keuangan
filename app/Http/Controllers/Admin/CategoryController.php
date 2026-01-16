@@ -232,7 +232,6 @@ class CategoryController extends Controller
         $exists = Category::where('cabinet_id', $year->cabinet_id)
             ->where('category_name', $year->category_name)
             ->where('sub_category', $year->sub_category)
-            ->where('category_code', $year->category_code)
             ->where('year', $request->year)
             ->where('id', '!=', $id)
             ->exists();

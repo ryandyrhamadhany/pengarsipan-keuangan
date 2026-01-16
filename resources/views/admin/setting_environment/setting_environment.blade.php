@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-10 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div class="py-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             {{-- Header Section --}}
@@ -99,7 +99,7 @@
                                                 <a href="{{ route('payment.edit', $payment->id) }}"
                                                     class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                                     title="Edit">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2"
@@ -116,7 +116,7 @@
                                                     <button type="submit"
                                                         class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                                         title="Hapus">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        <svg class="w-6 h-6" fill="none" stroke="currentColor"
                                                             viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"
@@ -213,7 +213,7 @@
                                                 <a href="{{ route('funding.edit', $funding->id) }}"
                                                     class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                                     title="Edit">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2"
@@ -230,7 +230,7 @@
                                                     <button type="submit"
                                                         class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                                         title="Hapus">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        <svg class="w-6 h-6" fill="none" stroke="currentColor"
                                                             viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"

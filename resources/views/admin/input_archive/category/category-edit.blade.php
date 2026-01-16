@@ -20,35 +20,10 @@
 
     <div class="min-h-screen">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-
-            {{-- Breadcrumb --}}
-            <div class="mb-6 flex items-center gap-2 text-sm">
-                <a href="{{ route('admin.archive') }}" class="text-gray-500 hover:text-purple-600 transition-colors">
-                    Input Arsip
-                </a>
-                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" />
-                </svg>
-                <a href="{{ route('cabinet.show', $cabinet->id) }}"
-                    class="text-gray-500 hover:text-purple-600 transition-colors">
-                    {{ $cabinet->cabinet_name }}
-                </a>
-                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" />
-                </svg>
-                <span class="text-gray-700 font-semibold">Edit Kategori</span>
-            </div>
-
-            <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-200">
+            <div class="bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-200">
 
                 {{-- Header Section --}}
                 <div class="relative bg-gradient-to-b from-[#003A8F] to-[#002766] p-4">
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-white opacity-10 rounded-full"></div>
-                    <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-20 h-20 bg-white opacity-10 rounded-full"></div>
 
                     <div class="relative z-10 flex items-center gap-4">
                         <div class="p-4 bg-white bg-opacity-20 rounded-2xl backdrop-blur-sm">
@@ -73,7 +48,6 @@
                     @method('PUT')
 
                     <input type="hidden" name="cabinet_id" value="{{ $cabinet->id }}">
-
                     <div class="space-y-6">
 
                         {{-- Nama Kategori --}}
@@ -89,7 +63,7 @@
                             <div class="relative">
                                 <input type="text" name="category_name" id="category_name"
                                     value="{{ old('category_name', $category->category_name) }}"
-                                    class="w-full px-5 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
+                                    class="w-full px-5 py-2 border-2 border-gray-200 rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12"
                                     placeholder="Contoh: Surat Masuk, Laporan Keuangan, Dokumen Legal" required>
                                 <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
                                     fill="currentColor" viewBox="0 0 20 20">
@@ -192,8 +166,8 @@
                                 <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <textarea name="deskripsi" id="deskripsi" rows="4"
-                                    class="w-full px-5 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12 resize-none"
+                                <textarea name="deskripsi" id="deskripsi" rows="3"
+                                    class="w-full px-5 py-2 border-2 border-gray-200 rounded-lg focus:ring-1 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 bg-gray-50 focus:bg-white pl-12 resize-none"
                                     placeholder="Jelaskan jenis dokumen apa saja yang masuk dalam kategori ini">{{ old('deskripsi', $category->description) }}</textarea>
                                 <svg class="absolute left-4 top-4 w-5 h-5 text-gray-400" fill="currentColor"
                                     viewBox="0 0 20 20">
@@ -295,7 +269,6 @@
                     </div>
                 </div>
             </form>
-        </div>
 
             {{-- Warning Card --}}
             <div
@@ -318,7 +291,6 @@
                     </div>
                 </div>
             </div>
-
-        </div>
+        </div>      
     </div>
 </x-app-layout>
