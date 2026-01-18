@@ -3,27 +3,80 @@
 namespace App\Http\Controllers\Bendahara;
 
 use App\Http\Controllers\Controller;
+use App\Models\BudgetSubmission;
 use App\Models\Cabinet;
 use App\Models\FundingSource;
 use App\Models\PaymentMethod;
 use App\Models\Pengajuan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BendaharaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pengajuans = Pengajuan::where('status_kelengkapan', 'Lengkap')
-            ->where('status_verifikasi', 1)
-            ->get();
-        return view('bendahara.dashboard', compact('pengajuans'));
+        // ================= QUERY DASAR LIST =================
+        $query = BudgetSubmission::with('user')
+            ->where('requirements_status', 'Lengkap')
+            ->where('verification_status', 1);
+
+        // ================= FILTER SEARCH =================
+        if ($request->filled('search')) {
+            $query->where('budget_submission_name', 'like', '%' . $request->search . '%');
+        }
+
+        // ================= FILTER STATUS ARSIP =================
+        if ($request->status === 'sudah_diarsipkan') {
+            $query->where('is_archive', 1);
+        }
+
+        if ($request->status === 'belum_diarsipkan') {
+            $query->where('is_archive', 0);
+        }
+
+        // ================= DATA LIST =================
+        $pengajuans = $query->orderBy('created_at', 'desc')->get();
+
+        // ================= STATISTIK =================
+        $total_terverifikasi = BudgetSubmission::where('requirements_status', 'Lengkap')
+            ->where('verification_status', 1)
+            ->count();
+
+        $menunggu_verifikasi = BudgetSubmission::where('requirements_status', 'Lengkap')
+            ->where('verification_status', 1)
+            ->where('is_archive', 0)
+            ->count();
+
+        $sudah_diarsipkan = BudgetSubmission::where('is_archive', 1)->count();
+
+        $selesai_hari_ini = BudgetSubmission::whereDate('updated_at', Carbon::today())
+            ->where('is_archive', 1)
+            ->count();
+
+        // ================= PROGRESS (%) =================
+        $progress = 0;
+        if ($total_terverifikasi > 0) {
+            $progress = round(
+                ($sudah_diarsipkan / $total_terverifikasi) * 100
+            );
+        }
+
+        // ================= RETURN VIEW =================
+        return view('bendahara.dashboard', compact(
+            'pengajuans',
+            'total_terverifikasi',
+            'menunggu_verifikasi',
+            'sudah_diarsipkan',
+            'selesai_hari_ini',
+            'progress'
+        ));
     }
 
     public function document_sign($id)
     {
-        $pengajuan = Pengajuan::with('user')
+        $pengajuan = BudgetSubmission::with('user')
             ->with('finance_officer')
             ->where('id', $id)->first();
         $cabinets = Cabinet::all();
@@ -34,8 +87,8 @@ class BendaharaController extends Controller
 
     public function pengajuan()
     {
-        $pengajuans = Pengajuan::where('status_kelengkapan', 'Lengkap')
-            ->where('status_verifikasi', 1)
+        $pengajuans = BudgetSubmission::where('requirements_status', 'Lengkap')
+            ->where('verification_status', 1)
             ->get();
 
         return view('bendahara.pengajuan', compact('pengajuans'));

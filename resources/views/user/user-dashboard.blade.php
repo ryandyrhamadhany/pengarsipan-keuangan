@@ -43,7 +43,7 @@
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
                                 <p class="text-sm text-gray-500 mb-1">Total Pengajuan</p>
-                                <p class="text-3xl font-bold text-gray-800">{{ $total_pengajuan ?? 0 }}</p>
+                                <p class="text-3xl font-bold text-gray-800">{{ $all_submit ?? 0 }}</p>
                             </div>
                             <div class="p-4 bg-blue-100 rounded-lg">
                                 <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor"
@@ -195,7 +195,7 @@
                         </a>
                     </div>
 
-                    @forelse ($pengajuan_terbaru ?? [] as $pengajuan)
+                    @forelse ($submission_new ?? [] as $submit)
                         <div
                             class="flex items-center justify-between p-4 mb-3 last:mb-0 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-sm transition">
                             <div class="flex items-center gap-4 flex-1">
@@ -204,13 +204,14 @@
                                     {{ $loop->iteration }}
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="font-semibold text-gray-800 truncate">{{ $pengajuan->pengajuan_name }}
+                                    <p class="font-semibold text-gray-800 truncate">
+                                        {{ $submit->budget_submission_name }}
                                     </p>
                                     <div class="flex items-center gap-2 mt-1">
                                         <span class="text-xs text-gray-500">
-                                            {{ $pengajuan->created_at->diffForHumans() }}
+                                            {{ $submit->created_at->diffForHumans() }}
                                         </span>
-                                        @if ($pengajuan->status_kelengkapan == 'Lengkap')
+                                        @if ($submit->requirements_status == 'Lengkap')
                                             <span
                                                 class="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-700">
                                                 Lengkap
@@ -224,7 +225,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="{{ route('pengajuan.show', $pengajuan->id) }}"
+                            <a href="{{ route('pengajuan.show', $submit->id) }}"
                                 class="flex-shrink-0 ml-4 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg">
                                 Detail
                             </a>

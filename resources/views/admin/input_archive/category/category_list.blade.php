@@ -12,9 +12,10 @@
                 class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
                     shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-            </a>             
+            </a>
         </div>
     </div>
 
@@ -25,12 +26,7 @@
             <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200 mb-8">
                 <div class="flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-gray-700">Daftar Category</h3>
-
-<<<<<<< HEAD
-                    <a href="{{ route('category.create_with_cabinet', $cabinet->id) }}"
-=======
                     <a href="{{ route('category.create', $cabinet->id) }}"
->>>>>>> main
                         class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600
                                 hover:from-emerald-600 hover:to-teal-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl
                                 transform hover:-translate-y-0.5 transition-all duration-200">

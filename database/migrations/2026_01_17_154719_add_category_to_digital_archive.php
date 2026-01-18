@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('digital_archives', function (Blueprint $table) {
-            $table->foreignId('category_payment_id')->nullable()->after('id')->constrained('categories')->nullOnDelete();
-            $table->foreignId('category_funding_id')->nullable()->after('category_payment_id')->constrained('categories')->nullOnDelete();
+            $table->foreignId('category_id')->after('id')->constrained('categories')->cascadeOnDelete();
         });
     }
 

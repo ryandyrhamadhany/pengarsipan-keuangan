@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\BudgetSubmission;
 use App\Models\Category;
 use App\Models\DigitalArchive;
 use App\Models\FundingSource;
 use App\Models\PaymentMethod;
-use App\Models\Pengajuan;
 use App\Models\Notification;
 use App\Models\User;
 use Carbon\Carbon;
@@ -19,7 +19,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Mpdf\Mpdf;
 
-class PengajuanController extends Controller
+class BudgetSubmissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,9 +34,9 @@ class PengajuanController extends Controller
 
     public function update_check(Request $request, $id)
     {
-        $pengajuan = Pengajuan::findOrFail($id);
-        if (Storage::disk('private')->exists($pengajuan->path_file_status_kelengkapan)) {
-            $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_status_kelengkapan);
+        $pengajuan = BudgetSubmission::findOrFail($id);
+        if (Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
+            $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_requirements_status);
             $spreadsheet = IOFactory::load($filePathMetadata);
             $worksheet = $spreadsheet->getActiveSheet();
         }
@@ -57,12 +57,12 @@ class PengajuanController extends Controller
             // G = TTD Belum
             // H = Keterangan
 
-            $worksheet->setCellValue("D{$row}", ($ada == 1) ? '✓' : '');
-            $worksheet->setCellValue("E{$row}", ($ada == 0) ? 'X' : '');
-            $worksheet->setCellValue("F{$row}", ($ada == 2) ? '✓' : '');
+            $worksheet->setCellValue("D{$row}", ($ada == 1) ? 'Y' : '');
+            $worksheet->setCellValue("E{$row}", ($ada == 0) ? 'Y' : '');
+            $worksheet->setCellValue("F{$row}", ($ada == 2) ? 'Y' : '');
 
-            $worksheet->setCellValue("G{$row}", ($ttd == 1) ? '✓' : '');
-            $worksheet->setCellValue("H{$row}", ($ttd == 0) ? 'X' : '');
+            $worksheet->setCellValue("G{$row}", ($ttd == 1) ? 'Y' : '');
+            $worksheet->setCellValue("H{$row}", ($ttd == 0) ? 'Y' : '');
 
             $worksheet->setCellValue("I{$row}", $ket);
 
@@ -84,7 +84,7 @@ class PengajuanController extends Controller
             $valueADAtidakperlu = $worksheet->getCell("F{$row}")->getValue();
             $valueLengkap = $worksheet->getCell("G{$row}")->getValue();
 
-            if ($valueADAtidakperlu === '✓') {
+            if ($valueADAtidakperlu === 'Y') {
                 $status_lengkap = 'Lengkap';
                 $status_verifikasi = true;
             } else {
@@ -107,12 +107,12 @@ class PengajuanController extends Controller
 
         // === TENTUKAN FILE SOURCE ===
         if (
-            $pengajuan->path_file_pengajuan &&
-            Storage::disk('private')->exists($pengajuan->path_file_pengajuan) &&
+            $pengajuan->path_file_submission &&
+            Storage::disk('private')->exists($pengajuan->path_file_submission) &&
             $status_lengkap == 'Lengkap' &&
             $status_verifikasi
         ) {
-            $sourcePath = $pengajuan->path_file_pengajuan;
+            $sourcePath = $pengajuan->path_file_submission;
             // === TAMBAH WATERMARK ===
             $this->addWatermarkToPdf($sourcePath);
         }
@@ -121,10 +121,10 @@ class PengajuanController extends Controller
         $pengajuan->update([
             'finance_officers_id' => Auth::user()->id,
             'message' => $request->catatan,
-            'status_kelengkapan' => $status_lengkap,
-            'status_verifikasi' => $status_verifikasi,
+            'requirements_status' => $status_lengkap,
+            'verification_status' => $status_verifikasi,
             'is_marked' => ($status_lengkap == 'Lengkap' && $status_verifikasi == 1 ? 1 : 0),
-            'status_dikembalikan' => ($status_lengkap == 'Lengkap' && $status_verifikasi == 1 ? 0 : 1),
+            'is_return' => ($status_lengkap == 'Lengkap' && $status_verifikasi == 1 ? 0 : 1),
         ]);
 
         // === NOTIFIKASI SETELAH VERIFIKASI KEUANGAN ===
@@ -138,7 +138,6 @@ class PengajuanController extends Controller
                 'type' => 'warning',
                 'url' => route('pengajuan.show', $pengajuan->id),
             ]);
-
         } else {
 
             Notification::create([
@@ -242,20 +241,20 @@ class PengajuanController extends Controller
 
     public function perbaikan(Request $request, $id)
     {
-        $pengajuan = Pengajuan::findOrFail($id);
+        $pengajuan = BudgetSubmission::findOrFail($id);
         $request->validate([
             'file_pengajuan' => 'mimes:pdf|max:20480|nullable',
         ]);
 
         if ($request->file_pengajuan) {
-            if ($pengajuan->path_file_pengajuan && Storage::disk('private')->exists($pengajuan->path_file_pengajuan)) {
-                Storage::disk('private')->delete($pengajuan->path_file_pengajuan);
+            if ($pengajuan->path_file_submission && Storage::disk('private')->exists($pengajuan->path_file_submission)) {
+                Storage::disk('private')->delete($pengajuan->path_file_submission);
 
                 $file = $request->file('file_pengajuan');
                 $path = $file->storeAs('pengajuan', $file->getClientOriginalName(), 'private');
             }
         } else {
-            $path = $pengajuan->path_file_pengajuan;
+            $path = $pengajuan->path_file_submission;
         }
 
         // $fileName = 'CHECKLIST.xlsx';
@@ -270,9 +269,11 @@ class PengajuanController extends Controller
         // }
 
         $pengajuan->update([
-            'path_file_pengajuan' => $path,
+            'path_file_submission' => $path,
+            'assigned_payment_method' => $request->payment_method,
+            'assigned_funding_source' => $request->funding_source,
             'is_marked' => 0,
-            'status_dikembalikan' => 0,
+            'is_return' => 0,
             // 'path_file_status_kelengkapan' => $destinationPath,
         ]);
 
@@ -294,31 +295,31 @@ class PengajuanController extends Controller
 
     public function download_pengajuan($id)
     {
-        $file_metadata = Pengajuan::findOrFail($id);
+        $file_metadata = BudgetSubmission::findOrFail($id);
 
-        $path = Storage::disk('private')->path($file_metadata->path_file_pengajuan);
+        $path = Storage::disk('private')->path($file_metadata->path_file_submission);
 
-        $fileName = basename($file_metadata->path_file_pengajuan);
+        $fileName = basename($file_metadata->path_file_submission);
 
         return response()->download($path, $fileName);
     }
 
     public function download_metadata_pengajuan($id)
     {
-        $file_metadata = Pengajuan::findOrFail($id);
+        $file_metadata = BudgetSubmission::findOrFail($id);
 
-        $path = Storage::disk('private')->path($file_metadata->path_file_status_kelengkapan);
+        $path = Storage::disk('private')->path($file_metadata->path_file_requirements_status);
 
-        $fileName = basename($file_metadata->path_file_status_kelengkapan);
+        $fileName = basename($file_metadata->path_file_requirements_status);
 
         return response()->download($path, $fileName);
     }
 
     public function lihat_pengajuan($id) // jika sudah diarsipkan
     {
-        $file_pengajuan = Pengajuan::findOrFail($id);
+        $file_pengajuan = BudgetSubmission::findOrFail($id);
 
-        $path = Storage::disk('private')->path($file_pengajuan->path_file_pengajuan);
+        $path = Storage::disk('private')->path($file_pengajuan->path_file_submission);
 
         // $fileName = basename($file_pengajuan->path_file_pengajuan);
 
@@ -327,9 +328,9 @@ class PengajuanController extends Controller
 
     public function final_verification(Request $request, $id)
     {
-        $pengajuan = Pengajuan::with('user')->with('finance_officer')->with('revenue_officer')->findOrFail($id);
-        if (Storage::disk('private')->exists($pengajuan->path_file_status_kelengkapan)) {
-            $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_status_kelengkapan);
+        $pengajuan = BudgetSubmission::with('user')->with('finance_officer')->with('revenue_officer')->findOrFail($id);
+        if (Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
+            $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_requirements_status);
             $spreadsheet = IOFactory::load($filePathMetadata);
             $worksheet = $spreadsheet->getActiveSheet();
         }
@@ -341,17 +342,17 @@ class PengajuanController extends Controller
         if ($request->hasFile('file_pengajuan')) {
 
             if (
-                $pengajuan->path_file_pengajuan &&
-                Storage::disk('private')->exists($pengajuan->path_file_pengajuan)
+                $pengajuan->path_file_submission &&
+                Storage::disk('private')->exists($pengajuan->path_file_submission)
             ) {
-                Storage::disk('private')->delete($pengajuan->path_file_pengajuan);
+                Storage::disk('private')->delete($pengajuan->path_file_submission);
             }
 
             $file = $request->file('file_pengajuan');
             $filename = $file->getClientOriginalName();
             $sourcePath = $file->storeAs('pengajuan', $filename, 'private');
         } else {
-            $sourcePath = $pengajuan->path_file_pengajuan;
+            $sourcePath = $pengajuan->path_file_submission;
         }
 
         // === TAMBAH WATERMARK DENGAN NOMOR KUITANSI ===
@@ -370,39 +371,17 @@ class PengajuanController extends Controller
         $idFunding = null;
 
         // ========== CARI CATEGORY PAYMENT ==========
-        $categoryPayment = Category::where('cabinet_id', $request->cabinet_id)
+        $category = Category::with('payment_method')->with('funding_source')
+            ->where('cabinet_id', $request->cabinet_id)
             ->where('year', $year)
-            ->where('category_name', $payment->payment_method_name)
-            ->where(function ($q) use ($payment) {
-                if (!empty($payment->sub_category)) {
-                    $q->where('sub_category', $payment->sub_category);
-                } else {
-                    $q->whereNull('sub_category')
-                        ->orWhere('sub_category', '');
-                }
-            })
+            ->whereRelation('payment_method', 'id', $payment->id)
+            ->whereRelation('funding_source', 'id', $funding->id)
             ->first();
 
-        $idPayment = $categoryPayment?->id;
-
-        // ========== CARI CATEGORY FUNDING ==========
-        $categoryFunding = Category::where('cabinet_id', $request->cabinet_id)
-            ->where('year', $year)
-            ->where('category_name', $funding->funding_source_name)
-            ->where(function ($q) use ($funding) {
-                if (!empty($funding->sub_category)) {
-                    $q->where('sub_category', $funding->sub_category);
-                } else {
-                    $q->whereNull('sub_category')
-                        ->orWhere('sub_category', '');
-                }
-            })
-            ->first();
-
-        $idFunding = $categoryFunding?->id;
+        $idcategory = $category?->id;
 
         // ========== VALIDASI ==========
-        if (!$idPayment && !$idFunding) {
+        if (!$idcategory) {
             return redirect()->back()->with(
                 'error',
                 'Gagal mengarsipkan. Kategori arsip tidak ditemukan untuk Payment atau Funding.'
@@ -420,10 +399,10 @@ class PengajuanController extends Controller
         // === UPDATE DB ===
         $pengajuan->update([
             'revenue_officer_id' => Auth::id(),
-            'path_file_pengajuan' => $sourcePath,
+            'path_file_submission' => $sourcePath,
             'assigned_payment_method' => $request->payment_method,
             'assigned_funding_source' => $request->funding_source,
-            'status_diarsipkan'   => 1,
+            'is_archive'   => 1,
             'nominal' => $request->biaya,
         ]);
 
@@ -437,9 +416,9 @@ class PengajuanController extends Controller
 
         // create digital archive
         DigitalArchive::create([
-            'category_payment_id' => $idPayment,
-            'category_funding_id' => $idFunding,
-            'archive_name' => $pengajuan->pengajuan_name,
+            'category_id' => $idcategory,
+            'archive_name' => $pengajuan->budget_submission_name,
+            'from_divisi' => $pengajuan->user->role,
             'submiter_name' => $pengajuan->user->name,
             'finance_officer_name' => $pengajuan->finance_officer->name,
             'revenue_officer_name' => Auth::user()->name,
@@ -448,7 +427,7 @@ class PengajuanController extends Controller
             'nominal' => $request->biaya,
             'archive_by' => Auth::user()->name,
             'disposal_date' => Carbon::now()->addYear(5),
-            'no_spm' => $request->no_spm,
+            // 'no_spm' => $request->no_spm, // ganti nanti
         ]);
 
         return redirect()
@@ -493,14 +472,14 @@ class PengajuanController extends Controller
             // $mpdf->Line(5, 0, 5, $size['height']);
             // $mpdf->SetAlpha(1);
 
-            // === NOMOR KUITANSI VERTIKAL BERULANG (90° ROTASI) DI KANAN GARIS MERAH ===
-            $xKuitansi = 7; // 5mm (garis) + 2mm
-            $yStart = 20;   // Mulai dari atas
-            $spacing = 40;  // Jarak antar teks kuitansi (dalam mm)
+            // === NOMOR KUITANSI VERTIKAL BERULANG (90° ROTASI) DI ATAS GARIS MERAH ===
+            $xKuitansi = 5; // Tepat di posisi garis merah (ditimpa)
+            $yStart = 10;   // Mulai dari atas
+            $spacing = 30;  // Jarak antar teks kuitansi (dalam mm)
 
-            $mpdf->SetFont('Arial', 'B', 10);
-            $mpdf->SetTextColor(255, 0, 0); // Merah
-            $mpdf->SetAlpha(0.7);
+            $mpdf->SetFont('Arial', 'B', 5); // Lebih kecil (dari 10 jadi 8)
+            $mpdf->SetTextColor(0, 0, 0); // Hitam (dari merah jadi hitam)
+            $mpdf->SetAlpha(0.8); // Opacity 80% (dari 0.7 jadi 0.8)
 
             // Hitung berapa kali perlu diulang berdasarkan tinggi halaman
             $repeatCount = ceil(($size['height'] - $yStart) / $spacing);
@@ -522,33 +501,6 @@ class PengajuanController extends Controller
 
             $mpdf->SetAlpha(1);
             $mpdf->SetTextColor(0, 0, 0); // Reset warna
-
-            // === WATERMARK GAMBAR (60% HALAMAN, CENTER, OPACITY 20%) ===
-            // $watermarkPath = storage_path('app/public/images/watermark.png');
-
-            // if (file_exists($watermarkPath)) {
-
-            //     [$imgW, $imgH] = getimagesize($watermarkPath);
-            //     $imgRatio = $imgW / $imgH;
-
-            //     $maxW = $size['width'] * 0.6;
-            //     $maxH = $size['height'] * 0.6;
-
-            //     if ($maxW / $maxH > $imgRatio) {
-            //         $wmHeight = $maxH;
-            //         $wmWidth  = $wmHeight * $imgRatio;
-            //     } else {
-            //         $wmWidth  = $maxW;
-            //         $wmHeight = $wmWidth / $imgRatio;
-            //     }
-
-            //     $x = ($size['width']  - $wmWidth)  / 2;
-            //     $y = ($size['height'] - $wmHeight) / 2;
-
-            //     $mpdf->SetAlpha(0.2);
-            //     $mpdf->Image($watermarkPath, $x, $y, $wmWidth, $wmHeight);
-            //     $mpdf->SetAlpha(1);
-            // }
         }
 
         $mpdf->Output($fullPath, 'F');
@@ -609,27 +561,27 @@ class PengajuanController extends Controller
             Storage::disk('private')->copy($sourcePath, $destinationPath);
         }
 
-        $pengajuan = Pengajuan::create([
+        $pengajuan = BudgetSubmission::create([
             'user_id' => $iduser,
-            'pengajuan_name' => $request->nama_pengajuan,
+            'budget_submission_name' => $request->nama_pengajuan,
             'assigned_payment_method' => $request->payment_method,
             'assigned_funding_source' => $request->funding_source,
-            'path_file_pengajuan' => $path,
-            'status_kelengkapan' => $status_kelengkapan,
-            'status_verifikasi' => $status_verifikasi,
-            'path_file_status_kelengkapan' => $destinationPath,
-            'status_diarsipkan' => 0,
+            'path_file_submission' => $path,
+            'requirements_status' => $status_kelengkapan,
+            'verification_status' => $status_verifikasi,
+            'path_file_requirements_status' => $destinationPath,
+            'is_archive' => 0,
             'is_marked' => 0,
-            'status_dikembalikan' => 0,
+            'is_return' => 0,
             'message' => null,
         ]);
 
         // tambahan code
         $keuanganUsers = User::where('role', 'Keuangan')->get();
 
-        $message = 'Ada pengajuan baru dari 
-        <span class="text-blue-600 font-bold">'. e($pengajuan->user->name) .'</span> 
-        (Divisi <span class="text-blue-600 font-bold">'. e($pengajuan->user->role) .'</span>) yang perlu diverifikasi.';
+        $message = 'Ada pengajuan baru dari
+        <span class="text-blue-600 font-bold">' . e($pengajuan->user->name) . '</span>
+        (Divisi <span class="text-blue-600 font-bold">' . e($pengajuan->user->role) . '</span>) yang perlu diverifikasi.';
         foreach ($keuanganUsers as $user) {
             Notification::create([
                 'user_id' => $user->id,
@@ -640,8 +592,8 @@ class PengajuanController extends Controller
             ]);
         }
 
-        if (Storage::disk('private')->exists($pengajuan->path_file_status_kelengkapan)) {
-            $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_status_kelengkapan);
+        if (Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
+            $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_requirements_status);
             $spreadsheet = IOFactory::load($filePathMetadata);
             $worksheet = $spreadsheet->getActiveSheet();
             $worksheet->setCellValue("B3", 'Nama Kegiatan : ' . $request->nama_pengajuan);
@@ -657,12 +609,14 @@ class PengajuanController extends Controller
      */
     public function show(string $id) // oke
     {
-        $pengajuan = Pengajuan::with('finance_officer')
+        $payment_method = PaymentMethod::all();
+        $funding_source = FundingSource::all();
+        $pengajuan = BudgetSubmission::with('finance_officer')
             ->with('payment_method')
             ->with('funding_source')
             ->findOrFail($id);
-        if (Storage::disk('private')->exists($pengajuan->path_file_status_kelengkapan)) {
-            $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_status_kelengkapan);
+        if (Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
+            $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_requirements_status);
             $spreadsheet = IOFactory::load($filePathMetadata);
             $worksheet = $spreadsheet->getActiveSheet();
         }
@@ -729,7 +683,7 @@ class PengajuanController extends Controller
 
         $catatan = $worksheet->getCell('B40')->getValue();
 
-        return view('user.pengajuan.pengajuan-show', compact('pengajuan', 'namaKegiatan', 'no', 'syaratDoc', 'ada', 'tidakada', 'tidakperlu', 'lengkap', 'belum', 'keterangan', 'catatan'));
+        return view('user.pengajuan.pengajuan-show', compact('pengajuan', 'namaKegiatan', 'no', 'syaratDoc', 'ada', 'tidakada', 'tidakperlu', 'lengkap', 'belum', 'keterangan', 'catatan', 'payment_method', 'funding_source'));
     }
 
     /**
@@ -737,8 +691,10 @@ class PengajuanController extends Controller
      */
     public function edit(string $id)
     {
-        $pengajuan = Pengajuan::findOrFail($id);
-        return view('user.pengajuan.pengajuan-edit', compact('pengajuan'));
+        $pengajuan = BudgetSubmission::findOrFail($id);
+        $payment_method = PaymentMethod::all();
+        $funding_source = FundingSource::all();
+        return view('user.pengajuan.pengajuan-edit', compact('pengajuan', 'payment_method', 'funding_source'));
     }
 
     /**
@@ -746,22 +702,21 @@ class PengajuanController extends Controller
      */
     public function update(Request $request, string $id) // belum sempurna
     {
-        $pengajuan = Pengajuan::findOrFail($id);
+        $pengajuan = BudgetSubmission::findOrFail($id);
         $request->validate([
             'nama_pengajuan' => 'required|string',
-            'divisi' => 'required|string',
-            'file' => 'mimes:pdf|max:20480|nullable',
+            'file' => 'mimes:pdf|max:50000|nullable',
         ]);
 
         if ($request->file) {
-            if ($pengajuan->path_file_pengajuan && Storage::disk('public')->exists($pengajuan->path_file_pengajuan)) {
-                Storage::disk('public')->delete($pengajuan->path_file_pengajuan);
+            if ($pengajuan->path_file_submission && Storage::disk('private')->exists($pengajuan->path_file_submission)) {
+                Storage::disk('private')->delete($pengajuan->path_file_submission);
 
                 $file = $request->file('file');
-                $path = $file->storeAs('pengajuan', $file->getClientOriginalName(), 'public');
+                $path = $file->storeAs('pengajuan', $file->getClientOriginalName(), 'private');
             }
         } else {
-            $path = $pengajuan->path_file_pengajuan;
+            $path = $pengajuan->path_file_submission;
         }
 
         $fileName = 'CHECKLIST.xlsx';
@@ -771,15 +726,16 @@ class PengajuanController extends Controller
         $newFileName = $namaPengajuan . '_' . $fileName;
         $destinationPath = 'metadata_pengajuan/' . $newFileName;
 
-        if ($pengajuan->path_file_status_kelengkapan && Storage::disk('public')->exists($pengajuan->path_file_status_kelengkapan)) {
-            Storage::disk('public')->move($pengajuan->path_file_status_kelengkapan, $destinationPath);
+        if ($pengajuan->path_file_requirements_status && Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
+            Storage::disk('private')->move($pengajuan->path_file_requirements_status, $destinationPath);
         }
 
         $pengajuan->update([
-            'pengajuan_name' => $request->nama_pengajuan,
-            'bagian' => $request->divisi,
-            'path_file_pengajuan' => $path,
-            'path_file_status_kelengkapan' => $destinationPath,
+            'budget_submission_name' => $request->nama_pengajuan,
+            'assigned_payment_method' => $request->payment_method,
+            'assigned_funding_source' => $request->funding_source,
+            'path_file_submission' => $path,
+            'path_file_requirements_status' => $destinationPath,
         ]);
 
         return redirect()->route('user.worklist')->with('success', 'Berhasil Mengirim Pengajuan');
@@ -790,14 +746,14 @@ class PengajuanController extends Controller
      */
     public function destroy(string $id) // oke
     {
-        $pengajuan = Pengajuan::findOrFail($id);
+        $pengajuan = BudgetSubmission::findOrFail($id);
 
-        if ($pengajuan->path_file_pengajuan && Storage::disk('private')->exists($pengajuan->path_file_pengajuan)) {
-            Storage::disk('private')->delete($pengajuan->path_file_pengajuan);
+        if ($pengajuan->path_file_submission && Storage::disk('private')->exists($pengajuan->path_file_submission)) {
+            Storage::disk('private')->delete($pengajuan->path_file_submission);
         }
 
-        if ($pengajuan->path_file_status_kelengkapan && Storage::disk('private')->exists($pengajuan->path_file_status_kelengkapan)) {
-            Storage::disk('private')->delete($pengajuan->path_file_status_kelengkapan);
+        if ($pengajuan->path_file_requirements_status && Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
+            Storage::disk('private')->delete($pengajuan->path_file_requirements_status);
         }
 
         $pengajuan->delete();

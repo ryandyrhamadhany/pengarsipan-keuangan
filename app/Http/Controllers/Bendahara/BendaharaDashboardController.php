@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Bendahara;
 
 use App\Http\Controllers\Controller;
+use App\Models\BudgetSubmission;
 use App\Models\Pengajuan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class BendaharaDashboardController extends Controller
     public function index(Request $request)
     {
         // ================= QUERY DASAR LIST =================
-        $query = Pengajuan::with('user')
+        $query = BudgetSubmission::with('user')
             ->where('status_kelengkapan', 'Lengkap')
             ->where('status_verifikasi', 1);
 
@@ -34,18 +35,18 @@ class BendaharaDashboardController extends Controller
         $pengajuans = $query->orderBy('created_at', 'desc')->get();
 
         // ================= STATISTIK =================
-        $total_terverifikasi = Pengajuan::where('status_kelengkapan', 'Lengkap')
+        $total_terverifikasi = BudgetSubmission::where('status_kelengkapan', 'Lengkap')
             ->where('status_verifikasi', 1)
             ->count();
 
-        $menunggu_verifikasi = Pengajuan::where('status_kelengkapan', 'Lengkap')
+        $menunggu_verifikasi = BudgetSubmission::where('status_kelengkapan', 'Lengkap')
             ->where('status_verifikasi', 1)
             ->where('status_diarsipkan', 0)
             ->count();
 
-        $sudah_diarsipkan = Pengajuan::where('status_diarsipkan', 1)->count();
+        $sudah_diarsipkan = BudgetSubmission::where('status_diarsipkan', 1)->count();
 
-        $selesai_hari_ini = Pengajuan::whereDate('updated_at', Carbon::today())
+        $selesai_hari_ini = BudgetSubmission::whereDate('updated_at', Carbon::today())
             ->where('status_diarsipkan', 1)
             ->count();
 

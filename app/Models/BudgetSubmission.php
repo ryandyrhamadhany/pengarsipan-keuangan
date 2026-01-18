@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Pengajuan extends Model
+class BudgetSubmission extends Model
 {
     use HasFactory;
 
@@ -14,17 +14,17 @@ class Pengajuan extends Model
         'user_id',
         'finance_officers_id',
         'revenue_officer_id',
-        'pengajuan_name',
+        'budget_submission_name',
         'nominal',
         'assigned_payment_method',
         'assigned_funding_source',
-        'path_file_pengajuan',
-        'status_kelengkapan',
-        'status_verifikasi',
-        'path_file_status_kelengkapan',
-        'status_diarsipkan',
+        'path_file_submission',
+        'requirements_status',
+        'verification_status',
+        'path_file_requirements_status',
+        'is_archive',
         'is_marked',
-        'status_dikembalikan',
+        'is_return',
         'digital_archive_id',
         'message',
     ];

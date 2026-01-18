@@ -10,8 +10,7 @@ class DigitalArchive extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_payment_id',
-        'category_funding_id',
+        'id',
         'category_id',
         'archive_name',
         'from_divisi',

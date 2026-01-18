@@ -19,12 +19,9 @@ use App\Http\Controllers\Keuangan\KeuanganController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\PengajuanController;
 use App\Http\Controllers\User\UserController;
-<<<<<<< HEAD
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Models\Pengajuan;
-=======
 use App\Http\Controllers\NotificationController;
->>>>>>> main
+use App\Http\Controllers\User\BudgetSubmissionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -61,10 +58,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/keuangan/dashboard', [KeuanganDashboardController::class, 'index'])->name('keuangan.dashboard');
-    Route::get('/bendahara/dashboard', [BendaharaDashboardController::class, 'index'])->name('bendahara.dashboard');
-    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/keuangan/dashboard', [KeuanganController::class, 'index'])->name('keuangan.dashboard');
+    Route::get('/bendahara/dashboard', [BendaharaController::class, 'index'])->name('bendahara.dashboard');
+    Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
@@ -127,17 +124,19 @@ Route::get('/worklist', [UserController::class, 'worklist'])->name('user.worklis
 // ==================================================================== Route Keuangan
 Route::get('/keuangan/input', [KeuanganController::class, 'input_arsip'])->name('keuangan.input');
 Route::get('/keuangan/check/{id}', [KeuanganController::class, 'check_pengajuan'])->name('keuangan.check');
-Route::put('/keuangan/update/{id}', [PengajuanController::class, 'update_check'])->name('keuangan.checkandupate');
-Route::put('/keuangan/perbaiki/{id}', [PengajuanController::class, 'perbaikan'])->name('keuangan.perbaiki');
-Route::middleware('auth')->get('/keuangan/pengajuan', function () { $pengajuans = \App\Models\Pengajuan::all();
-    return view('keuangan.pengajuan', compact('pengajuans'));})->name('keuangan.pengajuan');
+Route::put('/keuangan/update/{id}', [BudgetSubmissionController::class, 'update_check'])->name('keuangan.checkandupate');
+Route::put('/keuangan/perbaiki/{id}', [BudgetSubmissionController::class, 'perbaikan'])->name('keuangan.perbaiki');
+Route::middleware('auth')->get('/keuangan/pengajuan', function () {
+    $pengajuans = \App\Models\BudgetSubmission::all();
+    return view('keuangan.pengajuan', compact('pengajuans'));
+})->name('keuangan.pengajuan');
 
 // ===================================================================== Route Bendahara
 Route::get('/bendahara/sign/{id}', [BendaharaController::class, 'document_sign'])->name('bendahara.sign');
-Route::put('/bendahara/verifikasi/{id}', [PengajuanController::class, 'final_verification'])->name('bendahara.verification');
+Route::put('/bendahara/verifikasi/{id}', [BudgetSubmissionController::class, 'final_verification'])->name('bendahara.verification');
 Route::get('/archive/pengajuan/{id}', [DigitalArchiveController::class, 'show_in_year'])->name('digital.archive');
 Route::get('/archive/pengajuan/show/{id}', [DigitalArchiveController::class, 'show_digital_archive'])->name('digital.archive.show');
-Route::get('/bendahara/pengajuan',[BendaharaController::class, 'pengajuan'])->name('bendahara.pengajuan');
+Route::get('/bendahara/pengajuan', [BendaharaController::class, 'pengajuan'])->name('bendahara.pengajuan');
 // =================================================================== Route Resource
 Route::resource('/cabinet', CabinetController::class);
 Route::resource('/category', CategoryController::class);
@@ -149,14 +148,12 @@ Route::resource('/account', AccountManageController::class);
 Route::resource('/payment', PaymentMethodController::class);
 Route::resource('/funding', FundingSourceController::class);
 
-Route::resource('/pengajuan', PengajuanController::class);
+Route::resource('/pengajuan', BudgetSubmissionController::class);
 Route::resource('/archive/digital', DigitalArchiveController::class);
 
-<<<<<<< HEAD
 Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-=======
+
 // ======================================================================= costum global
-Route::get('/viewfile/{id}', [PengajuanController::class, 'lihat_pengajuan'])->name('view.file');
-Route::get('/file/download/{id}', [PengajuanController::class, 'download_pengajuan'])->name('download.file');
-Route::get('/metadata/download/{id}', [PengajuanController::class, 'download_metadata_pengajuan'])->name('download.metadata');
->>>>>>> main
+Route::get('/viewfile/{id}', [BudgetSubmissionController::class, 'lihat_pengajuan'])->name('view.file');
+Route::get('/file/download/{id}', [BudgetSubmissionController::class, 'download_pengajuan'])->name('download.file');
+Route::get('/metadata/download/{id}', [BudgetSubmissionController::class, 'download_metadata_pengajuan'])->name('download.metadata');

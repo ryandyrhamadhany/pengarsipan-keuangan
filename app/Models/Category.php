@@ -12,17 +12,22 @@ class Category extends Model
     protected $fillable = [
         'cabinet_id',
         'category_name',
-<<<<<<< HEAD
-        'category_code',
-        'description',
-=======
         'sub_category',
         'year',
         'payment_method_id',
         'funding_source_id',
->>>>>>> main
         'url_icon',
         'path_icon',
         'description',
     ];
+
+    public function payment_method()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function funding_source()
+    {
+        return $this->belongsTo(FundingSource::class);
+    }
 }

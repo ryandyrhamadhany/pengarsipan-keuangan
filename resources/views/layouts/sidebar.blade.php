@@ -6,11 +6,14 @@
     <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-xl"></div>
 
     {{-- LOGO ENHANCED --}}
-    <div class="h-20 flex items-center justify-center bg-gray-800/50 backdrop-blur-sm border border-gray-700/30 hover:bg-gray-800/70 backdrop-blur-sm relative z-10 px-4">
-        <a href="{{ route('dashboard') }}" class="group flex items-center space-x-3 transition-all duration-300 hover:scale-105">
+    <div
+        class="h-20 flex items-center justify-center bg-gray-800/50 backdrop-blur-sm border border-gray-700/30 hover:bg-gray-800/70 backdrop-blur-sm relative z-10 px-4">
+        <a href="{{ route('dashboard') }}"
+            class="group flex items-center space-x-3 transition-all duration-300 hover:scale-105">
             <img src="{{ asset('images/Logo.png') }}" class="h-12" alt="Logo">
             <div class="flex flex-col">
-                <span class="font-bold text-xm tracking-tight bg-gradient-to-b from-[#ffffff] to-[#6895fd] 
+                <span
+                    class="font-bold text-xm tracking-tight bg-gradient-to-b from-[#ffffff] to-[#6895fd]
                         bg-clip-text text-transparent tracking-wide hidden sm:block">VANTRANS-AKU</span>
                 <span class="text-xs text-gray-400 font-medium">{{ Auth::user()->role }}</span>
             </div>
@@ -51,9 +54,7 @@
 
             $roleDigitalArsip = in_array($role, ['Keuangan', 'Bendahara']) ? route('digital.index') : '#';
 
-            $unreadCount = Notification::where('user_id', Auth::id())
-            ->where('is_read', false)
-            ->count();
+            $unreadCount = Notification::where('user_id', Auth::id())->where('is_read', false)->count();
             $notificationRoute = route('notifications.index');
 
             // Define icons for each menu item
@@ -71,9 +72,11 @@
                     'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
                 'Worklist' =>
                     'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
-                'Notifikasi' => 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0h6z',
-                'Profile' => 'M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z',
-                'Logout'=> 'M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1'
+                'Notifikasi' =>
+                    'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0h6z',
+                'Profile' =>
+                    'M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z',
+                'Logout' => 'M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1',
             ];
 
             // Define menu items based on role
@@ -96,22 +99,37 @@
                     ['label' => 'Pengajuan', 'href' => route('keuangan.pengajuan'), 'icon' => $icons['Pengajuan']],
                     // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
                     ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
-                    ['label' => 'Notifikasi', 'href' => $notificationRoute, 'icon' => $icons['Notifikasi'], 'badge' => $unreadCount],
+                    [
+                        'label' => 'Notifikasi',
+                        'href' => $notificationRoute,
+                        'icon' => $icons['Notifikasi'],
+                        'badge' => $unreadCount,
+                    ],
                 ];
             } elseif ($role === 'Bendahara') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
-                    ['label' => 'Pengajuan','href'  => route('bendahara.pengajuan'),'icon'  => $icons['Pengajuan']],
+                    ['label' => 'Pengajuan', 'href' => route('bendahara.pengajuan'), 'icon' => $icons['Pengajuan']],
                     // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
                     ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
-                    ['label' => 'Notifikasi', 'href' => $notificationRoute, 'icon' => $icons['Notifikasi'], 'badge' => $unreadCount],
+                    [
+                        'label' => 'Notifikasi',
+                        'href' => $notificationRoute,
+                        'icon' => $icons['Notifikasi'],
+                        'badge' => $unreadCount,
+                    ],
                 ];
             } else {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
                     ['label' => 'Pengajuan', 'href' => $pengajuan, 'icon' => $icons['Pengajuan']],
                     ['label' => 'Worklist', 'href' => $worklist, 'icon' => $icons['Worklist']],
-                    ['label' => 'Notifikasi', 'href' => $notificationRoute, 'icon' => $icons['Notifikasi'], 'badge' => $unreadCount],
+                    [
+                        'label' => 'Notifikasi',
+                        'href' => $notificationRoute,
+                        'icon' => $icons['Notifikasi'],
+                        'badge' => $unreadCount,
+                    ],
                 ];
             }
         @endphp
@@ -145,7 +163,7 @@
 
                 <span class="font-medium text-sm">{{ $item['label'] }}</span>
 
-                @if(isset($item['badge']) && $item['badge'] > 0)
+                @if (isset($item['badge']) && $item['badge'] > 0)
                     <span
                         class="ml-auto bg-red-600 text-white text-xs font-bold
                             rounded-full px-2 py-0.5 shadow-md">
@@ -175,35 +193,33 @@
         </div>
 
         @php
-            $accountMenus = [
-                ['label' => 'Profile', 'href' => route('profile.edit'), 'icon' => $icons['Profile']],
-            ];
+            $accountMenus = [['label' => 'Profile', 'href' => route('profile.edit'), 'icon' => $icons['Profile']]];
         @endphp
 
-        @foreach($accountMenus as $item)
+        @foreach ($accountMenus as $item)
             @php
                 $isActive = request()->url() == $item['href'];
             @endphp
 
             <a href="{{ $item['href'] }}"
-            class="group flex items-center px-4 py-3 rounded-xl transition-all duration-300
+                class="group flex items-center px-4 py-3 rounded-xl transition-all duration-300
             {{ $isActive ? 'bg-gradient-to-r from-[#0050C8]/25 to-[#1890FF]/25 shadow-lg' : '' }}">
-                
+
                 <div class="relative mr-3">
                     <svg class="w-5 h-5 {{ $isActive ? 'border-[#1890FF]' : 'text-gray-400 group-hover:text-gray-300' }}"
                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="{{ $item['icon'] }}"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}">
+                        </path>
                     </svg>
 
-                    @if($isActive)
+                    @if ($isActive)
                         <div class="absolute -inset-1 bg-blue-500/10 rounded-full blur-sm"></div>
                     @endif
                 </div>
 
                 <span class="font-medium text-sm">{{ $item['label'] }}</span>
 
-                @if($isActive)
+                @if ($isActive)
                     <div class="ml-auto">
                         <div class="w-2 h-2 rounded-full bg-white animate-pulse"></div>
                     </div>
@@ -218,8 +234,8 @@
                 class="w-full group flex items-center px-4 py-3 rounded-xl transition-all duration-300
                     hover:bg-red-600/20">
                 <div class="relative mr-3">
-                    <svg class="w-5 h-5 text-red-400 group-hover:text-red-300"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-red-400 group-hover:text-red-300" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="{{ $icons['Logout'] }}"></path>
                     </svg>
@@ -235,7 +251,8 @@
     <div class="p-4 border-b border-gray-700/50 relative z-10">
         <div class="flex items-center space-x-3 p-3 transition-all duration-300">
             <div class="relative">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                 </div>
                 <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-500 border-2 border-gray-800"></div>

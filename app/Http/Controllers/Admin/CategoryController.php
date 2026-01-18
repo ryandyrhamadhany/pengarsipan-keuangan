@@ -12,12 +12,7 @@ use App\Models\FundingSource;
 use App\Models\PaymentMethod;
 use Dom\Document;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-use Illuminate\Support\Str;
-
-=======
 use Illuminate\Support\Facades\Storage;
->>>>>>> main
 
 class CategoryController extends Controller
 {
@@ -88,30 +83,27 @@ class CategoryController extends Controller
     public function store(Request $request) // create category // belum tambahkan path icon
     {
         $request->validate([
-<<<<<<< HEAD
             'cabinet_id' => 'required|exists:cabinets,id',
             'name'       => 'required|string|max:255',
             'deskripsi'  => 'nullable|string',
             'url'        => 'nullable|string',
         ]);
 
-        $code = strtoupper(Str::slug($request->name, '-'));
-        Category::create([
-            'cabinet_id' => $request->cabinet_id,
-            'category_name' => $request->name,
-            'category_code' => $code,
-=======
-            'name' => 'required|string',
-            'payment_method' => 'nullable',
-            'funding_source' => 'nullable',
-            'deskripsi' => 'nullable|string',
-            'url' => 'nullable|string',
-        ]);
+        // $code = strtoupper(Str::slug($request->name, '-'));
+        // Category::create([
+        //     'cabinet_id' => $request->cabinet_id,
+        //     'category_name' => $request->name,
+        //     'category_code' => $code,
+        //     'name' => 'required|string',
+        //     'payment_method' => 'nullable',
+        //     'funding_source' => 'nullable',
+        //     'deskripsi' => 'nullable|string',
+        //     'url' => 'nullable|string',
+        // ]);
 
         Category::create([
             'cabinet_id' => $request->cabinet_id,
             'category_name' => $request->name,
->>>>>>> main
             'description' => $request->deskripsi,
             'payment_method_id' => $request->payment_method,
             'funding_source_id' => $request->funding_source,
@@ -223,11 +215,11 @@ class CategoryController extends Controller
             $temp[] = $rak->rack_name; // tambahkan rak dalam temp
             $racks->push($rak);
         }
-        if ($category->payment_method_id !== null) {
-            $digitalarchive = DigitalArchive::where('category_payment_id', $category->id)->get();
-        } else if ($category->funding_source_id !== null) {
-            $digitalarchive = DigitalArchive::where('category_funding_id', $category->id)->get();
-        }
+        $digitalarchive = DigitalArchive::where('category_id', $category->id)->get();
+        // if ($category->payment_method_id !== null) {
+        // } else if ($category->funding_source_id !== null) {
+        //     $digitalarchive = DigitalArchive::where('category_funding_id', $category->id)->get();
+        // }
         return view('admin.input_archive.rack.archive-rack', compact('racks', 'category', 'digitalarchive'));
     }
 

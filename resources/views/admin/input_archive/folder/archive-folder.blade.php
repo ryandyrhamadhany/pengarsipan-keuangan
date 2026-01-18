@@ -1,11 +1,7 @@
 <x-app-layout>
     {{-- HEADER --}}
     <x-slot name="header">
-<<<<<<< HEAD
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-=======
         <h2 class="font-semibold text-xl leading-tight">
->>>>>>> main
             {{ __('Daftar Rak Arsip') }}
         </h2>
     </x-slot>
@@ -13,27 +9,24 @@
     {{-- TOMBOL KEMBALI --}}
     <div class="#">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-<<<<<<< HEAD
-            <a href="{{ route('year.show', $raks->year_id) }}"
-=======
             <a href="{{ route('year.show', $rack->category_id) }}"
->>>>>>> main
                 class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
                     shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-            </a>             
+            </a>
         </div>
     </div>
-<<<<<<< HEAD
+    {{-- <<<<<<< HEAD
 
     <div class="py-4 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            {{-- Header Card --}}
+            Header Card
             <div class="relative overflow-hidden bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100">
-                
+
                 <div class="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-lg flex items-center justify-center shadow-lg">
@@ -59,7 +52,7 @@
                                    transition-all duration-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-=======
+======= --}}
 
     {{-- CONTENT --}}
     <div class="py-6 min-h-screen">
@@ -74,10 +67,8 @@
                         <div
                             class="w-12 h-12 bg-gradient-to-b from-[#003A8F] to-[#002766]
                                    rounded-lg flex items-center justify-center shadow-lg">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M3 7v10a2 2 0 002 2h14
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14
                                          a2 2 0 002-2V9
                                          a2 2 0 00-2-2h-6l-2-2H5
                                          a2 2 0 00-2 2z" />
@@ -102,12 +93,9 @@
                                shadow-lg hover:shadow-xl
                                transform hover:-translate-y-0.5
                                transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                             viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
->>>>>>> main
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                         Tambah Folder Arsip
                     </a>
@@ -117,13 +105,13 @@
                 @php $no = 1; @endphp
 
                 @if ($folders->count() > 0)
-<<<<<<< HEAD
+                    {{-- <<<<<<< HEAD
                     <div class="mt-10 space-y-4 rounded-lg">
                         @foreach ($folders as $folder)
                         <div class="flex items-center justify-between p-4 bg-white border border-gray-400 rounded-lg
                                     shadow-sm hover:shadow-md hover:bg-gray-300 transition-all duration-200 group">
 
-                                {{-- Bagian Klik Utama --}}
+                                Bagian Klik Utama
                                 <a href="{{ route('folder.show', $folder->id) }}"
                                     class="flex items-center gap-4 flex-1 group-hover:text-indigo-600">
                                     <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-semibold">
@@ -144,14 +132,14 @@
                                     </div>
                                 </a>
 
-                                {{-- Tombol Aksi --}}
+                                Tombol Aksi
                                 <div class="flex items-center gap-2 ml-4">
                                     <a href="{{ route('folder.edit', $folder->id) }}"
                                         class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-md p-2 transition"
                                         title="Edit">
                                         <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff"
                                             alt="edit">
-=======
+======= --}}
                     <div class="space-y-4">
                         @foreach ($folders as $folder)
                             @if ($folder->folder_name)
@@ -163,7 +151,7 @@
 
                                     {{-- AREA KLIK --}}
                                     <a href="{{ route('archive.list', $folder->id) }}"
-                                       class="flex items-center gap-4 flex-1 group-hover:text-indigo-600">
+                                        class="flex items-center gap-4 flex-1 group-hover:text-indigo-600">
                                         <div
                                             class="w-8 h-8 flex items-center justify-center
                                                    rounded-full bg-gradient-to-b
@@ -172,10 +160,10 @@
                                             {{ $no++ }}
                                         </div>
                                         <div>
-                                            <p class="text-gray-900 font-semibold text-base leading-tight">{{ $folder->folder_name }}</p>
+                                            <p class="text-gray-900 font-semibold text-base leading-tight">
+                                                {{ $folder->folder_name }}</p>
                                             <p class="text-sm text-gray-500">Kode folder: {{ $folder->kode_folder }}</p>
                                         </div>
->>>>>>> main
                                     </a>
 
                                     {{-- AKSI --}}
@@ -185,12 +173,11 @@
                                                    rounded-md transition"
                                             title="Edit">
                                             <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff"
-                                                 alt="edit">
+                                                alt="edit">
                                         </a>
 
-                                        <form action="{{ route('folder.delete', $folder->id) }}"
-                                              method="POST"
-                                              onsubmit="return confirm('Yakin ingin menghapus folder ini?')">
+                                        <form action="{{ route('folder.delete', $folder->id) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus folder ini?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
@@ -198,7 +185,7 @@
                                                        rounded-md transition"
                                                 title="Hapus">
                                                 <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff"
-                                                     alt="delete">
+                                                    alt="delete">
                                             </button>
                                         </form>
                                     </div>
@@ -207,13 +194,13 @@
                         @endforeach
                     </div>
                 @else
-<<<<<<< HEAD
+                    {{-- <<<<<<< HEAD
                 <div class="mt-10 text-center bg-white rounded-2xl shadow-md border border-gray-200 py-24">
                     <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full mb-6 shadow-inner">
                         <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
                         </svg>
-=======
+======= --}}
                     {{-- EMPTY STATE --}}
                     <div
                         class="text-center bg-white rounded-2xl shadow-md
@@ -223,11 +210,8 @@
                                    w-20 h-20 rounded-full
                                    bg-gradient-to-br from-gray-100 to-gray-200
                                    shadow-inner mb-6">
-                            <svg class="w-8 h-8 text-gray-400" fill="none"
-                                 stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="M3 7v10a2 2 0 002 2h14
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14
                                          a2 2 0 002-2V9
                                          a2 2 0 00-2-2h-6l-2-2H5
                                          a2 2 0 00-2 2z" />
@@ -241,19 +225,18 @@
                             Tidak ada folder arsip yang tersedia.
                             Silakan tambahkan folder pertama untuk mulai menyimpan dokumen Anda.
                         </p>
->>>>>>> main
                     </div>
                     <p class="text-xl font-semibold text-gray-700 mb-3">Belum Ada Folder Arsip</p>
-                    <p class="text-gray-500 mb-8 max-w-md mx-auto">Tidak ada folder arsip yang tersedia. Silakan tambahkan folder pertama untuk mulai menyimpan dokumen Anda.</p>
-                </div>
-                @endif
-<<<<<<< HEAD
+                    <p class="text-gray-500 mb-8 max-w-md mx-auto">Tidak ada folder arsip yang tersedia. Silakan
+                        tambahkan folder pertama untuk mulai menyimpan dokumen Anda.</p>
+            </div>
+            @endif
+            {{-- <<<<<<< HEAD
             </div>
         </div>
-=======
+======= --}}
 
-            </div>
->>>>>>> main
         </div>
+    </div>
     </div>
 </x-app-layout>
