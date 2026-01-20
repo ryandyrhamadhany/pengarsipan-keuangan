@@ -87,10 +87,11 @@ class BendaharaController extends Controller
 
     public function pengajuan()
     {
+        $submit_sign = BudgetSubmission::where('is_archive', 0)->paginate(10, ['*'], 'submit_no_sign');
         $pengajuans = BudgetSubmission::where('requirements_status', 'Lengkap')
             ->where('verification_status', 1)
-            ->get();
+            ->paginate(10, ['*'], 'all_submit');
 
-        return view('bendahara.pengajuan', compact('pengajuans'));
+        return view('bendahara.pengajuan', compact('pengajuans', 'submit_sign'));
     }
 }

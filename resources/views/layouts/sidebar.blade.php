@@ -7,13 +7,13 @@
 
     {{-- LOGO ENHANCED --}}
     <div
-        class="h-20 flex items-center justify-center bg-gray-800/50 backdrop-blur-sm border border-gray-700/30 hover:bg-gray-800/70 backdrop-blur-sm relative z-10 px-4">
+        class="h-20 flex items-center justify-center bg-gray-800/50 border border-gray-700/30 hover:bg-gray-800/70 backdrop-blur-sm relative z-10 px-4">
         <a href="{{ route('dashboard') }}"
             class="group flex items-center space-x-3 transition-all duration-300 hover:scale-105">
             <img src="{{ asset('images/Logo.png') }}" class="h-12" alt="Logo">
             <div class="flex flex-col">
                 <span
-                    class="font-bold text-xm tracking-tight bg-gradient-to-b from-[#ffffff] to-[#6895fd]
+                    class="font-bold text-xm bg-gradient-to-b from-[#ffffff] to-[#6895fd]
                         bg-clip-text text-transparent tracking-wide hidden sm:block">VANTRANS-AKU</span>
                 <span class="text-xs text-gray-400 font-medium">{{ Auth::user()->role }}</span>
             </div>
@@ -28,6 +28,7 @@
         @endphp
         @php
             $role = Auth::user()->role;
+            $privileged = Auth::user()->is_privileged;
 
             $roleDashboard = match ($role) {
                 'Admin' => route('admin.dashboard'),
@@ -41,10 +42,8 @@
                 default => route('user.dashboard'),
             };
 
-            $roleInputArsip = match ($role) {
-                'Admin', 'Bendahara', 'Keuangan' => route('admin.archive'),
-                default => '#',
-            };
+            $roleInputArsip =
+                in_array($role, ['Admin', 'Bendahara', 'Keuangan']) || $privileged ? route('admin.archive') : '#';
 
             $roleKelolaUser = $role === 'Admin' ? route('account.index') : '#';
 
@@ -119,18 +118,46 @@
                         'badge' => $unreadCount,
                     ],
                 ];
-            } else {
+            } elseif ($role === 'Kepala Kantor') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
-                    ['label' => 'Pengajuan', 'href' => $pengajuan, 'icon' => $icons['Pengajuan']],
-                    ['label' => 'Worklist', 'href' => $worklist, 'icon' => $icons['Worklist']],
-                    [
-                        'label' => 'Notifikasi',
-                        'href' => $notificationRoute,
-                        'icon' => $icons['Notifikasi'],
-                        'badge' => $unreadCount,
-                    ],
+                    // ['label' => 'Pengajuan', 'href' => route('bendahara.pengajuan'), 'icon' => $icons['Pengajuan']],
+                    // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
+                    // ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
+                    // [
+                    //     'label' => 'Notifikasi',
+                    //     'href' => $notificationRoute,
+                    //     'icon' => $icons['Notifikasi'],
+                    //     'badge' => $unreadCount,
+                    // ],
                 ];
+            } else {
+                if ($privileged) {
+                    $menuItems = [
+                        ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
+                        ['label' => 'Pengajuan', 'href' => $pengajuan, 'icon' => $icons['Pengajuan']],
+                        ['label' => 'Worklist', 'href' => $worklist, 'icon' => $icons['Worklist']],
+                        ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
+                        [
+                            'label' => 'Notifikasi',
+                            'href' => $notificationRoute,
+                            'icon' => $icons['Notifikasi'],
+                            'badge' => $unreadCount,
+                        ],
+                    ];
+                } else {
+                    $menuItems = [
+                        ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
+                        ['label' => 'Pengajuan', 'href' => $pengajuan, 'icon' => $icons['Pengajuan']],
+                        ['label' => 'Worklist', 'href' => $worklist, 'icon' => $icons['Worklist']],
+                        [
+                            'label' => 'Notifikasi',
+                            'href' => $notificationRoute,
+                            'icon' => $icons['Notifikasi'],
+                            'badge' => $unreadCount,
+                        ],
+                    ];
+                }
             }
         @endphp
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BudgetSubmission;
 use App\Models\Pengajuan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -78,6 +79,18 @@ class KeuanganController extends Controller
     public function input_arsip()
     {
         return redirect()->route('admin.archive');
+    }
+
+    public function all_submit()
+    {
+        $all_submit = BudgetSubmission::latest()->paginate(10, ['*'], 'all_submit');
+        $not_check_submit = BudgetSubmission::where('requirements_status', 'Belum Diperiksa')->latest()->paginate('10', ['*'], 'not_check');
+        $my_proses = BudgetSubmission::where('requirements_status', 'Belum Lengkap')
+            ->where('verification_status', 0)
+            ->where('finance_officers_id', Auth::id())->latest()
+            ->paginate(5, ['*'], 'my_proses');
+
+        return view('keuangan.pengajuan', compact('all_submit', 'not_check_submit', 'my_proses'));
     }
 
     public function check_pengajuan($id)

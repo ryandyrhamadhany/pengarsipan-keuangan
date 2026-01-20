@@ -126,10 +126,7 @@ Route::get('/keuangan/input', [KeuanganController::class, 'input_arsip'])->name(
 Route::get('/keuangan/check/{id}', [KeuanganController::class, 'check_pengajuan'])->name('keuangan.check');
 Route::put('/keuangan/update/{id}', [BudgetSubmissionController::class, 'update_check'])->name('keuangan.checkandupate');
 Route::put('/keuangan/perbaiki/{id}', [BudgetSubmissionController::class, 'perbaikan'])->name('keuangan.perbaiki');
-Route::middleware('auth')->get('/keuangan/pengajuan', function () {
-    $pengajuans = \App\Models\BudgetSubmission::all();
-    return view('keuangan.pengajuan', compact('pengajuans'));
-})->name('keuangan.pengajuan');
+Route::get('/keuangan/pengajuan', [KeuanganController::class, 'all_submit'])->name('keuangan.pengajuan');
 
 // ===================================================================== Route Bendahara
 Route::get('/bendahara/sign/{id}', [BendaharaController::class, 'document_sign'])->name('bendahara.sign');

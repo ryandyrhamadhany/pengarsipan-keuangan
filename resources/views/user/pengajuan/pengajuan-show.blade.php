@@ -121,6 +121,42 @@
                         </div>
                     </div>
 
+                    {{-- Message --}}
+                    <div class="bg-white rounded-md shadow-sm border border-gray-200 p-6">
+                        <div class="border-l-4 border-yellow-400 pl-4 mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Pesan Kritik dan Saran</h3>
+                        </div>
+
+                        @if (isset($pengajuan->message) && !empty($pengajuan->message))
+                            <div class="bg-yellow-50 rounded-md p-4 border border-yellow-200">
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                    </svg>
+                                    <div class="flex-1">
+                                        <p class="text-sm text-gray-800 leading-relaxed whitespace-pre-line">
+                                            {{ $pengajuan->message }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="bg-gray-50 rounded-md p-4 border border-gray-200">
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <div class="flex-1">
+                                        <p class="text-sm text-gray-500 italic">Tidak ada pesan kritik dan saran</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
                     {{-- File Pengajuan --}}
                     <div class="bg-white rounded-md shadow-sm border border-gray-200 p-6">
                         <h3 class="font-semibold text-gray-800 mb-4">File Pengajuan</h3>

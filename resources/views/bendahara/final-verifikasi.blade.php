@@ -8,7 +8,7 @@
     {{-- TOMBOL KEMBALI --}}
     <div class="py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <a href="{{ route('bendahara.dashboard') }}"
+            <a href="{{ route('bendahara.pengajuan') }}"
                 class="inline-flex items-center gap-2 bg-white text-gray-700 px-4 py-2 rounded-md border border-gray-300 shadow-sm hover:bg-gray-50 hover:border-gray-400 transition-all duration-200">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -382,7 +382,7 @@
                                             <label class="font-semibold text-gray-800">Nomor SPBy</label>
                                         </div>
 
-                                        <input type="text" name="no_spm" value="{{ $no_spm ?? '' }}"
+                                        <input type="text" name="no_spby" value="{{ $no_spm ?? '' }}"
                                             placeholder="Contoh: SPBy/2024/001"
                                             class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-800 bg-white
                                                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">

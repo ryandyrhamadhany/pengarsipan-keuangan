@@ -74,18 +74,18 @@
 </div>
 
 {{-- ================= DAFTAR PENGAJUAN ================= --}}
-<div class="bg-white rounded-md shadow-sm border border-gray-200 p-6">
+<div class="bg-white rounded-md shadow-sm border border-gray-200 p-6 mb-4">
     <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
         <div>
-            <h3 class="text-lg font-semibold text-gray-800">Daftar Pengajuan</h3>
-            <p class="text-sm text-gray-500 mt-0.5">Total: {{ $pengajuans->count() }} pengajuan</p>
+            <h3 class="text-lg font-semibold text-gray-800">Pengajuan yang sedang anda proses</h3>
+            <p class="text-sm text-gray-500 mt-0.5">Total: {{ $my_proses->count() }} pengajuan</p>
         </div>
     </div>
 
     <div class="space-y-3">
         @php $no = 1; @endphp
 
-        @forelse ($pengajuans as $pengajuan)
+        @forelse ($my_proses as $proses)
             <div
                 class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:border-gray-300 hover:shadow-sm transition-all duration-200">
 
@@ -96,23 +96,26 @@
                 </div>
 
                 {{-- KONTEN LIST --}}
-                <a href="{{ route('keuangan.check', $pengajuan->id) }}" class="flex-1 px-4">
+                <a href="{{ route('keuangan.check', $proses->id) }}" class="flex-1 px-4">
                     {{-- Nama Pengajuan --}}
                     <div class="font-semibold text-gray-800 mb-2">
-                        {{ $pengajuan->budget_submission_name }}
+                        {{ $proses->budget_submission_name }}
                     </div>
 
                     {{-- Pengaju --}}
                     <div class="text-xs text-gray-500 mb-2">
-                        Diajukan oleh: <span class="font-medium text-gray-700">{{ $pengajuan->user->name }}</span>
+                        Diajukan oleh: <span class="font-medium text-gray-700">{{ $proses->user->name }}</span>
+                    </div>
+                    <div class="text-xs text-gray-500 mb-2">
+                        divisi: <span class="font-medium text-gray-700">{{ $proses->user->role }}</span>
                     </div>
 
                     {{-- STATUS --}}
                     <div class="flex flex-wrap items-center gap-2">
                         {{-- Status Sedang Proses --}}
                         @if (
-                            ($pengajuan->requirements_status == 'Belum Lengkap' || $pengajuan->requirements_status == 'Belum Diperiksa') &&
-                                $pengajuan->verification_status == 0)
+                            ($proses->requirements_status == 'Belum Lengkap' || $proses->requirements_status == 'Belum Diperiksa') &&
+                                $proses->verification_status == 0)
                             <span
                                 class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
                                 Sedang Proses
@@ -120,12 +123,12 @@
                         @endif
 
                         {{-- Status Kelengkapan --}}
-                        @if ($pengajuan->requirements_status == 'Belum Lengkap')
+                        @if ($proses->requirements_status == 'Belum Lengkap')
                             <span
                                 class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
                                 Belum Lengkap
                             </span>
-                        @elseif($pengajuan->requirements_status == 'Lengkap')
+                        @elseif($proses->requirements_status == 'Lengkap')
                             <span
                                 class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
                                 Lengkap
@@ -138,7 +141,7 @@
                         @endif
 
                         {{-- Status Verifikasi --}}
-                        @if ($pengajuan->verification_status == 1)
+                        @if ($proses->verification_status == 1)
                             <span
                                 class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
                                 Diverifikasi
@@ -151,7 +154,7 @@
                         @endif
 
                         {{-- Status Arsip --}}
-                        @if ($pengajuan->is_archive == 1)
+                        @if ($proses->is_archive == 1)
                             <span
                                 class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
                                 Diarsipkan
@@ -159,11 +162,251 @@
                         @endif
                     </div>
                 </a>
+                <span class="text-xs text-gray-500">
+                    {{ $proses->created_at->diffForHumans() }}
+                </span>
 
                 {{-- Arrow Icon --}}
                 <div class="flex-shrink-0">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </div>
+        @empty
+            <div class="text-center py-12 bg-gray-50 rounded-md">
+                <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                        </path>
+                    </svg>
+                </div>
+                <p class="text-gray-500 font-medium">Tidak Ada Pengajuan</p>
+                <p class="text-gray-400 text-sm mt-1">
+                    {{ request('search') || request('status') ? 'Tidak ada pengajuan yang sesuai dengan filter' : 'Belum ada pengajuan yang perlu diperiksa' }}
+                </p>
+            </div>
+        @endforelse
+    </div>
+</div>
+{{-- ================= DAFTAR PENGAJUAN ================= --}}
+<div class="bg-white rounded-md shadow-sm border border-gray-200 p-6 mb-4">
+    <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+        <div>
+            <h3 class="text-lg font-semibold text-gray-800">Pengajuan Belum diperiksa</h3>
+            <p class="text-sm text-gray-500 mt-0.5">Total: {{ $not_check_submit->count() }} pengajuan</p>
+        </div>
+    </div>
+
+    <div class="space-y-3">
+        @php $no = 1; @endphp
+
+        @forelse ($not_check_submit as $submit)
+            <div
+                class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:border-gray-300 hover:shadow-sm transition-all duration-200">
+
+                {{-- NOMOR --}}
+                <div
+                    class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#003A8F] text-white font-semibold text-sm rounded-md">
+                    {{ $no++ }}
+                </div>
+
+                {{-- KONTEN LIST --}}
+                <a href="{{ route('keuangan.check', $submit->id) }}" class="flex-1 px-4">
+                    {{-- Nama Pengajuan --}}
+                    <div class="font-semibold text-gray-800 mb-2">
+                        {{ $submit->budget_submission_name }}
+                    </div>
+
+                    {{-- Pengaju --}}
+                    <div class="text-xs text-gray-500 mb-2">
+                        Diajukan oleh: <span class="font-medium text-gray-700">{{ $submit->user->name }}</span>
+                    </div>
+                    <div class="text-xs text-gray-500 mb-2">
+                        divisi: <span class="font-medium text-gray-700">{{ $submit->user->role }}</span>
+                    </div>
+
+                    {{-- STATUS --}}
+                    <div class="flex flex-wrap items-center gap-2">
+                        {{-- Status Sedang Proses --}}
+                        @if (
+                            ($submit->requirements_status == 'Belum Lengkap' || $submit->requirements_status == 'Belum Diperiksa') &&
+                                $submit->verification_status == 0)
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
+                                Sedang Proses
+                            </span>
+                        @endif
+
+                        {{-- Status Kelengkapan --}}
+                        @if ($submit->requirements_status == 'Belum Lengkap')
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
+                                Belum Lengkap
+                            </span>
+                        @elseif($submit->requirements_status == 'Lengkap')
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
+                                Lengkap
+                            </span>
+                        @else
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
+                                Belum Diperiksa
+                            </span>
+                        @endif
+
+                        {{-- Status Verifikasi --}}
+                        @if ($submit->verification_status == 1)
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
+                                Diverifikasi
+                            </span>
+                        @else
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
+                                Belum Diverifikasi
+                            </span>
+                        @endif
+
+                        {{-- Status Arsip --}}
+                        @if ($submit->is_archive == 1)
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
+                                Diarsipkan
+                            </span>
+                        @endif
+                    </div>
+                </a>
+                <span class="text-xs text-gray-500">
+                    {{ $submit->created_at->diffForHumans() }}
+                </span>
+
+                {{-- Arrow Icon --}}
+                <div class="flex-shrink-0">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+        @empty
+            <div class="text-center py-12 bg-gray-50 rounded-md">
+                <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                        </path>
+                    </svg>
+                </div>
+                <p class="text-gray-500 font-medium">Tidak Ada Pengajuan</p>
+                <p class="text-gray-400 text-sm mt-1">
+                    {{ request('search') || request('status') ? 'Tidak ada pengajuan yang sesuai dengan filter' : 'Belum ada pengajuan yang perlu diperiksa' }}
+                </p>
+            </div>
+        @endforelse
+    </div>
+</div>
+
+{{-- ================= DAFTAR PENGAJUAN ================= --}}
+<div class="bg-white rounded-md shadow-sm border border-gray-200 p-6 mb-4">
+    <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+        <div>
+            <h3 class="text-lg font-semibold text-gray-800">Semua Pengajuan</h3>
+            <p class="text-sm text-gray-500 mt-0.5">Total: {{ $all_submit->count() }} pengajuan</p>
+        </div>
+    </div>
+
+    <div class="space-y-3">
+        @php $no = 1; @endphp
+
+        @forelse ($all_submit as $all)
+            <div
+                class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:border-gray-300 hover:shadow-sm transition-all duration-200">
+
+                {{-- NOMOR --}}
+                <div
+                    class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#003A8F] text-white font-semibold text-sm rounded-md">
+                    {{ $no++ }}
+                </div>
+
+                {{-- KONTEN LIST --}}
+                <a href="{{ route('keuangan.check', $all->id) }}" class="flex-1 px-4">
+                    {{-- Nama Pengajuan --}}
+                    <div class="font-semibold text-gray-800 mb-2">
+                        {{ $all->budget_submission_name }}
+                    </div>
+
+                    {{-- Pengaju --}}
+                    <div class="text-xs text-gray-500 mb-2">
+                        Diajukan oleh: <span class="font-medium text-gray-700">{{ $all->user->name }}</span>
+                    </div>
+                    <div class="text-xs text-gray-500 mb-2">
+                        divisi: <span class="font-medium text-gray-700">{{ $all->user->role }}</span>
+                    </div>
+
+                    {{-- STATUS --}}
+                    <div class="flex flex-wrap items-center gap-2">
+                        {{-- Status Sedang Proses --}}
+                        @if (
+                            ($all->requirements_status == 'Belum Lengkap' || $all->requirements_status == 'Belum Diperiksa') &&
+                                $all->verification_status == 0)
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
+                                Sedang Proses
+                            </span>
+                        @endif
+
+                        {{-- Status Kelengkapan --}}
+                        @if ($all->requirements_status == 'Belum Lengkap')
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
+                                Belum Lengkap
+                            </span>
+                        @elseif($all->requirements_status == 'Lengkap')
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
+                                Lengkap
+                            </span>
+                        @else
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
+                                Belum Diperiksa
+                            </span>
+                        @endif
+
+                        {{-- Status Verifikasi --}}
+                        @if ($all->verification_status == 1)
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
+                                Diverifikasi
+                            </span>
+                        @else
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
+                                Belum Diverifikasi
+                            </span>
+                        @endif
+
+                        {{-- Status Arsip --}}
+                        @if ($all->is_archive == 1)
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
+                                Diarsipkan
+                            </span>
+                        @endif
+                    </div>
+                </a>
+                <span class="text-xs text-gray-500">
+                    {{ $all->created_at->diffForHumans() }}
+                </span>
+
+                {{-- Arrow Icon --}}
+                <div class="flex-shrink-0">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                        </path>
                     </svg>
                 </div>
             </div>

@@ -252,6 +252,8 @@
                             </a>
                         </div>
                     @endforelse
+
+                    {{ $submission_new->links() }}
                 </div>
 
                 {{-- ================= INFO & BANTUAN ================= --}}

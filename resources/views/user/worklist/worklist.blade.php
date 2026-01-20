@@ -17,12 +17,12 @@
                                 <p class="text-white/90 text-sm mt-1">Kelola dan pantau semua submit keuangan Anda
                                     dalam satu tempat</p>
                             </div>
-                            <div class="hidden md:block">
+                            {{-- <div class="hidden md:block">
                                 <span
                                     class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-semibold">
                                     {{ $submissions->count() }} Total submit
                                 </span>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
@@ -44,7 +44,7 @@
                                     <h3 class="text-lg font-semibold text-gray-800">submit dalam Proses</h3>
                                 </div>
                                 <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-md">
-                                    {{ $submissions->where('status_kelengkapan', 'Belum Lengkap')->where('status_verifikasi', 0)->count() }}
+                                    {{ $proses_submissions->where('status_kelengkapan', 'Belum Lengkap')->where('status_verifikasi', 0)->count() }}
                                     Item
                                 </span>
                             </div>
@@ -53,8 +53,8 @@
                             <div class="space-y-3">
                                 @php $no = 1; @endphp
 
-                                @forelse ($submissions as $submit)
-                                    @if ($submit->requirements_status == 'Belum Lengkap' && $submit->verification_status == 0)
+                                @forelse ($proses_submissions as $proses)
+                                    @if ($proses->requirements_status == 'Belum Lengkap' && $proses->verification_status == 0)
                                         <div
                                             class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:border-gray-300 hover:shadow-sm transition-all duration-200">
                                             {{-- Number Badge --}}
@@ -64,9 +64,9 @@
                                             </div>
 
                                             {{-- Content --}}
-                                            <a href="{{ route('pengajuan.show', $submit->id) }}" class="flex-1 px-4">
+                                            <a href="{{ route('pengajuan.show', $proses->id) }}" class="flex-1 px-4">
                                                 <div class="font-semibold text-gray-800 mb-2">
-                                                    {{ $submit->budget_submission_name }}
+                                                    {{ $proses->budget_submission_name }}
                                                 </div>
 
                                                 <div class="flex flex-wrap items-center gap-2">
@@ -79,7 +79,7 @@
                                                         Proses
                                                     </span>
 
-                                                    @if ($submit->requirements_status == 'Belum Lengkap')
+                                                    @if ($proses->requirements_status == 'Belum Lengkap')
                                                         <span
                                                             class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
                                                             <svg class="w-3 h-3 mr-1" fill="none"
@@ -102,7 +102,7 @@
                                                         Belum Diverifikasi
                                                     </span>
 
-                                                    @if ($submit->is_return == 1)
+                                                    @if ($proses->is_return == 1)
                                                         <span
                                                             class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-orange-100 text-orange-700">
                                                             <svg class="w-3 h-3 mr-1" fill="none"
@@ -115,7 +115,7 @@
                                                         </span>
                                                     @endif
 
-                                                    @if ($submit->is_archive == 1)
+                                                    @if ($proses->is_archive == 1)
                                                         <span
                                                             class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-purple-100 text-purple-700">
                                                             <svg class="w-3 h-3 mr-1" fill="none"
@@ -127,12 +127,16 @@
                                                             Diarsipkan
                                                         </span>
                                                     @endif
+
+                                                    <span class="text-xs text-gray-500">
+                                                        {{ $all->updated_at->diffForHumans() }}
+                                                    </span>
                                                 </div>
                                             </a>
 
                                             {{-- Action Buttons --}}
                                             <div class="flex gap-2 flex-shrink-0">
-                                                <a href="{{ route('pengajuan.edit', $submit->id) }}"
+                                                <a href="{{ route('pengajuan.edit', $proses->id) }}"
                                                     class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-md transition-colors"
                                                     title="Edit">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor"
@@ -143,7 +147,7 @@
                                                     </svg>
                                                 </a>
 
-                                                <form action="{{ route('pengajuan.destroy', $submit->id) }}"
+                                                <form action="{{ route('pengajuan.destroy', $proses->id) }}"
                                                     method="POST"
                                                     onsubmit="return confirm('Apakah Anda yakin ingin menghapus submit ini?');">
                                                     @method('DELETE')
@@ -195,7 +199,7 @@
                                     <h3 class="text-lg font-semibold text-gray-800">Semua submit</h3>
                                 </div>
                                 <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-md">
-                                    {{ $submissions->count() }} Item
+                                    {{ $all_submissions->count() }} Item
                                 </span>
                             </div>
 
@@ -203,7 +207,7 @@
                             <div class="space-y-3">
                                 @php $no = 1; @endphp
 
-                                @forelse ($submissions as $submit)
+                                @forelse ($all_submissions as $all)
                                     <div
                                         class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:border-gray-300 hover:shadow-sm transition-all duration-200">
                                         {{-- Number Badge --}}
@@ -213,13 +217,13 @@
                                         </div>
 
                                         {{-- Content --}}
-                                        <a href="{{ route('pengajuan.show', $submit->id) }}" class="flex-1 px-4">
+                                        <a href="{{ route('pengajuan.show', $all->id) }}" class="flex-1 px-4">
                                             <div class="font-semibold text-gray-800 mb-2">
-                                                {{ $submit->budget_submission_name }}
+                                                {{ $all->budget_submission_name }}
                                             </div>
 
                                             <div class="flex flex-wrap items-center gap-2">
-                                                @if ($submit->requirements_status == 'Belum Lengkap')
+                                                @if ($all->requirements_status == 'Belum Lengkap')
                                                     <span
                                                         class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
                                                         <svg class="w-3 h-3 mr-1" fill="none"
@@ -230,7 +234,7 @@
                                                         </svg>
                                                         Belum Lengkap
                                                     </span>
-                                                @elseif($submit->requirements_status == 'Lengkap')
+                                                @elseif($all->requirements_status == 'Lengkap')
                                                     <span
                                                         class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
                                                         <svg class="w-3 h-3 mr-1" fill="none"
@@ -253,7 +257,7 @@
                                                     </span>
                                                 @endif
 
-                                                @if ($submit->verification_status == 1)
+                                                @if ($all->verification_status == 1)
                                                     <span
                                                         class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
                                                         <svg class="w-3 h-3 mr-1" fill="none"
@@ -276,7 +280,7 @@
                                                     </span>
                                                 @endif
 
-                                                @if ($submit->is_archive == 1)
+                                                @if ($all->is_archive == 1)
                                                     <span
                                                         class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
                                                         <svg class="w-3 h-3 mr-1" fill="none"
@@ -288,13 +292,17 @@
                                                         Diarsipkan
                                                     </span>
                                                 @endif
+
+                                                <span class="text-xs text-gray-500">
+                                                    {{ $all->created_at->diffForHumans() }}
+                                                </span>
                                             </div>
                                         </a>
 
                                         {{-- Action Buttons --}}
-                                        @if (!$submit->is_archive)
+                                        @if (!$all->is_archive)
                                             <div class="flex gap-2 flex-shrink-0">
-                                                <a href="{{ route('pengajuan.edit', $submit->id) }}"
+                                                <a href="{{ route('pengajuan.edit', $all->id) }}"
                                                     class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-md transition-colors"
                                                     title="Edit">
                                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -303,7 +311,7 @@
                                                     </svg>
                                                 </a>
 
-                                                <form action="{{ route('pengajuan.destroy', $submit->id) }}"
+                                                <form action="{{ route('pengajuan.destroy', $all->id) }}"
                                                     method="POST"
                                                     onsubmit="return confirm('Yakin ingin menghapus submit ini?');">
                                                     @csrf
@@ -335,6 +343,8 @@
                                         <p class="text-gray-400 text-sm mt-1">Buat submit baru untuk memulai</p>
                                     </div>
                                 @endforelse
+
+                                {{ $all_submissions->links() }}
                             </div>
                         </div>
 
@@ -354,7 +364,7 @@
                                     </h3>
                                 </div>
                                 <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-md">
-                                    {{ $submissions->where('status_kelengkapan', 'Lengkap')->where('status_verifikasi', 1)->count() }}
+                                    {{ $archive_submit->where('status_kelengkapan', 'Lengkap')->where('status_verifikasi', 1)->count() }}
                                     Item
                                 </span>
                             </div>
@@ -363,8 +373,8 @@
                             <div class="space-y-3">
                                 @php $no = 1; @endphp
 
-                                @forelse ($submissions as $submit)
-                                    @if ($submit->requirements_status == 'Lengkap' && $submit->verification_status == 1)
+                                @forelse ($archive_submit as $archived)
+                                    @if ($archived->requirements_status == 'Lengkap' && $archived->verification_status == 1)
                                         <div
                                             class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:border-gray-300 hover:shadow-sm transition-all duration-200">
                                             {{-- Number Badge --}}
@@ -374,13 +384,14 @@
                                             </div>
 
                                             {{-- Content --}}
-                                            <a href="{{ route('pengajuan.show', $submit->id) }}" class="flex-1 px-4">
+                                            <a href="{{ route('pengajuan.show', $archived->id) }}"
+                                                class="flex-1 px-4">
                                                 <div class="font-semibold text-gray-800 mb-2">
-                                                    {{ $submit->budget_submission_name }}
+                                                    {{ $archived->budget_submission_name }}
                                                 </div>
 
                                                 <div class="flex flex-wrap items-center gap-2">
-                                                    @if ($submit->verification_status == 1)
+                                                    @if ($archived->verification_status == 1)
                                                         <span
                                                             class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
                                                             <svg class="w-3 h-3 mr-1" fill="none"
@@ -415,7 +426,7 @@
                                                         Diverifikasi
                                                     </span>
 
-                                                    @if ($submit->is_archive == 1)
+                                                    @if ($archived->is_archive == 1)
                                                         <span
                                                             class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
                                                             <svg class="w-3 h-3 mr-1" fill="none"
@@ -427,13 +438,17 @@
                                                             Diarsipkan
                                                         </span>
                                                     @endif
+
+                                                    <span class="text-xs text-gray-500">
+                                                        {{ $all->created_at->diffForHumans() }}
+                                                    </span>
                                                 </div>
                                             </a>
 
                                             {{-- Action Buttons --}}
-                                            @if (!$submit->is_archive)
+                                            @if (!$archived->is_archive)
                                                 <div class="flex gap-2 flex-shrink-0">
-                                                    <a href="{{ route('pengajuan.edit', $submit->id) }}"
+                                                    <a href="{{ route('pengajuan.edit', $archived->id) }}"
                                                         class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-md transition-colors"
                                                         title="Edit">
                                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -442,7 +457,7 @@
                                                         </svg>
                                                     </a>
 
-                                                    <form action="{{ route('pengajuan.destroy', $submit->id) }}"
+                                                    <form action="{{ route('pengajuan.destroy', $archived->id) }}"
                                                         method="POST"
                                                         onsubmit="return confirm('Yakin ingin menghapus submit ini?');">
                                                         @csrf
@@ -475,6 +490,8 @@
                                         <p class="text-gray-500 font-medium">Belum ada submit yang selesai</p>
                                     </div>
                                 @endforelse
+
+                                {{ $archive_submit->links() }}
                             </div>
                         </div>
 

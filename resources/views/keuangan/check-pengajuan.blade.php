@@ -8,7 +8,7 @@
     {{-- TOMBOL KEMBALI --}}
     <div class="py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <a href="{{ route('keuangan.dashboard') }}"
+            <a href="{{ route('keuangan.pengajuan') }}"
                 class="inline-flex items-center gap-2 bg-white text-gray-700 px-4 py-2 rounded-md border border-gray-300 shadow-sm hover:bg-gray-50 hover:border-gray-400 transition-all duration-200">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -136,8 +136,29 @@
                                             class="font-semibold text-gray-900">{{ $pengajuan->updated_at->translatedFormat('d M Y — H:i') }}</span></span>
                                 </div>
                             </div>
+                            {{-- Diperiksa Oleh --}}
+                            <div>
+                                <p class="text-sm font-semibold text-gray-700 mb-3">Diperiksa Oleh</p>
+                                <div class="bg-gray-50 rounded-md p-4 border border-gray-200">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-xs text-gray-500 mb-1 font-medium">Nama</p>
+                                            <p class="text-sm font-semibold text-gray-800">
+                                                {{ $pengajuan->finance_officer->name ?? '-' }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500 mb-1 font-medium">Email</p>
+                                            <p class="text-sm font-semibold text-gray-800 break-all">
+                                                {{ $pengajuan->finance_officer->email ?? '-' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
 
                     {{-- File Pengajuan --}}
                     <div class="bg-white rounded-md shadow-sm border border-gray-200 overflow-hidden">

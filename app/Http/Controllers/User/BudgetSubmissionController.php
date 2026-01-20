@@ -10,10 +10,16 @@ use App\Models\FundingSource;
 use App\Models\PaymentMethod;
 use App\Models\Notification;
 use App\Models\User;
+use App\Notifications\BudgetSubmitToArchiveNotification;
+use App\Notifications\BudgetSubmitToBendaharaNotification;
+use App\Notifications\BudgetSubmitToKeuanganNotification;
+use App\Notifications\BudgetSubmitToRepairedNotification;
+use App\Notifications\BudgetSubmitToReturnNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification as FacadesNotification;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -34,7 +40,34 @@ class BudgetSubmissionController extends Controller
 
     public function update_check(Request $request, $id)
     {
-        $pengajuan = BudgetSubmission::findOrFail($id);
+        $affected = BudgetSubmission::where('id', $id)
+            ->where(function ($q) {
+                $q->whereNull('finance_officers_id')
+                    ->orWhere('finance_officers_id', Auth::id());
+            })
+            ->update([
+                'finance_officers_id' => Auth::id(),
+            ]);
+
+        if ($affected === 0) {
+            return redirect()
+                ->route('keuangan.dashboard')
+                ->with('error', 'Pengajuan ini sedang diperiksa oleh petugas keuangan lain');
+        }
+
+        $pengajuan = BudgetSubmission::with('user')->with('finance_officer')->findOrFail($id);
+        // if (
+        //     $pengajuan->finance_officer->id != null &&
+        //     $pengajuan->finance_officer->name != Auth::user()->name &&
+        //     $pengajuan->finance_officer->email != Auth::user()->email
+        // ) {
+        //     return redirect()->route('keuangan.dashboard')->with('error', 'Pengajuan ini sudah diperiksa oleh petugas keuangan lain!!');
+        // }
+
+        // $pengajuan->update([
+        //     'finance_officers_id' => Auth::id(),
+        // ]);
+
         if (Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
             $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_requirements_status);
             $spreadsheet = IOFactory::load($filePathMetadata);
@@ -115,6 +148,21 @@ class BudgetSubmissionController extends Controller
             $sourcePath = $pengajuan->path_file_submission;
             // === TAMBAH WATERMARK ===
             $this->addWatermarkToPdf($sourcePath);
+
+            $sendername = $pengajuan->user->role;
+            $senderemail = $pengajuan->user->role;
+            $senderdivisi = $pengajuan->user->role;
+            $senderverifikator = $pengajuan->finance_officer->name;
+            $senderverifikatoremail = $pengajuan->finance_officer->email;
+
+            $bendahara = User::where('role', 'Bendahara')->get();
+
+            FacadesNotification::send($bendahara, new BudgetSubmitToBendaharaNotification($sendername, $senderemail, $senderdivisi, $senderverifikator, $senderverifikatoremail));
+        } else {
+            $senderverifikator = $pengajuan->finance_officer->name;
+            $senderverifikatoremail = $pengajuan->finance_officer->email;
+            $userPengajuan = User::where('id', $pengajuan->user_id)->where('name', $pengajuan->user->name)->where('email', $pengajuan->user->email);
+            FacadesNotification::send($userPengajuan, new BudgetSubmitToReturnNotification($senderverifikator, $senderverifikatoremail));
         }
 
 
@@ -241,7 +289,7 @@ class BudgetSubmissionController extends Controller
 
     public function perbaikan(Request $request, $id)
     {
-        $pengajuan = BudgetSubmission::findOrFail($id);
+        $pengajuan = BudgetSubmission::with('user')->with('finance_officer')->findOrFail($id);
         $request->validate([
             'file_pengajuan' => 'mimes:pdf|max:20480|nullable',
         ]);
@@ -267,6 +315,16 @@ class BudgetSubmissionController extends Controller
         // if ($pengajuan->path_file_status_kelengkapan && Storage::disk('public')->exists($pengajuan->path_file_status_kelengkapan)) {
         //     Storage::disk('public')->move($pengajuan->path_file_status_kelengkapan, $destinationPath);
         // }
+
+        $sendername = User::where('id', $pengajuan->user_id)->where('name', $pengajuan->user->name)->first();
+        $senderemail = User::where('id', $pengajuan->user_id)->where('email', $pengajuan->user->email)->first();
+        $senderdivisi = User::where('id', $pengajuan->user_id)->where('role', $pengajuan->user->role)->first();
+
+        $receivername = User::where('id', $pengajuan->finance_officers_id)->where('name', $pengajuan->finance_officer->name)->first();
+        $receiveremail = User::where('id', $pengajuan->finance_officers_id)->where('role', $pengajuan->finance_officer->email)->first();
+        $receiver = User::where('id', $pengajuan->finance_officers_id)->first();
+
+        FacadesNotification::send($receiver, new BudgetSubmitToRepairedNotification($sendername, $senderemail, $senderdivisi, $receivername, $receiveremail));
 
         $pengajuan->update([
             'path_file_submission' => $path,
@@ -328,6 +386,21 @@ class BudgetSubmissionController extends Controller
 
     public function final_verification(Request $request, $id)
     {
+        $affected = BudgetSubmission::where('id', $id)
+            ->where(function ($q) {
+                $q->whereNull('revenue_officer_id')
+                    ->orWhere('revenue_officer_id', Auth::id());
+            })
+            ->update([
+                'revenue_officer_id' => Auth::id(),
+            ]);
+
+        if ($affected === 0) {
+            return redirect()
+                ->route('bendahara.dashboard')
+                ->with('error', 'Pengajuan ini sudah ditanda tangan ni oleh bendahara lain');
+        }
+
         $pengajuan = BudgetSubmission::with('user')->with('finance_officer')->with('revenue_officer')->findOrFail($id);
         if (Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
             $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_requirements_status);
@@ -406,6 +479,13 @@ class BudgetSubmissionController extends Controller
             'nominal' => $request->biaya,
         ]);
 
+        $sendername = User::where('id', $pengajuan->revenue_officer->id)->where('name', $pengajuan->revenue_officer->name);
+        $senderemail = User::where('id', $pengajuan->revenue_officer->id)->where('email', $pengajuan->revenue_officer->email);
+
+        $receiver = User::where('id', $pengajuan->user_id)->where('email', $pengajuan->user->email)->first();
+
+        FacadesNotification::send($receiver, new BudgetSubmitToArchiveNotification($sendername, $senderemail));
+
         Notification::create([
             'user_id' => $pengajuan->user_id,
             'title' => 'Pengajuan Disetujui',
@@ -427,7 +507,7 @@ class BudgetSubmissionController extends Controller
             'nominal' => $request->biaya,
             'archive_by' => Auth::user()->name,
             'disposal_date' => Carbon::now()->addYear(5),
-            // 'no_spm' => $request->no_spm, // ganti nanti
+            'no_spby' => $request->no_spby,
         ]);
 
         return redirect()
@@ -560,6 +640,13 @@ class BudgetSubmissionController extends Controller
             // Copy file
             Storage::disk('private')->copy($sourcePath, $destinationPath);
         }
+
+        $sendername = Auth::user()->name;
+        $senderemail = Auth::user()->email;
+        $senderrole = Auth::user()->role;
+        $keuangan = User::where('role', 'Keuangan')->get();
+
+        FacadesNotification::send($keuangan, new BudgetSubmitToKeuanganNotification($sendername, $senderemail, $senderrole));
 
         $pengajuan = BudgetSubmission::create([
             'user_id' => $iduser,
