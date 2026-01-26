@@ -18,11 +18,8 @@
         </div>
     </div>
 
-<<<<<<< HEAD
-    <div class="py-4 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-=======
+
     <div class="min-h-screen">
->>>>>>> main
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
             {{-- Breadcrumb --}}

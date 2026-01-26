@@ -1,19 +1,14 @@
 <nav class="bg-white border border-gray-200 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
+        <div class="flex justify-between h-12 items-center">
 
-            {{-- LOGO/BRAND --}}
-            <div class="flex items-center">
-                <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 group">
-                    <img src="{{ asset('images/Logo.png') }}" class="h-12" alt="Logo">
-                    <span
-                        class="text-xl font-bold bg-gradient-to-b from-[#ffffff] to-[#6895fd]
-                                    bg-clip-text text-transparent tracking-wide hidden sm:block">
-                        VANTRANS-AKU
-                    </span>
-                </a>
+            <div class="flex items-center gap-4">
+                @isset($header)
+                    <div class ="text-lg font-semibold text-gray-600">
+                        {{ $header }}
+                    </div>
+                @endisset
             </div>
-
             {{-- RIGHT SIDE: NOTIFICATIONS & USER DROPDOWN --}}
             <div class="ml-auto flex items-center space-x-4">
 

@@ -45,7 +45,7 @@
                     </div>
 
                     <!-- Divisi -->
-                    <div>
+                    {{-- <div>
                         <x-input-label for="divisi" :value="__('Division')" class="text-gray-700 font-semibold" />
                         <div class="mt-2 relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -71,7 +71,7 @@
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"></div>
                         </div>
                         <x-input-error :messages="$errors->get('divisi')" class="mt-2" />
-                    </div>
+                    </div> --}}
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Password -->

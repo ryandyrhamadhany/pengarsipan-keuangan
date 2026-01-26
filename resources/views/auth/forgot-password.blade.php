@@ -1,14 +1,5 @@
 <x-guest-layout>
-<<<<<<< HEAD
-    <div class="w-full max-w-lg bg-white/90 backdrop-blur-md rounded-xl shadow-xl p-8">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-    
-=======
-    <div
-        class="w-full max-w-sm bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 
-               border border-gray-200">
->>>>>>> main
-
+    <div class="w-full max-w-sm bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-gray-200">
         {{-- ICON --}}
         <div class="flex justify-center mb-6">
             <div
@@ -22,20 +13,6 @@
             </div>
         </div>
 
-<<<<<<< HEAD
-        <div class="flex text-center mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
-        <div class="text-center pt-2">
-            <p class="text-sm text-gray-600">
-                <a href="{{ route('login') }}" class="font-bold text-indigo-700 hover:text-indigo-500 transition">Login</a>
-            </p>
-        </div>
-    </form>
-</div>
-=======
         {{-- TITLE --}}
         <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">
             Lupa Password?
@@ -84,5 +61,4 @@
             </div>
         </form>
     </div>
->>>>>>> main
 </x-guest-layout>

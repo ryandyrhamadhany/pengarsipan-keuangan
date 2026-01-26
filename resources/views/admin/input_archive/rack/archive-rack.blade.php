@@ -265,7 +265,7 @@
                                                 alt="edit">
                                         </a>
 
-                                        <form action="#" method="POST"
+                                        <form action="{{route('digital.destroy', $archive->id)}}" method="POST"
                                             onsubmit="return confirm('Yakin ingin menghapus arsip digital ini?')">
                                             @csrf
                                             @method('DELETE')

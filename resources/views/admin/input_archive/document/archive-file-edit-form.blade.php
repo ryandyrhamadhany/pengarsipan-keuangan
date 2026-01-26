@@ -81,7 +81,7 @@
                     {{-- Uraian --}}
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Uraian</p>
-                        <textarea name="uraian" rows="2"   placeholder="Contoh: ada / tidak"
+                        <textarea name="uraian" rows="2"   placeholder="Uraian"
                             class="w-full font-semibold text-gray-900 bg-transparent border-2 border-gray-300 focus:border-indigo-500 focus:ring-0 px-3 py-2">{{ old('uraian', $file->uraian) }}</textarea>
                     </div>
 

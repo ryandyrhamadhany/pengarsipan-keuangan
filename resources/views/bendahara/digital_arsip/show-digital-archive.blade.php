@@ -8,13 +8,13 @@
     {{-- TOMBOL KEMBALI --}}
     <div class="#">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-            {{-- <a href="{{ route('digital.archive', $archive->category_archive_id) }}"
+            <a href="{{ route('year.show', $archive->category_id) }}"
                 class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
                     shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
-            </a>              --}}
+            </a>             
         </div>
     </div>
 
@@ -60,14 +60,6 @@
                         <p class="text-sm font-medium text-gray-500 mb-2">Kode Klasifikasi</p>
                         <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
                             {{ $archive->kode_klasifikasi ?? '-' }}
-                        </p>
-                    </div>
-
-                    {{-- Tahun --}}
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 mb-2">Tahun</p>
-                        <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
-                            {{ $archive->category_archive->year ?? '-' }}
                         </p>
                     </div>
 
@@ -274,19 +266,17 @@
                         <div class="bg-purple-50 rounded-md p-4 border border-purple-200">
                             <p class="text-xs font-medium text-purple-600 mb-2">Pengaju</p>
                             <p class="text-sm font-semibold text-gray-800">{{ $archive->submiter_name ?? $archive->user->name ?? '-' }}</p>
-                            <p class="text-xs text-gray-600 mt-1">{{ $archive->user->email ?? '-' }}</p>
                         </div>
 
                         {{-- Finance Officer --}}
                         <div class="bg-teal-50 rounded-md p-4 border border-teal-200">
-                            <p class="text-xs font-medium text-teal-600 mb-2">Finance Officer</p>
+                            <p class="text-xs font-medium text-teal-600 mb-2">Divisi Keuangan</p>
                             <p class="text-sm font-semibold text-gray-800">{{ $archive->finance_officer_name ?? $archive->finance_officer->name ?? '-' }}</p>
-                            <p class="text-xs text-gray-600 mt-1">{{ $archive->finance_officer->email ?? '-' }}</p>
                         </div>
 
                         {{-- Revenue Officer --}}
                         <div class="bg-blue-50 rounded-md p-4 border border-blue-200">
-                            <p class="text-xs font-medium text-blue-600 mb-2">Revenue Officer</p>
+                            <p class="text-xs font-medium text-blue-600 mb-2">Bendahara</p>
                             <p class="text-sm font-semibold text-gray-800">{{ $archive->revenue_officer_name ?? '-' }}</p>
                         </div>
                     </div>
@@ -317,7 +307,7 @@
 
                         <div class="flex items-center gap-3">
                             {{-- Lihat --}}
-                            <a href="{{ route('view.file', $archive->id) }}" target="_blank"
+                            <a href="{{ route('lihat.digital_archive', $archive->id) }}" target="_blank"
                                 class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -329,8 +319,7 @@
                             </a>
 
                             {{-- Download (jika ada route) --}}
-                            @if(Route::has('digital.archive.download'))
-                            <a href="{{ route('digital.archive.download', $archive->id) }}"
+                            <a href="{{ route('download.digital_archive', $archive->id) }}"
                                 class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-md transition">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -338,7 +327,6 @@
                                 </svg>
                                 Download
                             </a>
-                            @endif
 
                             {{-- Link Arsip External --}}
                             @if($archive->link_arsip)

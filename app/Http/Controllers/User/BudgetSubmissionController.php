@@ -479,21 +479,12 @@ class BudgetSubmissionController extends Controller
             return redirect()->back()->with('error', 'File pengajuan tidak ditemukan');
         }
 
-        // === UPDATE DB ===
-        $pengajuan->update([
-            'revenue_officer_id' => Auth::id(),
-            'path_file_submission' => $sourcePath,
-            'assigned_payment_method' => $request->payment_method,
-            'assigned_funding_source' => $request->funding_source,
-            'is_archive'   => 1,
-            'nominal' => $request->biaya,
-        ]);
-
+        
         // $sendername = User::where('id', $pengajuan->revenue_officer->id)->where('name', $pengajuan->revenue_officer->name);
         // $senderemail = User::where('id', $pengajuan->revenue_officer->id)->where('email', $pengajuan->revenue_officer->email);
 
         // $receiver = User::where('id', $pengajuan->user_id)->where('email', $pengajuan->user->email)->first();
-
+        
         // FacadesNotification::send($receiver, new BudgetSubmitToArchiveNotification($sendername, $senderemail));
 
         Notification::create([
@@ -502,23 +493,34 @@ class BudgetSubmissionController extends Controller
             'message' => 'Pengajuan Anda telah <span class="font-semibold text-green-600">lengkap dan ditandatangani Bendahara</span>.',
             'type' => 'success',
             'url' => route('pengajuan.show', $pengajuan->id),
-        ]);
+            ]);
+            
+            // create digital archive
+            $digital = DigitalArchive::create([
+                'category_id' => $idcategory,
+                'archive_name' => $pengajuan->budget_submission_name,
+                'from_division' => $pengajuan->user->role,
+                'submiter_name' => $pengajuan->user->name,
+                'finance_officer_name' => $pengajuan->finance_officer->name,
+                'revenue_officer_name' => Auth::user()->name,
+                'file_path_archive' => $newPath,
+                'archive_code' => $request->kuitansi,
+                'nominal' => $request->biaya,
+                'archive_by' => Auth::user()->name,
+                'disposal_date' => Carbon::now()->addYear(5),
+                'no_spby' => $request->no_spby,
+            ]);
 
-        // create digital archive
-        DigitalArchive::create([
-            'category_id' => $idcategory,
-            'archive_name' => $pengajuan->budget_submission_name,
-            'from_division' => $pengajuan->user->role,
-            'submiter_name' => $pengajuan->user->name,
-            'finance_officer_name' => $pengajuan->finance_officer->name,
-            'revenue_officer_name' => Auth::user()->name,
-            'file_path_archive' => $newPath,
-            'archive_code' => $request->kuitansi,
-            'nominal' => $request->biaya,
-            'archive_by' => Auth::user()->name,
-            'disposal_date' => Carbon::now()->addYear(5),
-            'no_spby' => $request->no_spby,
-        ]);
+            // === UPDATE DB ===
+            $pengajuan->update([
+                'revenue_officer_id' => Auth::id(),
+                'path_file_submission' => $sourcePath,
+                'assigned_payment_method' => $request->payment_method,
+                'assigned_funding_source' => $request->funding_source,
+                'is_archive'   => 1,
+                'nominal' => $request->biaya,
+                'digital_archive_id' => $digital->id,
+            ]);
 
         return redirect()
             ->route('bendahara.dashboard')

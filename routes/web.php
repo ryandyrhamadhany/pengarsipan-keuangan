@@ -134,6 +134,9 @@ Route::put('/bendahara/verifikasi/{id}', [BudgetSubmissionController::class, 'fi
 // Route::get('/archive/pengajuan/{id}', [DigitalArchiveController::class, 'show_in_year'])->name('digital.archive');
 // Route::get('/archive/pengajuan/show/{id}', [DigitalArchiveController::class, 'show_digital_archive'])->name('digital.archive.show');
 Route::get('/bendahara/pengajuan', [BendaharaController::class, 'pengajuan'])->name('bendahara.pengajuan');
+
+Route::get('/lihat/digital/{id}', [DigitalArchiveController::class, 'name_file'])->name('lihat.digital_archive');
+Route::get('/download/digital/{id}', [DigitalArchiveController::class, 'download_file'])->name('download.digital_archive');
 // =================================================================== Route Resource
 Route::resource('/cabinet', CabinetController::class);
 Route::resource('/category', CategoryController::class);

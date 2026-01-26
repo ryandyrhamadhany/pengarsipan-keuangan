@@ -45,7 +45,7 @@ class ArchiveFileController extends Controller
         ]);
 
         $file = $request->file('file_archive');
-        $path = $file->storeAs('uploads', $file->getClientOriginalName(), 'public');
+        $path = $file->storeAs('uploads', $file->getClientOriginalName(), 'private');
 
         $archives = ArchiveFile::findOrFail($id);
 
