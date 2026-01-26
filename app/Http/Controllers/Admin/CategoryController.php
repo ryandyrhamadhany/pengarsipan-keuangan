@@ -126,13 +126,15 @@ class CategoryController extends Controller
             Category::create([
                 'cabinet_id' => $category->cabinet_id,
                 'category_name' => $category->category_name,
-                'payment_method_id' => $category->payment_method,
-                'funding_source_id' => $category->funding_source,
+                'payment_method_id' => $request->payment_method,
+                'funding_source_id' => $request->funding_source,
                 'sub_category' => $request->name,
             ]);
         } else {
             $category->update([ // jika belum punya update category saat ini
                 'sub_category' => $request->name,
+                'payment_method_id' => $request->payment_method,
+                'funding_source_id' => $request->funding_source,
             ]);
         }
 
@@ -243,7 +245,6 @@ class CategoryController extends Controller
         $exists = Category::where('cabinet_id', $year->cabinet_id)
             ->where('category_name', $year->category_name)
             ->where('sub_category', $year->sub_category)
-            ->where('category_code', $year->category_code)
             ->where('year', $request->year)
             ->where('id', '!=', $id)
             ->exists();

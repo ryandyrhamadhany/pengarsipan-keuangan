@@ -76,9 +76,13 @@ class BudgetSubmissionController extends Controller
 
         $index = 0;      // mengikuti array dari Blade
         $row   = 7;      // mengikuti baris awal Excel
-        $endRow = 38;    // baris akhir Excel
+        $endRow = 37;    // baris akhir Excel
 
         while ($row <= $endRow) {
+            if($row == 21){
+                $row++;
+                continue;
+            }
 
             $ada = $request->ada[$index] ?? null;
             $ttd = $request->ttd[$index] ?? null;
@@ -110,9 +114,13 @@ class BudgetSubmissionController extends Controller
 
         // check kondisi kelengkapan
         $row   = 7;
-        $endRow = 38;
+        $endRow = 37;
         $status_lengkap = false;
         while ($row <= $endRow) {
+            if($row == 21){
+                $row++;
+                continue;
+            }
             $valueADA = $worksheet->getCell("D{$row}")->getValue();
             $valueADAtidakperlu = $worksheet->getCell("F{$row}")->getValue();
             $valueLengkap = $worksheet->getCell("G{$row}")->getValue();
@@ -149,20 +157,20 @@ class BudgetSubmissionController extends Controller
             // === TAMBAH WATERMARK ===
             $this->addWatermarkToPdf($sourcePath);
 
-            $sendername = $pengajuan->user->role;
-            $senderemail = $pengajuan->user->role;
-            $senderdivisi = $pengajuan->user->role;
-            $senderverifikator = $pengajuan->finance_officer->name;
-            $senderverifikatoremail = $pengajuan->finance_officer->email;
+            // $sendername = $pengajuan->user->role;
+            // $senderemail = $pengajuan->user->role;
+            // $senderdivisi = $pengajuan->user->role;
+            // $senderverifikator = $pengajuan->finance_officer->name;
+            // $senderverifikatoremail = $pengajuan->finance_officer->email;
 
-            $bendahara = User::where('role', 'Bendahara')->get();
+            // $bendahara = User::where('role', 'Bendahara')->get();
 
-            FacadesNotification::send($bendahara, new BudgetSubmitToBendaharaNotification($sendername, $senderemail, $senderdivisi, $senderverifikator, $senderverifikatoremail));
+            // FacadesNotification::send($bendahara, new BudgetSubmitToBendaharaNotification($sendername, $senderemail, $senderdivisi, $senderverifikator, $senderverifikatoremail));
         } else {
-            $senderverifikator = $pengajuan->finance_officer->name;
-            $senderverifikatoremail = $pengajuan->finance_officer->email;
-            $userPengajuan = User::where('id', $pengajuan->user_id)->where('name', $pengajuan->user->name)->where('email', $pengajuan->user->email);
-            FacadesNotification::send($userPengajuan, new BudgetSubmitToReturnNotification($senderverifikator, $senderverifikatoremail));
+            // $senderverifikator = $pengajuan->finance_officer->name;
+            // $senderverifikatoremail = $pengajuan->finance_officer->email;
+            // $userPengajuan = User::where('id', $pengajuan->user_id)->where('name', $pengajuan->user->name)->where('email', $pengajuan->user->email);
+            // FacadesNotification::send($userPengajuan, new BudgetSubmitToReturnNotification($senderverifikator, $senderverifikatoremail));
         }
 
 
@@ -212,6 +220,7 @@ class BudgetSubmissionController extends Controller
 
         return redirect()->route('keuangan.dashboard')->with('success', 'Berhasil kirim tanggapan');
     }
+
 
     private function addWatermarkToPdf(string $filePath)
     {
@@ -299,7 +308,8 @@ class BudgetSubmissionController extends Controller
                 Storage::disk('private')->delete($pengajuan->path_file_submission);
 
                 $file = $request->file('file_pengajuan');
-                $path = $file->storeAs('pengajuan', $file->getClientOriginalName(), 'private');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('pengajuan', $filename, 'private');
             }
         } else {
             $path = $pengajuan->path_file_submission;
@@ -316,15 +326,15 @@ class BudgetSubmissionController extends Controller
         //     Storage::disk('public')->move($pengajuan->path_file_status_kelengkapan, $destinationPath);
         // }
 
-        $sendername = User::where('id', $pengajuan->user_id)->where('name', $pengajuan->user->name)->first();
-        $senderemail = User::where('id', $pengajuan->user_id)->where('email', $pengajuan->user->email)->first();
-        $senderdivisi = User::where('id', $pengajuan->user_id)->where('role', $pengajuan->user->role)->first();
+        // $sendername = User::where('id', $pengajuan->user_id)->where('name', $pengajuan->user->name)->first();
+        // $senderemail = User::where('id', $pengajuan->user_id)->where('email', $pengajuan->user->email)->first();
+        // $senderdivisi = User::where('id', $pengajuan->user_id)->where('role', $pengajuan->user->role)->first();
 
-        $receivername = User::where('id', $pengajuan->finance_officers_id)->where('name', $pengajuan->finance_officer->name)->first();
-        $receiveremail = User::where('id', $pengajuan->finance_officers_id)->where('role', $pengajuan->finance_officer->email)->first();
-        $receiver = User::where('id', $pengajuan->finance_officers_id)->first();
+        // $receivername = User::where('id', $pengajuan->finance_officers_id)->where('name', $pengajuan->finance_officer->name)->first();
+        // $receiveremail = User::where('id', $pengajuan->finance_officers_id)->where('role', $pengajuan->finance_officer->email)->first();
+        // $receiver = User::where('id', $pengajuan->finance_officers_id)->first();
 
-        FacadesNotification::send($receiver, new BudgetSubmitToRepairedNotification($sendername, $senderemail, $senderdivisi, $receivername, $receiveremail));
+        // FacadesNotification::send($receiver, new BudgetSubmitToRepairedNotification($sendername, $senderemail, $senderdivisi, $receivername, $receiveremail));
 
         $pengajuan->update([
             'path_file_submission' => $path,
@@ -479,12 +489,12 @@ class BudgetSubmissionController extends Controller
             'nominal' => $request->biaya,
         ]);
 
-        $sendername = User::where('id', $pengajuan->revenue_officer->id)->where('name', $pengajuan->revenue_officer->name);
-        $senderemail = User::where('id', $pengajuan->revenue_officer->id)->where('email', $pengajuan->revenue_officer->email);
+        // $sendername = User::where('id', $pengajuan->revenue_officer->id)->where('name', $pengajuan->revenue_officer->name);
+        // $senderemail = User::where('id', $pengajuan->revenue_officer->id)->where('email', $pengajuan->revenue_officer->email);
 
-        $receiver = User::where('id', $pengajuan->user_id)->where('email', $pengajuan->user->email)->first();
+        // $receiver = User::where('id', $pengajuan->user_id)->where('email', $pengajuan->user->email)->first();
 
-        FacadesNotification::send($receiver, new BudgetSubmitToArchiveNotification($sendername, $senderemail));
+        // FacadesNotification::send($receiver, new BudgetSubmitToArchiveNotification($sendername, $senderemail));
 
         Notification::create([
             'user_id' => $pengajuan->user_id,
@@ -498,7 +508,7 @@ class BudgetSubmissionController extends Controller
         DigitalArchive::create([
             'category_id' => $idcategory,
             'archive_name' => $pengajuan->budget_submission_name,
-            'from_divisi' => $pengajuan->user->role,
+            'from_division' => $pengajuan->user->role,
             'submiter_name' => $pengajuan->user->name,
             'finance_officer_name' => $pengajuan->finance_officer->name,
             'revenue_officer_name' => Auth::user()->name,
@@ -557,7 +567,7 @@ class BudgetSubmissionController extends Controller
             $yStart = 10;   // Mulai dari atas
             $spacing = 30;  // Jarak antar teks kuitansi (dalam mm)
 
-            $mpdf->SetFont('Arial', 'B', 5); // Lebih kecil (dari 10 jadi 8)
+            $mpdf->SetFont('Arial', 'B', 4); // Lebih kecil (dari 10 jadi 8)
             $mpdf->SetTextColor(0, 0, 0); // Hitam (dari merah jadi hitam)
             $mpdf->SetAlpha(0.8); // Opacity 80% (dari 0.7 jadi 0.8)
 
@@ -614,7 +624,8 @@ class BudgetSubmissionController extends Controller
         // simpan file pdf pengajuan
         if (isset($request->file)) {
             $file = $request->file('file');
-            $path = $file->storeAs('pengajuan', $file->getClientOriginalName(), 'private');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('pengajuan', $filename, 'private');
         } else {
             $path = null;
         }
@@ -625,7 +636,7 @@ class BudgetSubmissionController extends Controller
 
         // ubah spasi menjadi underscore
         $namaPengajuan = str_replace(' ', '_', $request->nama_pengajuan);
-        $newFileName = $namaPengajuan . '_' . $fileName;
+        $newFileName = time() . '_' . $namaPengajuan . '_' . $fileName;
         $destinationPath = 'metadata_pengajuan/' . $newFileName;
 
         // Cek apakah file source ada
@@ -641,12 +652,12 @@ class BudgetSubmissionController extends Controller
             Storage::disk('private')->copy($sourcePath, $destinationPath);
         }
 
-        $sendername = Auth::user()->name;
-        $senderemail = Auth::user()->email;
-        $senderrole = Auth::user()->role;
-        $keuangan = User::where('role', 'Keuangan')->get();
+        // $sendername = Auth::user()->name;
+        // $senderemail = Auth::user()->email;
+        // $senderrole = Auth::user()->role;
+        // $keuangan = User::where('role', 'Keuangan')->get();
 
-        FacadesNotification::send($keuangan, new BudgetSubmitToKeuanganNotification($sendername, $senderemail, $senderrole));
+        // FacadesNotification::send($keuangan, new BudgetSubmitToKeuanganNotification($sendername, $senderemail, $senderrole));
 
         $pengajuan = BudgetSubmission::create([
             'user_id' => $iduser,
@@ -694,14 +705,15 @@ class BudgetSubmissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id) // oke
+    public function show(string $id)
     {
         $payment_method = PaymentMethod::all();
         $funding_source = FundingSource::all();
-        $pengajuan = BudgetSubmission::with('finance_officer')
+        $pengajuan = BudgetSubmission::with('finance_officer')->with('revenue_officer')
             ->with('payment_method')
             ->with('funding_source')
             ->findOrFail($id);
+            
         if (Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
             $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_requirements_status);
             $spreadsheet = IOFactory::load($filePathMetadata);
@@ -712,59 +724,36 @@ class BudgetSubmissionController extends Controller
         $no = $worksheet->getCell('B4')->getValue();
 
         $startCell = 7;
-        $endCell = 38;
+        $endCell = 37;
 
+        // Inisialisasi array
         $syaratDoc = [];
-        while ($startCell <= $endCell) {
-            $datasyarat = $worksheet->getCell("C{$startCell}")->getValue();
-            $syaratDoc[] = $datasyarat;
-            $startCell++;
-        }
-
-        // ======== dokumen
-        $startCell = 7;
         $ada = [];
-        while ($startCell <= $endCell) {
-            $dataada = $worksheet->getCell("D{$startCell}")->getValue();
-            $ada[] = $dataada;
-            $startCell++;
-        }
-        $startCell = 7;
         $tidakada = [];
-        while ($startCell <= $endCell) {
-            $datatidakada = $worksheet->getCell("E{$startCell}")->getValue();
-            $tidakada[] = $datatidakada;
-            $startCell++;
-        }
-        $startCell = 7;
         $tidakperlu = [];
-        while ($startCell <= $endCell) {
-            $datatidakperlu = $worksheet->getCell("F{$startCell}")->getValue();
-            $tidakperlu[] = $datatidakperlu;
-            $startCell++;
-        }
-
-        // ========== tanda tangan
-        $startCell = 7;
         $lengkap = [];
-        while ($startCell <= $endCell) {
-            $datalengkap = $worksheet->getCell("G{$startCell}")->getValue();
-            $lengkap[] = $datalengkap;
-            $startCell++;
-        }
-        $startCell = 7;
         $belum = [];
-        while ($startCell <= $endCell) {
-            $databelum = $worksheet->getCell("H{$startCell}")->getValue();
-            $belum[] = $databelum;
-            $startCell++;
-        }
-
-        $startCell = 7;
         $keterangan = [];
+
+        // Loop untuk mengambil data dengan skip baris kosong
         while ($startCell <= $endCell) {
-            $dataketerangan = $worksheet->getCell("I{$startCell}")->getValue();
-            $keterangan[] = $dataketerangan;
+            if($startCell == 21){
+                $startCell++;
+                continue;
+            }
+            $datasyarat = $worksheet->getCell("C{$startCell}")->getValue();
+            
+            // Skip jika nama dokumen kosong
+            if (trim($datasyarat) !== '' && $datasyarat !== null) {
+                $syaratDoc[] = $datasyarat;
+                $ada[] = $worksheet->getCell("D{$startCell}")->getValue();
+                $tidakada[] = $worksheet->getCell("E{$startCell}")->getValue();
+                $tidakperlu[] = $worksheet->getCell("F{$startCell}")->getValue();
+                $lengkap[] = $worksheet->getCell("G{$startCell}")->getValue();
+                $belum[] = $worksheet->getCell("H{$startCell}")->getValue();
+                $keterangan[] = $worksheet->getCell("I{$startCell}")->getValue();
+            }
+            
             $startCell++;
         }
 
@@ -800,7 +789,8 @@ class BudgetSubmissionController extends Controller
                 Storage::disk('private')->delete($pengajuan->path_file_submission);
 
                 $file = $request->file('file');
-                $path = $file->storeAs('pengajuan', $file->getClientOriginalName(), 'private');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('pengajuan', $filename, 'private');
             }
         } else {
             $path = $pengajuan->path_file_submission;
@@ -810,7 +800,7 @@ class BudgetSubmissionController extends Controller
         $sourcePath = 'template/' . $fileName;
         // ubah spasi menjadi underscore
         $namaPengajuan = str_replace(' ', '_', $request->nama_pengajuan);
-        $newFileName = $namaPengajuan . '_' . $fileName;
+        $newFileName = time() . '_' . $namaPengajuan . '_' . $fileName;
         $destinationPath = 'metadata_pengajuan/' . $newFileName;
 
         if ($pengajuan->path_file_requirements_status && Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {

@@ -107,11 +107,15 @@ class KeuanganController extends Controller
         $kuitansi = trim(preg_replace('/^Nomor\s*:\s*/i', '', $nokuitansi));
 
         $startCell = 7;
-        $endCell = 38;
+        $endCell = 37;
 
         $syaratDoc = [];
         while ($startCell <= $endCell) {
             $datasyarat = $worksheet->getCell("C{$startCell}")->getValue();
+            if($startCell == 21){
+                $startCell++;
+                continue;
+            }
             $syaratDoc[] = $datasyarat;
             $startCell++;
         }
@@ -120,6 +124,10 @@ class KeuanganController extends Controller
         $startCell = 7;
         $ada = [];
         while ($startCell <= $endCell) {
+            if($startCell == 21){
+                $startCell++;
+                continue;
+            }
             if (
                 $worksheet->getCell("D{$startCell}")->getValue() !== null ||
                 $worksheet->getCell("E{$startCell}")->getValue() !== null ||
@@ -138,6 +146,10 @@ class KeuanganController extends Controller
         $startCell = 7;
         $tidakada = [];
         while ($startCell <= $endCell) {
+            if($startCell == 21){
+                $startCell++;
+                continue;
+            }
             $datatidakada = $worksheet->getCell("E{$startCell}")->getValue();
             $tidakada[] = $datatidakada;
             $startCell++;
@@ -145,6 +157,10 @@ class KeuanganController extends Controller
         $startCell = 7;
         $tidakperlu = [];
         while ($startCell <= $endCell) {
+            if($startCell == 21){
+                $startCell++;
+                continue;
+            }
             $datatidakperlu = $worksheet->getCell("F{$startCell}")->getValue();
             $tidakperlu[] = $datatidakperlu;
             $startCell++;
@@ -154,6 +170,10 @@ class KeuanganController extends Controller
         $startCell = 7;
         $lengkap = [];
         while ($startCell <= $endCell) {
+            if($startCell == 21){
+                $startCell++;
+                continue;
+            }
             if (
                 $worksheet->getCell("G{$startCell}")->getValue() !== null ||
                 $worksheet->getCell("H{$startCell}")->getValue() !== null ||
@@ -172,6 +192,10 @@ class KeuanganController extends Controller
         $startCell = 7;
         $belum = [];
         while ($startCell <= $endCell) {
+            if($startCell == 21){
+                $startCell++;
+                continue;
+            }
             $databelum = $worksheet->getCell("H{$startCell}")->getValue();
             $belum[] = $databelum;
             $startCell++;
@@ -180,6 +204,10 @@ class KeuanganController extends Controller
         $startCell = 7;
         $keterangan = [];
         while ($startCell <= $endCell) {
+            if($startCell == 21){
+                $startCell++;
+                continue;
+            }
             $dataketerangan = $worksheet->getCell("I{$startCell}")->getValue();
             $keterangan[] = $dataketerangan;
             $startCell++;
@@ -193,3 +221,34 @@ class KeuanganController extends Controller
         return view('keuangan.check-pengajuan', compact('pengajuan', 'namaKegiatan', 'kuitansi', 'syaratDoc', 'ada', 'tidakada', 'tidakperlu', 'lengkap', 'belum', 'keterangan', 'catatan'));
     }
 }
+
+
+    /**
+     * Normalisasi nilai dari Excel
+     * Mengubah berbagai format kosong menjadi null
+     * Hanya mengembalikan 'Y' jika benar-benar 'Y'
+     */
+    // private function normalizeValue($value)
+    // {
+    //     // Jika null
+    //     if ($value === null) {
+    //         return null;
+    //     }
+        
+    //     // Konversi ke string dan trim
+    //     $value = trim((string) $value);
+        
+    //     // Jika string kosong atau hanya whitespace
+    //     if ($value === '') {
+    //         return null;
+    //     }
+        
+    //     // Jika nilai adalah 'Y' (case-insensitive)
+    //     if (strtoupper($value) === 'Y') {
+    //         return 'Y';
+    //     }
+        
+    //     // Selain itu, anggap kosong
+    //     return null;
+    // }
+

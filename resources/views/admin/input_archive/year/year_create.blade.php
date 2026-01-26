@@ -1,10 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-<<<<<<< HEAD
-        <h2 class="font-semibold text-xl text-gray-900 tracking-tight">
-=======
         <h2 class="font-semibold text-xl tracking-tight">
->>>>>>> main
             {{ __('Input Arsip') }}
         </h2>
     </x-slot>
@@ -23,19 +19,11 @@
     </div>
 
     {{-- CONTENT --}}
-<<<<<<< HEAD
-    <div class="py-6 bg-gradient-to-br from-slate-50 to-indigo-50 min-h-screen">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-
-            {{-- CARD UTAMA --}}
-            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-=======
     <div class="min-h-screen">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {{-- CARD UTAMA --}}
             <div class="bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-100">
->>>>>>> main
 
                 {{-- HEADER CARD MENYATU --}}
                 <div class="relative px-6 py-5 bg-gradient-to-b from-[#003A8F] to-[#002766]">
@@ -61,19 +49,9 @@
 
                 {{-- FORM --}}
                 <div class="p-6 sm:p-10">
-<<<<<<< HEAD
-                    <form action="{{ route('year.store') }}" method="POST" class="space-y-6">
-                        @csrf
-
-                        <input type="text" name="category_id" value="{{ $category->id }}" class="hidden">
-
-=======
                     <form action="{{ route('year.store', $category->id) }}" method="POST" class="space-y-6">
                         @csrf
-    
                         <input type="text" name="category_id" value="{{ $category->id }}" class="hidden">
-
->>>>>>> main
                         {{-- INPUT TAHUN --}}
                         <div>
                             <label for="year" class="block text-base font-semibold text-gray-800">

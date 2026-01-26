@@ -141,6 +141,9 @@
                                         Menunggu Arsip
                                     </span>
                                 @endif
+                                <span class="text-xs text-gray-500">
+                                    {{ $sign->created_at->diffForHumans() }}
+                                </span>
                             </div>
                         </a>
 
@@ -258,6 +261,9 @@
                                         Menunggu Arsip
                                     </span>
                                 @endif
+                                <span class="text-xs text-gray-500">
+                                    {{ $pengajuan->created_at->diffForHumans() }}
+                                </span>
                             </div>
                         </a>
 

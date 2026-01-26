@@ -96,14 +96,14 @@
                                             {{ $no++ }}
                                         </div>
 
-                                        <div
+                                        {{-- <div
                                             class="w-12 h-12 flex items-center justify-center bg-white rounded-lg border-2 border-cyan-400 group-hover:border-cyan-400 group-hover:scale-110 transition-all duration-300 shadow-md">
                                             <svg class="w-7 h-7 text-emerald-500" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                             </svg>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="space-y-1">
                                             {{-- Nama Rak --}}
@@ -114,16 +114,14 @@
                                             {{-- Informasi Detail --}}
                                             <div class="flex items-center gap-4 text-sm text-gray-600">
                                                 {{-- Kode Rak --}}
-                                                <span
+                                                {{-- <span
                                                     class="flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-lg">
                                                     <img src="https://img.icons8.com/?size=16&id=7880&format=png&color=4b5563"
                                                         class="w-4 opacity-70">
                                                     {{ $rak->kode_rack ?? '-' }}
-                                                </span>
+                                                </span> --}}
                                                 {{-- Kategori --}} <span
                                                     class="flex items-center gap-1 bg-indigo-100 px-2 py-0.5 rounded-lg text-indigo-700">
-                                                    <img src="https://img.icons8.com/?size=16&id=99268&format=png&color=4f46e5"
-                                                        class="w-4 opacity-70">
                                                     {{ $rak->category->category_name ?? '-' }}
                                                 </span>
                                             </div>

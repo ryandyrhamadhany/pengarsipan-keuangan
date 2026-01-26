@@ -129,7 +129,7 @@
                                                     @endif
 
                                                     <span class="text-xs text-gray-500">
-                                                        {{ $all->updated_at->diffForHumans() }}
+                                                        {{ $proses->updated_at->diffForHumans() }}
                                                     </span>
                                                 </div>
                                             </a>

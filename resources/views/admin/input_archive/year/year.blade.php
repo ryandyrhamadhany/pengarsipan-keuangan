@@ -186,20 +186,22 @@
 
                     {{-- AKSI --}}
                     <div class="flex gap-4">
-                        <a href="{{ route('subcategory.create', $category->id) }}"
-                            class="inline-flex items-center gap-2 px-4 py-2
-                                  bg-gradient-to-r from-emerald-500 to-teal-600
-                                  hover:from-emerald-600 hover:to-teal-700
-                                  text-white font-medium rounded-lg
-                                  shadow-lg hover:shadow-xl
-                                  transform hover:-translate-y-0.5
-                                  transition-all duration-200">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            Tambah Sub Category
-                        </a>
+                        @if($category->sub_category == null)
+                            <a href="{{ route('subcategory.create', $category->id) }}"
+                                class="inline-flex items-center gap-2 px-4 py-2
+                                      bg-gradient-to-r from-emerald-500 to-teal-600
+                                      hover:from-emerald-600 hover:to-teal-700
+                                      text-white font-medium rounded-lg
+                                      shadow-lg hover:shadow-xl
+                                      transform hover:-translate-y-0.5
+                                      transition-all duration-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                Tambah Sub Category
+                            </a>
+                        @endif
 
                         <a href="{{ route('year.create', $category->id) }}"
                             class="inline-flex items-center gap-2 px-4 py-2

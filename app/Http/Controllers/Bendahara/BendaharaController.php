@@ -78,6 +78,7 @@ class BendaharaController extends Controller
     {
         $pengajuan = BudgetSubmission::with('user')
             ->with('finance_officer')
+            ->with('revenue_officer')
             ->where('id', $id)->first();
         $cabinets = Cabinet::all();
         $payment_method = PaymentMethod::all();

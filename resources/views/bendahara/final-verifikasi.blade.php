@@ -223,6 +223,43 @@
                             </div>
                         </div>
                     </div>
+                    {{-- SECTION 2: PEMERIKSA --}}
+                    <div class="bg-white rounded-md shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-white rounded-md shadow-sm border border-gray-200">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-lg text-gray-900">Diperiksa Oleh Bendahara</h3>
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-gray-50 rounded-md p-4 border border-gray-200">
+                                    <p class="text-xs text-gray-600 mb-1 font-medium">Nama</p>
+                                    <p class="text-sm font-semibold text-gray-900">
+                                        {{ $pengajuan->revenue_officer->name ?? '-' }}</p>
+                                </div>
+
+                                <div class="bg-gray-50 rounded-md p-4 border border-gray-200">
+                                    <p class="text-xs text-gray-600 mb-1 font-medium">Email</p>
+                                    <p class="text-sm font-medium text-gray-900 break-all">
+                                        {{ $pengajuan->revenue_officer->email ?? '-' }}</p>
+                                </div>
+
+                                <div class="bg-gray-50 rounded-md p-4 border border-gray-200">
+                                    <p class="text-xs text-gray-600 mb-1 font-medium">Divisi</p>
+                                    <p class="text-sm font-medium text-gray-900 capitalize">
+                                        {{ $pengajuan->revenue_officer->role ?? '-' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     {{-- SECTION 3: FILE PENGAJUAN --}}
                     <div class="bg-white rounded-md shadow-sm border border-gray-200 overflow-hidden">

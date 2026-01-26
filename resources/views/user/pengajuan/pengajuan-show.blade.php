@@ -119,6 +119,27 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- Diperiksa Oleh --}}
+                        <div>
+                            <p class="text-sm font-semibold text-gray-700 mb-3 mt-3">Diperiksa Oleh Bendahara</p>
+                            <div class="bg-gray-50 rounded-md p-4 border border-gray-200">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-xs text-gray-500 mb-1 font-medium">Nama</p>
+                                        <p class="text-sm font-semibold text-gray-800">
+                                            {{ $pengajuan->revenue_officer->name ?? '-' }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 mb-1 font-medium">Email</p>
+                                        <p class="text-sm font-semibold text-gray-800 break-all">
+                                            {{ $pengajuan->revenue_officer->email ?? '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     {{-- Message --}}
@@ -335,8 +356,6 @@
                                                         echo "<span class='font-bold text-blue-700'>$dokumen</span>";
                                                     } elseif (preg_match('/^\d+\.\d+/', $dokumen)) {
                                                         echo "<span class='pl-6 text-gray-800'>$dokumen</span>";
-                                                    } elseif (trim($dokumen) === '') {
-                                                        echo "<span class='font-semibold text-gray-700 italic'>Dokumen Pendukung</span>";
                                                     } else {
                                                         echo "<span class='text-gray-800'>$dokumen</span>";
                                                     }
