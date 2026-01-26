@@ -241,8 +241,6 @@
 
                                                 {{-- Ditandatangani Oleh --}}
                                                 <span class="flex items-center gap-1.5">
-                                                    <img src="https://img.icons8.com/?size=16&id=15544&format=png&color=4b5563"
-                                                        class="w-4 opacity-70">
                                                     <span class="text-gray-500">Ditandatangani:</span>
                                                     <span
                                                         class="font-medium text-gray-700">{{ $archive->revenue_officer_name }}</span>
@@ -253,14 +251,14 @@
 
                                     {{-- Tombol Aksi --}}
                                     <div class="flex items-center gap-2 ml-4">
-                                        <a href="#"
+                                        <a href="{{route('digital.show', $archive->id)}}"
                                             class="flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 rounded-md p-2 transition"
                                             title="Lihat Detail">
                                             <img src="https://img.icons8.com/?size=24&id=85146&format=png&color=ffffff"
                                                 alt="view">
                                         </a>
 
-                                        <a href="#"
+                                        <a href="{{route('digital.edit', $archive->id)}}"
                                             class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-md p-2 transition"
                                             title="Edit">
                                             <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff"

@@ -5,6 +5,19 @@
         </h2>
     </x-slot>
 
+    {{-- TOMBOL KEMBALI --}} 
+    <div class="#">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+            <a href="{{ route('archive.list', $archives->folder_id) }}"
+                class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
+                    shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+            </a>             
+        </div>
+    </div>
+
     <div class="py-8 bg-gray-50 min-h-screen">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-md sm:rounded-md p-8 border border-gray-200">
@@ -39,7 +52,7 @@
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Indeks 1</p>
                         <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
-                            {{ $archives->indeks_1 ?? '-' }}
+                            {{ $archives->indeks1 ?? '-' }}
                         </p>
                     </div>
 
@@ -47,7 +60,7 @@
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Indeks 2</p>
                         <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
-                            {{ $archives->indeks_2 ?? '-' }}
+                            {{ $archives->indeks2 ?? '-' }}
                         </p>
                     </div>
 
@@ -67,6 +80,14 @@
                         </p>
                     </div>
 
+                    {{-- No SPBy --}}
+                    <div class="md:col-span-2">
+                        <p class="text-sm font-medium text-gray-500 mb-2">No SPBy</p>
+                        <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200 min-h-[80px]">
+                            {{ $archives->no_spby ?? '-' }}
+                        </p>
+                    </div>
+
                     {{-- No SPM --}}
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">No SPM</p>
@@ -83,6 +104,14 @@
                         </p>
                     </div>
 
+                    {{-- NO SP2D --}}
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 mb-2">No SP2D</p>
+                        <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
+                            {{ $archives->no_sp2d ?? '-' }}
+                        </p>
+                    </div>
+
                     {{-- Nilai SP2D --}}
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Nilai SP2D</p>
@@ -91,11 +120,51 @@
                         </p>
                     </div>
 
+                    {{-- Jenis SP2D --}}
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 mb-2">Jenis SP2D</p>
+                        <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
+                            {{ $archives->jenis_sp2d ?? '-' }}
+                        </p>
+                    </div>
+
+                    {{-- Tanggal SP2D --}}
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 mb-2">Tanggal SP2D</p>
+                        <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
+                            {{ $archives->tgl_sp2d ? \Carbon\Carbon::parse($archives->tgl_sp2d)->format('d F Y') : '-' }}
+                        </p>
+                    </div>
+
+                    {{-- Tanggal Selesai Sp2d --}}
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 mb-2">Tanggal Selesai SP2D</p>
+                        <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
+                            {{ $archives->tgl_selesai_sp2d ? \Carbon\Carbon::parse($archives->tgl_selesai_sp2d)->format('d F Y') : '-' }}
+                        </p>
+                    </div>
+
+                    {{-- Tanggal Invoice --}}
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 mb-2">Tanggal Invoice</p>
+                        <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
+                            {{ $archives->tgl_invoice ?? '-' }}
+                        </p>
+                    </div>
+
                     {{-- Tanggal Terima --}}
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Tanggal Terima</p>
                         <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
-                            {{ $archives->tanggal_terima ? \Carbon\Carbon::parse($archives->tanggal_terima)->format('d F Y') : '-' }}
+                            {{ $archives->tgl_terima ? \Carbon\Carbon::parse($archives->tgl_terima)->format('d F Y') : '-' }}
+                        </p>
+                    </div>       
+                    
+                    {{-- No Invoice --}}
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 mb-2">No Invoice</p>
+                        <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
+                            {{ $archives->no_invoice ?? '-' }}
                         </p>
                     </div>
 
@@ -119,7 +188,7 @@
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Retensi Arsip Aktif</p>
                         <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
-                            {{ $archives->retensi_aktif ? $archives->retensi_aktif . ' tahun' : '-' }}
+                            {{ $archives->retensi_arsip_aktif ? $archives->retensi_arsip_aktif . ' tahun' : '-' }}
                         </p>
                     </div>
 
@@ -127,7 +196,7 @@
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Retensi Arsip Inaktif</p>
                         <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
-                            {{ $archives->retensi_inaktif ? $archives->retensi_inaktif . ' tahun' : '-' }}
+                            {{ $archives->retensi_arsip_inaktif ? $archives->retensi_arsip_inaktif . ' tahun' : '-' }}
                         </p>
                     </div>
 
@@ -135,7 +204,7 @@
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Nasib Akhir Arsip</p>
                         <p class="text-gray-800 px-4 py-2.5 bg-gray-50 rounded-md border border-gray-200">
-                            {{ $archives->nasib_akhir ?? '-' }}
+                            {{ $archives->nasib_akhir_arsip ?? '-' }}
                         </p>
                     </div>
 
@@ -243,22 +312,12 @@
                 <div class="pt-6 border-t border-gray-200 mb-6">
                     <p class="text-sm font-medium text-gray-500 mb-2">Keterangan</p>
                     <div class="px-4 py-3 bg-gray-50 rounded-md border border-gray-200 text-gray-800 min-h-[80px]">
-                        {{ $archives->description ?? '-' }}
+                        {{ $archives->keterangan ?? '-' }}
                     </div>
                 </div>
 
                 {{-- Action Buttons --}}
                 <div class="flex items-center justify-between pt-6 border-t border-gray-200">
-                    {{-- Tombol Kembali --}}
-                    <a href="{{ route('archive.list', $archives->folder_id) }}"
-                        class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-md border border-gray-300 transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 19l-7-7 7-7" />
-                        </svg>
-                        Kembali
-                    </a>
-
                     {{-- Tombol Aksi --}}
                     <div class="flex items-center gap-3">
                         {{-- Edit --}}

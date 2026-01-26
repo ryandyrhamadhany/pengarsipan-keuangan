@@ -131,8 +131,8 @@ Route::get('/keuangan/pengajuan', [KeuanganController::class, 'all_submit'])->na
 // ===================================================================== Route Bendahara
 Route::get('/bendahara/sign/{id}', [BendaharaController::class, 'document_sign'])->name('bendahara.sign');
 Route::put('/bendahara/verifikasi/{id}', [BudgetSubmissionController::class, 'final_verification'])->name('bendahara.verification');
-Route::get('/archive/pengajuan/{id}', [DigitalArchiveController::class, 'show_in_year'])->name('digital.archive');
-Route::get('/archive/pengajuan/show/{id}', [DigitalArchiveController::class, 'show_digital_archive'])->name('digital.archive.show');
+// Route::get('/archive/pengajuan/{id}', [DigitalArchiveController::class, 'show_in_year'])->name('digital.archive');
+// Route::get('/archive/pengajuan/show/{id}', [DigitalArchiveController::class, 'show_digital_archive'])->name('digital.archive.show');
 Route::get('/bendahara/pengajuan', [BendaharaController::class, 'pengajuan'])->name('bendahara.pengajuan');
 // =================================================================== Route Resource
 Route::resource('/cabinet', CabinetController::class);
@@ -149,6 +149,8 @@ Route::resource('/pengajuan', BudgetSubmissionController::class);
 Route::resource('/archive/digital', DigitalArchiveController::class);
 
 Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+
+Route::resource('/digital', DigitalArchiveController::class);
 
 // ======================================================================= costum global
 Route::get('/viewfile/{id}', [BudgetSubmissionController::class, 'lihat_pengajuan'])->name('view.file');

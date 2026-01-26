@@ -9,13 +9,13 @@
     {{-- TOMBOL KEMBALI --}}
     <div class="#">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-            <a href="{{ route('archive.list', $folders->id) }}"
-                class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
-                    shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                </svg>
-            </a>             
+                {{-- <a href="{{ route('archive.list', $digital->id) }}"
+                    class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
+                        shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                </a>              --}}
         </div>
     </div>
 
@@ -26,29 +26,29 @@
 
                 {{-- Header --}}
                 <div class="mb-8 pb-4 border-b border-gray-200">
-                    <h3 class="text-xl font-semibold text-gray-800">Form Input Arsip Baru</h3>
-                    <p class="text-sm text-gray-600 mt-1">Lengkapi data arsip berikut dengan benar.</p>
+                    <h3 class="text-xl font-semibold text-gray-800">Form Edit Arsip</h3>
+                    <p class="text-sm text-gray-600 mt-1">Lengkapi informasi dengan benar dan teliti</p>
                 </div>
 
-                {{-- Form --}}
-                <form action="{{ route('file.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6 p-6">
+                {{-- FORM --}}
+                <form action="{{ route('digital.update', $digital->id) }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
                     @csrf
-                    <input type="hidden" name="folder_id" value="{{ $folders->id }}">
+                    @method('PUT')
 
-                    {{-- Nama File --}}
+                    {{-- Nama digital --}}
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Nama Arsip</p>
-                        <input type="text" name="file_name"  
+                        <input type="text" name="digital_name"   value="{{ old('digital_name', $digital->digital_name) }}"
                             class="w-full text-lg font-semibold text-gray-900 border-b border-gray-300
                             focus:border-indigo-500 focus:ring-0"
-                            placeholder="Nama File Arsip">
+                            placeholder="Nama digital Arsip">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         {{-- Kode Klasifikasi --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Kode Klasifikasi</p>
-                            <input type="text" name="kode_klasifikasi"  
+                            <input type="text" name="kode_klasifikasi"   value="{{ old('kode_klasifikasi', $digital->kode_klasifikasi) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Kode Klasifikasi">
                         </div>
@@ -56,7 +56,7 @@
                         {{-- Indeks 1 --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Indeks 1</p>
-                            <input type="text" name="indeks1"  
+                            <input type="text" name="indeks1"   value="{{ old('indeks1', $digital->indeks1) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Indeks 1">
                         </div>
@@ -64,7 +64,7 @@
                         {{-- Indeks 2 --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Indeks 2</p>
-                            <input type="text" name="indeks2"  
+                            <input type="text" name="indeks2"   value="{{ old('indeks2', $digital->indeks2) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Indeks 2">
                         </div>
@@ -72,7 +72,7 @@
                         {{-- No Item --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">No Item</p>
-                            <input type="number" name="no_item"  
+                            <input type="number" name="no_item"   value="{{ old('no_item', $digital->no_item) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="No Item">
                         </div>
@@ -82,14 +82,14 @@
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Uraian</p>
                         <textarea name="uraian" rows="2"   placeholder="Contoh: ada / tidak"
-                            class="w-full font-semibold text-gray-900 bg-transparent border-2 border-gray-300 focus:border-indigo-500 focus:ring-0 px-3 py-2"></textarea>
+                            class="w-full font-semibold text-gray-900 bg-transparent border-2 border-gray-300 focus:border-indigo-500 focus:ring-0 px-3 py-2">{{ old('uraian', $digital->uraian) }}</textarea>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         {{-- No SPBy --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">No SPBy</p>
-                            <input type="text" name="no_spby"  
+                            <input type="text" name="no_spby"   value="{{ old('no_spby', $digital->no_spby) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="No SPBy">
                         </div>
@@ -97,7 +97,7 @@
                         {{-- No SPM --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">No SPM</p>
-                            <input type="text" name="no_spm"  
+                            <input type="text" name="no_spm"   value="{{ old('no_spm', $digital->no_spm) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="No SPM">
                         </div>
@@ -105,7 +105,7 @@
                         {{-- Jenis SPM --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Jenis SPM</p>
-                            <input type="text" name="jenis_spm"  
+                            <input type="text" name="jenis_spm"   value="{{ old('jenis_spm', $digital->jenis_spm) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Jenis SPM">
                         </div>
@@ -113,7 +113,7 @@
                         {{-- NIlai SP2D --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Nilai SP2D</p>
-                            <input type="text" name="nilai_sp2d"  
+                            <input type="text" name="nilai_sp2d"   value="{{ old('nilai_sp2d', $digital->nilai_sp2d) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Nilai SP2D">
                         </div>
@@ -123,7 +123,7 @@
                         {{-- Tanggal SP2D --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Tanggal SP2D</p>
-                            <input type="date" name="tgl_sp2d"  
+                            <input type="date" name="tgl_sp2d"   value="{{ old('tgl_sp2d', $digital->tgl_sp2d) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Tanggal SP2D">
                         </div>
@@ -131,7 +131,7 @@
                         {{-- Tanggal selesai SP2D --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Tanggal Selesai SP2D</p>
-                            <input type="date" name="tgl_selesai_sp2d"  
+                            <input type="date" name="tgl_selesai_sp2d"   value="{{ old('tgl_selesai_sp2d', $digital->tgl_selesai_sp2d) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Tanggal Selesai SP2D">
                         </div>   
@@ -139,7 +139,7 @@
                         {{-- Tanggal Invoice --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Tanggal Invoice</p>
-                            <input type="text" name="tgl_invoice"  
+                            <input type="text" name="tgl_invoice"   value="{{ old('tgl_invoice', $digital->tgl_invoice) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Tanggal Invoice">
                         </div>
@@ -147,7 +147,7 @@
                         {{-- Tanggal terima --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Tanggal Terima</p>
-                            <input type="date" name="tgl_terima"  
+                            <input type="date" name="tgl_terima"   value="{{ old('tgl_terima', $digital->tgl_terima) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Tanggal Terima">
                         </div>
@@ -157,7 +157,7 @@
                         {{-- No Invoice --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">No Invoice</p>
-                            <input type="text" name="no_invoice"  
+                            <input type="text" name="no_invoice"   value="{{ old('no_invoice', $digital->no_invoice) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="No Invoice">
                         </div>
@@ -165,7 +165,7 @@
                         {{-- Tingkat Pertimbangan --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Tingkat Pertimbangan</p>
-                            <input type="text" name="tingkat_pertimbangan"  
+                            <input type="text" name="tingkat_pertimbangan"   value="{{ old('tingkat_pertimbangan', $digital->tingkat_pertimbangan) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Tingkat Pertimbangan">
                         </div>
@@ -173,7 +173,7 @@
                         {{-- Jumlah Halaman --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Jumlah Halaman</p>
-                            <input type="number" name="jumlah_halaman"  
+                            <input type="number" name="jumlah_halaman"   value="{{ old('jumlah_halaman', $digital->jumlah_halaman) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Jumlah Halaman">
                         </div>
@@ -183,7 +183,7 @@
                         {{-- Retensi Arsip Aktif --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Retensi Arsip Aktif</p>
-                            <input type="number" name="retensi_arsip_aktif"  
+                            <input type="number" name="retensi_arsip_aktif"   value="{{ old('retensi_arsip_aktif', $digital->retensi_arsip_aktif) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Retensi Arsip Aktif">
                         </div>
@@ -191,7 +191,7 @@
                         {{-- Retensi Aktif Inaktif --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Retensi Arsip Inaktif</p>
-                            <input type="number" name="retensi_arsip_inaktif"  
+                            <input type="number" name="retensi_arsip_inaktif"   value="{{ old('retensi_arsip_inaktif', $digital->retensi_arsip_inaktif) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Retensi Arsip Aktif">
                         </div>
@@ -199,7 +199,7 @@
                         {{-- Nasib Akhir Arsip --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Nasib Akhir Arsip</p>
-                            <input type="text" name="nasib_akhir_arsip"  
+                            <input type="text" name="nasib_akhir_arsip"   value="{{ old('nasib_akhir_arsip', $digital->nasib_akhir_arsip) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Nasib Akhir Arsip">
                         </div>
@@ -207,7 +207,7 @@
                         {{-- Klasifikasi Keamanan --}}
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Klasifikasi Keamanan</p>
-                            <input type="text" name="klasifikasi_keamanan"  
+                            <input type="text" name="klasifikasi_keamanan"   value="{{ old('klasifikasi_keamanan', $digital->klasifikasi_keamanan) }}"
                                 class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                                 focus:border-indigo-500 focus:ring-0" placeholder="Klasifikasi Keamanan">
                         </div>
@@ -216,50 +216,85 @@
                     {{-- Status --}}
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Status</p>
-                        <input type="text" name="status"  
+                        <input type="text" name="status"   value="{{ old('status', $digital->status) }}"
                             class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                             focus:border-indigo-500 focus:ring-0" placeholder="Status">
                     </div>  
-                    
+
                     {{-- Keterangan --}}
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-2">Keterangan / Deskripsi</p>
-                        <input type="text" name="keterangan"  
+                        <input type="text" name="keterangan"   value="{{ old('keterangan', $digital->keterangan) }}"
                             class="w-full font-semibold text-gray-900 bg-transparent border-b border-gray-300
                             focus:border-indigo-500 focus:ring-0" placeholder="Keterangan">
                     </div>
 
-                    {{-- Upload PDF --}}
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Upload File PDF Arsip
-                        </label>
-                        <input type="file" name="file_archive"
-                            class="w-full block rounded-lg border border-gray-300 bg-gray-50 file:bg-indigo-600 file:text-white file:border-none file:py-2 file:px-4 file:rounded-lg file:cursor-pointer hover:file:bg-indigo-700 transition"
-                            accept="application/pdf">
-                        <p class="text-xs text-gray-500 mt-1">Format: PDF • Maksimal 20MB</p>
+                    {{-- digital ARSIP --}}
+                    <div class="space-y-3">
+                        @if ($digital->digital_path)
+                            {{-- digital Saat Ini --}}
+                            <div class="relative overflow-hidden rounded-xl border border-green-200 bg-white p-5 shadow-sm">
+                                <div class="flex items-center justify-between gap-4">
+
+                                    {{-- Kiri : Icon + Info --}}
+                                    <div class="flex items-start gap-4 min-w-0">
+                                        <div class="flex-shrink-0 p-3 bg-green-100 rounded-xl">
+                                            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </div>
+
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-semibold text-green-700">digital Arsip Tersedia</p>
+                                            <p class="text-sm text-red-700 truncate mt-1"><span>📄 {{ basename($digital->digital_path) }}</span></p>
+                                        </div>
+                                    </div>
+
+                                    {{-- Kanan : Tombol --}}
+                                    <div class="flex-shrink-0">
+                                        <a href="{{ route('archive.looks', $digital->id) }}" target="_blank"
+                                            class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg shadow transition-all duration-200">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5 c4.478 0 8.268 2.943 9.542 7 -1.274 4.057-5.064 7-9.542 7 -4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                            Lihat digital
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <input type="digital" name="digital_archive" accept="application/pdf"
+                            class="w-full rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 cursor-pointer digital:mr-4 digital:px-6 digital:py-3
+                            digital:rounded-lg digital:border-0 digital:bg-indigo-600 digital:text-white hover:digital:bg-indigo-700 focus:ring-4 focus:ring-indigo-100 transition" />
+                        <p class="text-xs text-gray-500 ml-1">Format PDF • Maksimal 20MB</p>
                     </div>
 
-                    {{-- ACTION BUTTONS --}}
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                        <p class="flex items-center gap-2 text-sm text-gray-500">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {{-- ACTION --}}
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4">
+                        <p class="text-sm text-gray-500 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor"
+                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                      d="M12 9v2m0 4h.01
+                                         m-6.938 4h13.856" />
                             </svg>
-                            Semua field wajib diisi
+                            Perubahan akan tersimpan permanen
                         </p>
 
                         <div class="flex gap-3 w-full sm:w-auto">
                             <button type="submit"
-                                    class="flex-1 px-8 py-2.5 rounded-lg text-white font-semibold bg-gradient-to-r from-green-600 to-emerald-600 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition">
-                                Simpan
+                                    class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-8 py-2.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                                Update
                             </button>
-
-                            <a href="{{ route('archive.list', $folders->id) }}"
-                                class="flex-1 px-5 py-2.5 rounded-lg font-semibold text-gray-700 bg-gray-300 hover:bg-gray-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition text-center">
+                            {{-- <a href="{{ route('archive.list', $digital->folder_id) }}"
+                               class="flex-1 px-5 py-2.5 rounded-lg font-semibold text-gray-700 bg-gray-300 hover:bg-gray-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition text-center">
                                 Batal
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
 

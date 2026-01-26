@@ -131,10 +131,6 @@
                             <p class="text-gray-400 text-sm">Arsip digital akan ditampilkan di sini</p>
                         </div>
                     @endforelse
-<<<<<<< HEAD
-=======
-
->>>>>>> main
                 </div>
             </div>
         </div>
