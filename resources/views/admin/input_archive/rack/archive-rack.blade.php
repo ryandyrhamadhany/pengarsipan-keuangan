@@ -15,7 +15,7 @@
                     shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2"d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
                 </a>
             </div>
@@ -39,64 +39,64 @@
                                 Kelola Rak Arsip
                             </h3>
                             <p class="text-sm font-semibold text-gray-500">Total Rak : {{ $racks->count() }} Item</p>
-                        </div>
-                    </div>
+    </div>
+    </div>
 
-                    <div class="flex items-center gap-3">
-                        Tombol Tambah Rak
-                        <a href="{{ route('rack.create_with_year', $year->id) }}"
-                            class="inline-flex items-center gap-2 px-4 py-2
+    <div class="flex items-center gap-3">
+        Tombol Tambah Rak
+        <a href="{{ route('rack.create_with_year', $year->id) }}"
+            class="inline-flex items-center gap-2 px-4 py-2
                                    bg-gradient-to-r from-emerald-500 to-teal-600
                                    hover:from-emerald-600 hover:to-teal-700
                                    text-white font-medium rounded-lg
                                    shadow-lg hover:shadow-xl
                                    transform hover:-translate-y-0.5
                                    transition-all duration-200"> --}}
-        <div class="py-8 bg-gray-50 min-h-screen">
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="py-8 bg-gray-50 min-h-screen">
+                <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-                {{-- Section Arsip Fisik --}}
-                <div class="bg-white shadow-md sm:rounded-xl p-6 border border-gray-200">
-                    <div class="flex justify-between items-start mb-6">
-                        <h3 class="text-lg font-semibold text-gray-700">Arsip Fisik</h3>
+                    {{-- Section Arsip Fisik --}}
+                    <div class="bg-white shadow-md sm:rounded-xl p-6 border border-gray-200">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-lg font-semibold text-gray-700">Arsip Fisik</h3>
 
-                        <div class="flex items-center gap-3">
-                            {{-- Tombol Tambah Rak --}}
-                            <a href="{{ route('rack.create', $category->id) }}"
-                                class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700
+                            <div class="flex items-center gap-3">
+                                {{-- Tombol Tambah Rak --}}
+                                <a href="{{ route('rack.create', $category->id) }}"
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700
                                    text-white font-medium rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
-                                <img src="https://img.icons8.com/?size=24&id=48427&format=png&color=ffffff"
-                                    class="w-5" />
-                                Tambah Rak Arsip
-                            </a>
+                                    <img src="https://img.icons8.com/?size=24&id=48427&format=png&color=ffffff"
+                                        class="w-5" />
+                                    Tambah Rak Arsip
+                                </a>
+                            </div>
                         </div>
-                    </div>
 
-                    {{-- Daftar Rak --}}
-                    @php $no = 1; @endphp
+                        {{-- Daftar Rak --}}
+                        @php $no = 1; @endphp
 
-                    @if ($racks->count() > 0)
+                        @if ($racks->count() > 0)
                         <div class="mt-10 space-y-4 rounded-lg">
                             @foreach ($racks as $rak)
-                                {{-- <<<<<<< HEAD <div
+                            {{-- <<<<<<< HEAD <div
                                 class="flex items-center justify-between p-4 bg-white border border-gray-400 rounded-lg
                                     shadow-sm hover:shadow-md hover:bg-gray-300 transition-all duration-200 group">
                                 ======= --}}
-                                <div
-                                    class="flex items-center justify-between p-4 bg-white border border-gray-400 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-300 transition group">
+                            <div
+                                class="flex items-center justify-between p-4 bg-white border border-gray-400 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-300 transition group">
 
-                                    {{-- Bagian Klik Utama --}}
-                                    <a href="{{ route('rack.show', $rak->id) }}"
-                                        class="flex items-center gap-4 flex-1 group-hover:text-indigo-600">
-                                        {{-- <<<<<<< HEAD <div
+                                {{-- Bagian Klik Utama --}}
+                                <a href="{{ route('rack.show', $rak->id) }}"
+                                    class="flex items-center gap-4 flex-1 group-hover:text-indigo-600">
+                                    {{-- <<<<<<< HEAD <div
                                             class="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-semibold">
                                             ======= --}}
-                                        <div
-                                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-semibold">
-                                            {{ $no++ }}
-                                        </div>
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-semibold">
+                                        {{ $no++ }}
+                                    </div>
 
-                                        {{-- <div
+                                    {{-- <div
                                             class="w-12 h-12 flex items-center justify-center bg-white rounded-lg border-2 border-cyan-400 group-hover:border-cyan-400 group-hover:scale-110 transition-all duration-300 shadow-md">
                                             <svg class="w-7 h-7 text-emerald-500" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -105,54 +105,54 @@
                                             </svg>
                                         </div> --}}
 
-                                        <div class="space-y-1">
-                                            {{-- Nama Rak --}}
-                                            <p class="text-gray-900 font-semibold text-base leading-tight">
-                                                {{ $rak->rack_name }}
-                                            </p>
+                                    <div class="space-y-1">
+                                        {{-- Nama Rak --}}
+                                        <p class="text-gray-900 font-semibold text-base leading-tight">
+                                            {{ $rak->rack_name }}
+                                        </p>
 
-                                            {{-- Informasi Detail --}}
-                                            <div class="flex items-center gap-4 text-sm text-gray-600">
-                                                {{-- Kode Rak --}}
-                                                {{-- <span
+                                        {{-- Informasi Detail --}}
+                                        <div class="flex items-center gap-4 text-sm text-gray-600">
+                                            {{-- Kode Rak --}}
+                                            {{-- <span
                                                     class="flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-lg">
                                                     <img src="https://img.icons8.com/?size=16&id=7880&format=png&color=4b5563"
                                                         class="w-4 opacity-70">
                                                     {{ $rak->kode_rack ?? '-' }}
-                                                </span> --}}
-                                                {{-- Kategori --}} <span
-                                                    class="flex items-center gap-1 bg-indigo-100 px-2 py-0.5 rounded-lg text-indigo-700">
-                                                    {{ $rak->category->category_name ?? '-' }}
-                                                </span>
-                                            </div>
+                                            </span> --}}
+                                            {{-- Kategori --}} <span
+                                                class="flex items-center gap-1 bg-indigo-100 px-2 py-0.5 rounded-lg text-indigo-700">
+                                                {{ $rak->category->category_name ?? '-' }}
+                                            </span>
                                         </div>
+                                    </div>
+                                </a>
+
+                                {{-- Tombol Aksi --}}
+                                <div class="flex items-center gap-2 ml-4">
+                                    <a href="{{ route('rack.edit', $rak->id) }}"
+                                        class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-md p-2 transition"
+                                        title="Edit">
+                                        <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff"
+                                            alt="edit">
                                     </a>
 
-                                    {{-- Tombol Aksi --}}
-                                    <div class="flex items-center gap-2 ml-4">
-                                        <a href="{{ route('rack.edit', $rak->id) }}"
-                                            class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-md p-2 transition"
-                                            title="Edit">
-                                            <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff"
-                                                alt="edit">
-                                        </a>
-
-                                        <form action="{{ route('rack.delete', $rak->id) }}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus rak ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-md p-2 transition"
-                                                title="Hapus">
-                                                <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff"
-                                                    alt="delete">
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <form action="{{ route('rack.delete', $rak->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus rak ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-md p-2 transition"
+                                            title="Hapus">
+                                            <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff"
+                                                alt="delete">
+                                        </button>
+                                    </form>
                                 </div>
+                            </div>
                             @endforeach
                         </div>
-                    @else
+                        @else
                         {{-- Empty State --}}
                         {{-- <div
                         class="mt-10 text-center bg-white rounded-2xl shadow-md border border-gray-200 py-24">
@@ -183,104 +183,107 @@
                                 tambahkan rak
                                 pertama untuk mulai menyimpan dokumen Anda.</p>
                         </div>
-                    @endif
-                </div>
-
-                {{-- Section Arsip Digital --}}
-                <div class="bg-white shadow-md sm:rounded-xl p-6 border border-gray-200">
-                    <div class="flex justify-between items-start mb-6">
-                        <h3 class="text-lg font-semibold text-gray-700">Arsip Digital</h3>
-
-                        <div class="flex items-center gap-3">
-                            {{-- Tombol Tambah Arsip Digital (opsional) --}}
-                            <a href="#"
-                                class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700
-                                   text-white font-medium rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
-                                <img src="https://img.icons8.com/?size=24&id=48427&format=png&color=ffffff"
-                                    class="w-5" />
-                                Tambah Arsip Digital
-                            </a>
-                        </div>
+                        @endif
                     </div>
 
-                    {{-- Daftar Arsip Digital --}}
-                    @php $noDigital = 1; @endphp
+                    {{-- Section Arsip Digital --}}
+                    <div class="bg-white shadow-md sm:rounded-xl p-6 border border-gray-200">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-lg font-semibold text-gray-700">Arsip Digital</h3>
 
-                    @if ($digitalarchive->count() > 0)
+                            <div class="flex items-center gap-3">
+                                {{-- Tombol Tambah Arsip Digital (opsional) --}}
+                                <a href="#"
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700
+                                   text-white font-medium rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                                    <img src="https://img.icons8.com/?size=24&id=48427&format=png&color=ffffff"
+                                        class="w-5" />
+                                    Tambah Arsip Digital
+                                </a>
+                            </div>
+                        </div>
+
+                        {{-- Daftar Arsip Digital --}}
+                        @php $noDigital = 1; @endphp
+
+                        @if ($digitalarchive->count() > 0)
                         <div class="divide-y divide-gray-200 rounded-lg border border-gray-100">
                             @foreach ($digitalarchive as $archive)
-                                <div
-                                    class="flex items-center justify-between p-4 bg-white border border-gray-400 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-300 transition group">
+                            <div
+                                class="flex items-center justify-between p-4 bg-white border border-gray-400 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-300 transition group">
 
-                                    {{-- Bagian Klik Utama --}}
-                                    <a href="#"
-                                        class="flex items-center gap-4 flex-1 group-hover:text-indigo-600">
-                                        <div
-                                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-semibold">
-                                            {{ $noDigital++ }}
+                                {{-- Bagian Klik Utama --}}
+                                <a href="#"
+                                    class="flex items-center gap-4 flex-1 group-hover:text-indigo-600">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-semibold">
+                                        {{ $noDigital++ }}
+                                    </div>
+                                    <div class="space-y-2 flex-1">
+                                        {{-- Nama Arsip --}}
+                                        <p class="text-gray-900 font-semibold text-base leading-tight">
+                                            {{ $archive->archive_name }}
+                                        </p>
+
+                                        {{-- Informasi Detail --}}
+                                        <div class="flex flex-wrap items-center gap-3 text-sm text-gray-600">
+                                            {{-- Diajukan Oleh --}}
+                                            <span class="flex items-center gap-1.5">
+                                                <img src="https://img.icons8.com/?size=16&id=23264&format=png&color=4b5563"
+                                                    class="w-4 opacity-70">
+                                                <span class="text-gray-500">Diajukan:</span>
+                                                <span
+                                                    class="font-medium text-gray-700">{{ $archive->submiter_name }}</span>
+                                            </span>
+
+                                            {{-- Divider --}}
+                                            <span class="text-gray-300">•</span>
+
+                                            {{-- Ditandatangani Oleh --}}
+                                            <span class="flex items-center gap-1.5">
+                                                <span class="text-gray-500">Ditandatangani:</span>
+                                                <span
+                                                    class="font-medium text-gray-700">{{ $archive->revenue_officer_name }}</span>
+                                            </span>
                                         </div>
-                                        <div class="space-y-2 flex-1">
-                                            {{-- Nama Arsip --}}
-                                            <p class="text-gray-900 font-semibold text-base leading-tight">
-                                                {{ $archive->archive_name }}
-                                            </p>
+                                    </div>
+                                </a>
 
-                                            {{-- Informasi Detail --}}
-                                            <div class="flex flex-wrap items-center gap-3 text-sm text-gray-600">
-                                                {{-- Diajukan Oleh --}}
-                                                <span class="flex items-center gap-1.5">
-                                                    <img src="https://img.icons8.com/?size=16&id=23264&format=png&color=4b5563"
-                                                        class="w-4 opacity-70">
-                                                    <span class="text-gray-500">Diajukan:</span>
-                                                    <span
-                                                        class="font-medium text-gray-700">{{ $archive->submiter_name }}</span>
-                                                </span>
-
-                                                {{-- Divider --}}
-                                                <span class="text-gray-300">•</span>
-
-                                                {{-- Ditandatangani Oleh --}}
-                                                <span class="flex items-center gap-1.5">
-                                                    <span class="text-gray-500">Ditandatangani:</span>
-                                                    <span
-                                                        class="font-medium text-gray-700">{{ $archive->revenue_officer_name }}</span>
-                                                </span>
-                                            </div>
-                                        </div>
+                                {{-- Tombol Aksi --}}
+                                <div class="flex items-center gap-2 ml-4">
+                                    <a href="{{route('digital.show', $archive->id)}}"
+                                        class="flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 rounded-md p-2 transition"
+                                        title="Lihat Detail">
+                                        <img src="https://img.icons8.com/?size=24&id=85146&format=png&color=ffffff"
+                                            alt="view">
                                     </a>
 
-                                    {{-- Tombol Aksi --}}
-                                    <div class="flex items-center gap-2 ml-4">
-                                        <a href="{{route('digital.show', $archive->id)}}"
-                                            class="flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 rounded-md p-2 transition"
-                                            title="Lihat Detail">
-                                            <img src="https://img.icons8.com/?size=24&id=85146&format=png&color=ffffff"
-                                                alt="view">
-                                        </a>
+                                    <a href="{{route('digital.edit', $archive->id)}}"
+                                        class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-md p-2 transition"
+                                        title="Edit">
+                                        <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff"
+                                            alt="edit">
+                                    </a>
 
-                                        <a href="{{route('digital.edit', $archive->id)}}"
-                                            class="flex items-center justify-center bg-amber-500 hover:bg-orange-600 rounded-md p-2 transition"
-                                            title="Edit">
-                                            <img src="https://img.icons8.com/?size=24&id=88584&format=png&color=ffffff"
-                                                alt="edit">
-                                        </a>
-
-                                        <form action="{{route('digital.destroy', $archive->id)}}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus arsip digital ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-md p-2 transition"
-                                                title="Hapus">
-                                                <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff"
-                                                    alt="delete">
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <form action="{{route('digital.destroy', $archive->id)}}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus arsip digital ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-md p-2 transition"
+                                            title="Hapus">
+                                            <img src="https://img.icons8.com/?size=24&id=43949&format=png&color=ffffff"
+                                                alt="delete">
+                                        </button>
+                                    </form>
                                 </div>
+                            </div>
                             @endforeach
+                            <div>
+                                {{ $digitalarchive->links() }}
+                            </div>
                         </div>
-                    @else
+                        @else
                         {{-- Empty State --}}
                         <div class="mt-10 text-center bg-white rounded-2xl shadow-md border border-gray-200 py-10">
                             <div
@@ -298,8 +301,8 @@
                                 Silakan
                                 tambahkan rak pertama untuk mulai menyimpan dokumen Anda.</p>
                         </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
 </x-app-layout>

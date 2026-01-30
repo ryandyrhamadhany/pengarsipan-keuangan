@@ -34,6 +34,7 @@
                 'Admin' => route('admin.dashboard'),
                 'Keuangan' => route('keuangan.dashboard'),
                 'Bendahara' => route('bendahara.dashboard'),
+                'Kepala Kantor TVRI' => route('kepala.dashboard'),
                 default => route('user.dashboard'),
             };
 
@@ -56,9 +57,19 @@
             $unreadCount = Notification::where('user_id', Auth::id())->where('is_read', false)->count();
             $notificationRoute = route('notifications.index');
 
+            $roleReport = match ($role) {
+                'Admin' => route('admin.report'),
+                'Bendahara' => route('bendahara.report'),
+                'Keuangan' => route('keuangan.report'),
+                'Kepala Kantor TVRI' => route('kepala.report'),
+                default => route('user.report'),
+            };
+
             // Define icons for each menu item
             $icons = [
                 'Dashboard' =>
+                    'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
+                'Report' =>
                     'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
                 'Setting Environment' =>
                     'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8v2m0-2a2 2 0 100 4m0-4a2 2 0 110 4m12-2v2m0-2a2 2 0 100 4m0-4a2 2 0 110 4',
@@ -89,38 +100,43 @@
                         'href' => $roleEnvironment,
                         'icon' => $icons['Setting Environment'],
                     ],
-                    ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
+                    ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                     ['label' => 'Kelola User', 'href' => $roleKelolaUser, 'icon' => $icons['Kelola User']],
+                    ['label' => 'Report', 'href' => $roleReport, 'icon' => $icons['Report']],
+                    
                 ];
             } elseif ($role === 'Keuangan') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
                     ['label' => 'Pengajuan', 'href' => route('keuangan.pengajuan'), 'icon' => $icons['Pengajuan']],
                     // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
-                    ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
+                    ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                     [
                         'label' => 'Notifikasi',
                         'href' => $notificationRoute,
                         'icon' => $icons['Notifikasi'],
                         'badge' => $unreadCount,
                     ],
+                    ['label' => 'Report', 'href' => $roleReport, 'icon' => $icons['Report']],
                 ];
             } elseif ($role === 'Bendahara') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
                     ['label' => 'Pengajuan', 'href' => route('bendahara.pengajuan'), 'icon' => $icons['Pengajuan']],
                     // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
-                    ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
+                    ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                     [
                         'label' => 'Notifikasi',
                         'href' => $notificationRoute,
                         'icon' => $icons['Notifikasi'],
                         'badge' => $unreadCount,
                     ],
+                    ['label' => 'Report', 'href' => $roleReport, 'icon' => $icons['Report']],
                 ];
-            } elseif ($role === 'Kepala Kantor') {
+            } elseif ($role === 'Kepala Kantor TVRI') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
+                    ['label' => 'Report', 'href' => $roleReport, 'icon' => $icons['Report']],
                     // ['label' => 'Pengajuan', 'href' => route('bendahara.pengajuan'), 'icon' => $icons['Pengajuan']],
                     // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
                     // ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
@@ -137,13 +153,14 @@
                         ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
                         ['label' => 'Pengajuan', 'href' => $pengajuan, 'icon' => $icons['Pengajuan']],
                         ['label' => 'Worklist', 'href' => $worklist, 'icon' => $icons['Worklist']],
-                        ['label' => 'Input Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
+                        ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                         [
                             'label' => 'Notifikasi',
                             'href' => $notificationRoute,
                             'icon' => $icons['Notifikasi'],
                             'badge' => $unreadCount,
                         ],
+                        ['label' => 'Report', 'href' => $roleReport, 'icon' => $icons['Report']],
                     ];
                 } else {
                     $menuItems = [
@@ -156,6 +173,7 @@
                             'icon' => $icons['Notifikasi'],
                             'badge' => $unreadCount,
                         ],
+                        ['label' => 'Report', 'href' => $roleReport, 'icon' => $icons['Report']],
                     ];
                 }
             }

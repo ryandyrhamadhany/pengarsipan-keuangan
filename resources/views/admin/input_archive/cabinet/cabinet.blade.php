@@ -9,44 +9,64 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             {{-- Header Section with Search --}}
-            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 border border-gray-200">
-                <div class="flex items-center mb-6">
-                    <div class="p-3 bg-gradient-to-b from-[#003A8F] to-[#002766] rounded-xl mr-4">
-                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
+            <div class="bg-white rounded-md shadow-sm border border-gray-200 p-6 mb-6">
+                <form method="GET" action="{{route('admin.search')}}" class="space-y-5">
+                    
+                    {{-- Search --}}
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-800">Kelola Arsip</h3>
-                        <p class="text-gray-500 text-sm mt-1">Cari dan kelola semua kabinet arsip Anda</p>
-                    </div>
-                </div>
-
-                {{-- Search Bar --}}
-                <form action="{{ route('search.index') }}" method="GET">
-                    <div class="relative flex items-center gap-3">
-                        <div class="relative flex-1">
-                            <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
-                                <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Cari Pengajuan</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" 
-                                   name="search" 
-                                   value="{{ request('search') }}" 
-                                   placeholder="Cari nama file, kabinet, atau kode..." 
-                                   class="w-full bg-white border border-gray-300 rounded-xl py-3 pl-12 pr-4 text-gray-700 placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition">
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-colors"
+                                placeholder="Cari nama pengajuan...">
+                        </div>
+                    </div>
+
+                    {{-- Date Range & Buttons --}}
+                    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                        
+                        {{-- Date Inputs --}}
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Mulai Tanggal</label>
+                                <input type="date" name="start_date" value="{{ request('start_date') }}"
+                                    class="block w-full px-3 py-2.5 border border-gray-300 rounded-md text-gray-900 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Sampai Tanggal</label>
+                                <input type="date" name="end_date" value="{{ request('end_date') }}"
+                                    class="block w-full px-3 py-2.5 border border-gray-300 rounded-md text-gray-900 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-colors">
+                            </div>
                         </div>
 
-                        <button type="submit" 
-                                class="ml-3 px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl shadow-md transition flex items-center gap-2">
-                            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
-                            </svg>
-                            Cari
-                        </button>
+                        {{-- Action Buttons --}}
+                        <div class="flex gap-3">
+                            <a href="{{ url()->current() }}"
+                                class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-md transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                                    </path>
+                                </svg>
+                                Reset
+                            </a>
+                            <button type="submit"
+                                class="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#003A8F] hover:bg-[#003A9F] text-white font-medium rounded-md shadow-sm transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                Cari
+                            </button>
+                        </div>
                     </div>
+
                 </form>
             </div>
 

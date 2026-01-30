@@ -20,6 +20,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\PengajuanController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Kepala\KepalaController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\User\BudgetSubmissionController;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,8 @@ Route::middleware('auth', 'verified')->get('/dashboard', function () {
         return redirect()->route('keuangan.dashboard');
     } else if ($role == "Bendahara") {
         return redirect()->route('bendahara.dashboard');
+    } else if ($role == "Kepala Kantor TVRI") {
+        return redirect()->route('kepala.dashboard');
     } else {
         return redirect()->route('user.dashboard');
     }
@@ -51,6 +54,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/keuangan/dashboard', [KeuanganController::class, 'index'])->name('keuangan.dashboard');
     Route::get('/bendahara/dashboard', [BendaharaController::class, 'index'])->name('bendahara.dashboard');
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+    Route::get('/kepala/dashboard', [KepalaController::class, 'index'])->name('kepala.dashboard');
 });
 
 Route::middleware('auth')->group(function () {
@@ -73,6 +77,8 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 // =============================================================================================== route tampilan admin
+Route::get('/admin/search', [AdminController::class, 'search_archive'])->name('admin.search');
+
 Route::get('/create/category/{id}', [CategoryController::class, 'create_category_form_cabinet'])->name('category.create');
 Route::get('/list/category/{id}', [CategoryController::class, 'all_list'])->name('category.list');
 Route::delete('/delete/category/{id}', [CategoryController::class, 'destroy_category'])->name('category.delete');
@@ -115,10 +121,12 @@ Route::post('/file/upload/{id}', [ArchiveFileController::class, 'update_new_file
 
 Route::get('/kelola/user', [AdminController::class, 'kelola_user'])->name('admin.kelola');
 Route::get('/setting/environment', [AdminController::class, 'environment'])->name('admin.envi');
+Route::get('/administrator/report', [AdminController::class, 'report'])->name('admin.report');
 
 // =================================================================== Route tampilan User
 // Route::get('/pengajuan', [UserController::class, 'pengajuan'])->name('user.pengajuan');
 Route::get('/worklist', [UserController::class, 'worklist'])->name('user.worklist');
+Route::get('/user/report', [UserController::class, 'report'])->name('user.report');
 
 
 // ==================================================================== Route Keuangan
@@ -127,6 +135,8 @@ Route::get('/keuangan/check/{id}', [KeuanganController::class, 'check_pengajuan'
 Route::put('/keuangan/update/{id}', [BudgetSubmissionController::class, 'update_check'])->name('keuangan.checkandupate');
 Route::put('/keuangan/perbaiki/{id}', [BudgetSubmissionController::class, 'perbaikan'])->name('keuangan.perbaiki');
 Route::get('/keuangan/pengajuan', [KeuanganController::class, 'all_submit'])->name('keuangan.pengajuan');
+Route::get('/keuangan/report', [KeuanganController::class, 'report'])->name('keuangan.report');
+Route::get('/keuangan/search', [KeuanganController::class, 'search_pengajuan'])->name('keuangan.search');
 
 // ===================================================================== Route Bendahara
 Route::get('/bendahara/sign/{id}', [BendaharaController::class, 'document_sign'])->name('bendahara.sign');
@@ -134,9 +144,16 @@ Route::put('/bendahara/verifikasi/{id}', [BudgetSubmissionController::class, 'fi
 // Route::get('/archive/pengajuan/{id}', [DigitalArchiveController::class, 'show_in_year'])->name('digital.archive');
 // Route::get('/archive/pengajuan/show/{id}', [DigitalArchiveController::class, 'show_digital_archive'])->name('digital.archive.show');
 Route::get('/bendahara/pengajuan', [BendaharaController::class, 'pengajuan'])->name('bendahara.pengajuan');
+Route::get('/bendahara/report', [BendaharaController::class, 'report'])->name('bendahara.report');
 
 Route::get('/lihat/digital/{id}', [DigitalArchiveController::class, 'name_file'])->name('lihat.digital_archive');
 Route::get('/download/digital/{id}', [DigitalArchiveController::class, 'download_file'])->name('download.digital_archive');
+Route::get('/bendahara/search', [BendaharaController::class, 'search_pengajuan'])->name('bendahara.search');
+
+
+// =================================================================== Route Kepala 
+Route::get('/kepala/report', [KepalaController::class, 'report'])->name('kepala.report');
+
 // =================================================================== Route Resource
 Route::resource('/cabinet', CabinetController::class);
 Route::resource('/category', CategoryController::class);

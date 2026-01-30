@@ -343,15 +343,19 @@
                                 </thead>
 
                                 <tbody>
+                                    @php
+                                        $no = 1;
+                                    @endphp
                                     @foreach ($syaratDoc as $index => $dokumen)
-                                        <tr class="hover:bg-gray-50">
-                                            <td
-                                                class="px-4 py-3 border border-gray-300 text-gray-900 font-medium text-center">
-                                                {{ $index + 1 }}
-                                            </td>
-
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                        class="px-4 py-3 border border-gray-300 text-gray-900 font-medium text-center">
+                                        {{ $no++ }}
+                                    </td>
+                                    
                                             <td class="px-4 py-3 border border-gray-300 text-gray-900">
-                                                @php
+                                                {{$dokumen}}
+                                                {{-- @php
                                                     if (preg_match('/^[IVX]+\.\d+/', $dokumen)) {
                                                         echo "<span class='font-bold text-blue-700'>$dokumen</span>";
                                                     } elseif (preg_match('/^\d+\.\d+/', $dokumen)) {
@@ -359,7 +363,7 @@
                                                     } else {
                                                         echo "<span class='text-gray-800'>$dokumen</span>";
                                                     }
-                                                @endphp
+                                                @endphp --}}
                                             </td>
 
                                             <td class="px-4 py-3 border border-gray-300 text-center">

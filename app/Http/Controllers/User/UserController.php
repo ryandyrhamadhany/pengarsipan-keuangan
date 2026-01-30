@@ -59,4 +59,9 @@ class UserController extends Controller
         $archive_submit = BudgetSubmission::with('user')->where('user_id', Auth::id())->where('is_archive', 1)->paginate(10, ['*'], 'archive_submit');
         return view('user.worklist.worklist', compact('proses_submissions', 'all_submissions', 'archive_submit'));
     }
+
+    public function report()
+    {
+        return view('user.report.report');
+    }
 }

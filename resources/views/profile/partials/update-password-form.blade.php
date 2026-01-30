@@ -1,6 +1,6 @@
 <section class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
     {{-- HEADER WITH GRADIENT --}}
-    <div class="relative bg-gradient-to-r from-indigo-600 via-blue-600 to-blue-400 px-8 py-6">
+    <div class="relative bg-gradient-to-b from-[#003A8F] to-[#002766] px-8 py-4">
         <div class="absolute inset-0 bg-black/10"></div>
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIxIDEuNzktNCA0LTRzNCAxLjc5IDQgNC0xLjc5IDQtNCA0LTQtMS43OS00LTR6bTAgMTBjMC0yLjIxIDEuNzktNCA0LTRzNCAxLjc5IDQgNC0xLjc5IDQtNCA0LTQtMS43OS00LTR6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
         <div class="relative">
@@ -13,11 +13,11 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-2xl font-bold text-white">
+                        <h2 class="text-xl font-semibold text-white">
                             {{ __('Update Password') }}
                         </h2>
                         <p class="mt-1 text-sm text-white/90">
-                            {{ __('Ensure your account is using a long, random password to stay secure.') }}
+                            {{ __('Pastikan akun Anda menggunakan kata sandi yang panjang dan acak agar tetap aman.') }}
                         </p>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
     </div>
 
     {{-- FORM CONTENT --}}
-    <div class="px-8 py-8">
+    <div class="px-8 py-6">
         <form method="post" action="{{ route('password.update') }}" class="space-y-6">
             @csrf
             @method('put')
@@ -43,9 +43,10 @@
                         id="update_password_current_password" 
                         name="current_password" 
                         x-bind:type="show ? 'text' : 'password'" 
-                        class="pl-12 pr-12 block w-full rounded-xl border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 focus:ring-2 transition-all duration-200 hover:border-gray-400 bg-gray-50 focus:bg-white" 
+                        class="pl-12 pr-12 block w-full rounded-lg border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 focus:ring-1 transition-all duration-200 hover:border-gray-400 bg-gray-50 focus:bg-white" 
                         autocomplete="current-password"
-                        placeholder="Enter your current password"/>
+                        placeholder="Enter your current password"
+                    />
                     <button 
                         type="button"
                         @click="show = !show"
@@ -121,7 +122,7 @@
                         id="update_password_password" 
                         name="password" 
                         x-bind:type="show ? 'text' : 'password'" 
-                        class="pl-12 pr-12 block w-full rounded-xl border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 focus:ring-2 transition-all duration-200 hover:border-gray-400 bg-gray-50 focus:bg-white" 
+                        class="pl-12 pr-12 block w-full rounded-lg border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 focus:ring-1 transition-all duration-200 hover:border-gray-400 bg-gray-50 focus:bg-white" 
                         autocomplete="new-password"
                         placeholder="Create a strong password"
                         x-model="password"
@@ -219,7 +220,7 @@
                         id="update_password_password_confirmation" 
                         name="password_confirmation" 
                         x-bind:type="show ? 'text' : 'password'" 
-                        class="pl-12 pr-12 block w-full rounded-xl border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 focus:ring-2 transition-all duration-200 hover:border-gray-400 bg-gray-50 focus:bg-white" 
+                        class="pl-12 pr-12 block w-full rounded-lg border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 focus:ring-1 transition-all duration-200 hover:border-gray-400 bg-gray-50 focus:bg-white" 
                         autocomplete="new-password"
                         placeholder="Re-enter your new password"
                     />
@@ -240,9 +241,9 @@
             </div>
 
             {{-- ACTION BUTTONS --}}
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-6 border-t-2 border-gray-100">
+            <div class="flex items-center justify-end pt-4 border-t border-gray-200">
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                    <x-primary-button class="inline-flex items-center justify-center px-3 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                    <x-primary-button class="inline-flex items-center justify-center px-6 py-2 bg-gradient-to-b from-[#003A8F] to-[#002766] text-white font-bold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
@@ -275,7 +276,7 @@
 
                 <button 
                     type="reset"
-                    class="inline-flex items-center justify-center px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 font-semibold rounded-xl transition-all duration-200 border border-gray-300 hover:border-gray-400">
+                    class="inline-flex items-center justify-center px-6 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 font-semibold rounded-lg transition-all duration-200 border border-gray-300 hover:border-gray-400">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>

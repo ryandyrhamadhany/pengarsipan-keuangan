@@ -95,4 +95,26 @@ class BendaharaController extends Controller
 
         return view('bendahara.pengajuan', compact('pengajuans', 'submit_sign'));
     }
+
+    public function report()
+    {
+        return view('bendahara.report.report');
+    }
+
+    public function search_pengajuan(Request $request)
+    {
+        if ($request->search != null) {
+            $submit = BudgetSubmission::with('user')
+                ->where('budget_submission_name', 'LIKE', '%' . $request->search . '%')
+                ->where('verification_status', 1)
+                ->whereBetween('updated_at', [$request->start_date, $request->end_date])
+                ->latest()->get();
+        } else {
+            $submit = BudgetSubmission::with('user')
+                ->whereBetween('updated_at', [$request->start_date, $request->end_date])
+                ->where('verification_status', 1)
+                ->latest()->get();
+        }
+        return view('bendahara.search.search_result', compact('submit'));
+    }
 }

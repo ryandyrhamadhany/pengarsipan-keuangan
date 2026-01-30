@@ -75,76 +75,177 @@ class BudgetSubmissionController extends Controller
         }
 
         $index = 0;      // mengikuti array dari Blade
-        $row   = 7;      // mengikuti baris awal Excel
-        $endRow = 37;    // baris akhir Excel
+        $startCell = 7;
+        // $endCell = 36;
+        $currentRow = $startCell;
+        $maxRows = 100;
 
-        while ($row <= $endRow) {
-            if($row == 21){
-                $row++;
-                continue;
+        $syaratDoc = [];
+        while (count($syaratDoc) < 30 && $currentRow < $maxRows) {
+            $datasyarat = $worksheet->getCell("C{$currentRow}")->getValue();
+
+            // Cek apakah cell C kosong (baik null, spasi, atau empty string)
+            if ($datasyarat !== null && trim($datasyarat) !== '') {
+                $syaratDoc[] = $datasyarat;
+
+                $ada = $request->ada[$index] ?? null;
+                $ttd = $request->ttd[$index] ?? null;
+                $ket = $request->keterangan[$index] ?? '';
+
+                $worksheet->setCellValue("D{$currentRow}", ($ada == 1) ? 'Y' : '');
+                $worksheet->setCellValue("E{$currentRow}", ($ada == 0) ? 'Y' : '');
+                $worksheet->setCellValue("F{$currentRow}", ($ada == 2) ? 'Y' : '');
+
+                $worksheet->setCellValue("G{$currentRow}", ($ttd == 1) ? 'Y' : '');
+                $worksheet->setCellValue("H{$currentRow}", ($ttd == 0) ? 'Y' : '');
+
+                $worksheet->setCellValue("I{$currentRow}", $ket);
+
+                // $syaratDoc[] = $datasyarat;
+                // $ada[] = $worksheet->getCell("D{$currentRow}")->getValue();
+                // $tidakada[] = $worksheet->getCell("E{$currentRow}")->getValue();
+                // $tidakperlu[] = $worksheet->getCell("F{$currentRow}")->getValue();
+                // $lengkap[] = $worksheet->getCell("G{$currentRow}")->getValue();
+                // $belum[] = $worksheet->getCell("H{$currentRow}")->getValue();
+                // $keterangan[] = $worksheet->getCell("I{$currentRow}")->getValue();
             }
 
-            $ada = $request->ada[$index] ?? null;
-            $ttd = $request->ttd[$index] ?? null;
-            $ket = $request->keterangan[$index] ?? '';
-
-            // D = Ada
-            // E = Tidak Ada
-            // F = TTD Lengkap
-            // G = TTD Belum
-            // H = Keterangan
-
-            $worksheet->setCellValue("D{$row}", ($ada == 1) ? 'Y' : '');
-            $worksheet->setCellValue("E{$row}", ($ada == 0) ? 'Y' : '');
-            $worksheet->setCellValue("F{$row}", ($ada == 2) ? 'Y' : '');
-
-            $worksheet->setCellValue("G{$row}", ($ttd == 1) ? 'Y' : '');
-            $worksheet->setCellValue("H{$row}", ($ttd == 0) ? 'Y' : '');
-
-            $worksheet->setCellValue("I{$row}", $ket);
-
-            // NEXT
-            $row++;
             $index++;
+            $currentRow++;
         }
+
         $worksheet->setCellValue("B41", $request->catatan);
 
         $writer = new Xlsx($spreadsheet);
         $writer->save($filePathMetadata);
 
+        // while ($row <= $endRow) {
+        //     if($row == 21){
+        //         $row++;
+        //         continue;
+        //     }
+
+        //     $ada = $request->ada[$index] ?? null;
+        //     $ttd = $request->ttd[$index] ?? null;
+        //     $ket = $request->keterangan[$index] ?? '';
+
+        //     // D = Ada
+        //     // E = Tidak Ada
+        //     // F = TTD Lengkap
+        //     // G = TTD Belum
+        //     // H = Keterangan
+
+        //     $worksheet->setCellValue("D{$row}", ($ada == 1) ? 'Y' : '');
+        //     $worksheet->setCellValue("E{$row}", ($ada == 0) ? 'Y' : '');
+        //     $worksheet->setCellValue("F{$row}", ($ada == 2) ? 'Y' : '');
+
+        //     $worksheet->setCellValue("G{$row}", ($ttd == 1) ? 'Y' : '');
+        //     $worksheet->setCellValue("H{$row}", ($ttd == 0) ? 'Y' : '');
+
+        //     $worksheet->setCellValue("I{$row}", $ket);
+
+        //     // NEXT
+        //     $row++;
+        //     $index++;
+        // }
+
+
         // check kondisi kelengkapan
-        $row   = 7;
-        $endRow = 37;
+        $startCell = 7;
+        // $endCell = 36;
+        $currentRow = $startCell;
+        $maxRows = 100;
         $status_lengkap = false;
-        while ($row <= $endRow) {
-            if($row == 21){
-                $row++;
-                continue;
-            }
-            $valueADA = $worksheet->getCell("D{$row}")->getValue();
-            $valueADAtidakperlu = $worksheet->getCell("F{$row}")->getValue();
-            $valueLengkap = $worksheet->getCell("G{$row}")->getValue();
 
-            if ($valueADAtidakperlu === 'Y') {
+        $syaratDocAgain = [];
+        while (count($syaratDocAgain) < 30 && $currentRow < $maxRows) {
+            $datasyarat = $worksheet->getCell("C{$currentRow}")->getValue();
+
+            // Cek apakah cell C kosong (baik null, spasi, atau empty string)
+            if ($datasyarat !== null && trim($datasyarat) !== '') {
+                $syaratDocAgain[] = $datasyarat;
+
+                $valueADA = $worksheet->getCell("D{$currentRow}")->getValue();
+                $valueADAtidakperlu = $worksheet->getCell("F{$currentRow}")->getValue();
+                $valueLengkap = $worksheet->getCell("G{$currentRow}")->getValue();
+
+                if ($valueADAtidakperlu === 'Y') {
+                    $status_lengkap = 'Lengkap';
+                    $status_verifikasi = true;
+                    // $is_marked = 1;
+                } else {
+                    if ($valueADA === '' || $valueADA === null) {
+                        $status_lengkap = 'Belum Lengkap';
+                        $status_verifikasi = false;
+                        // $is_marked = 0;
+                        break;
+                    }
+                    if ($valueLengkap === '' || $valueLengkap === null) {
+                        $status_lengkap = 'Belum Lengkap';
+                        $status_verifikasi = false;
+                        // $is_marked = 0;
+                        break;
+                    }
+                }
                 $status_lengkap = 'Lengkap';
+                // $is_marked = 1;
                 $status_verifikasi = true;
-            } else {
-                if ($valueADA === '' || $valueADA === null) {
-                    $status_lengkap = 'Belum Lengkap';
-                    $status_verifikasi = false;
-                    break;
-                }
-                if ($valueLengkap === '' || $valueLengkap === null) {
-                    $status_lengkap = 'Belum Lengkap';
-                    $status_verifikasi = false;
-                    break;
-                }
-            }
-            $status_lengkap = 'Lengkap';
-            $status_verifikasi = true;
 
-            $row++;
+                // $ada = $request->ada[$index] ?? null;
+                // $ttd = $request->ttd[$index] ?? null;
+                // $ket = $request->keterangan[$index] ?? '';
+
+                // $worksheet->setCellValue("D{$currentRow}", ($ada == 1) ? 'Y' : '');
+                // $worksheet->setCellValue("E{$currentRow}", ($ada == 0) ? 'Y' : '');
+                // $worksheet->setCellValue("F{$currentRow}", ($ada == 2) ? 'Y' : '');
+
+                // $worksheet->setCellValue("G{$currentRow}", ($ttd == 1) ? 'Y' : '');
+                // $worksheet->setCellValue("H{$currentRow}", ($ttd == 0) ? 'Y' : '');
+
+                // $worksheet->setCellValue("I{$currentRow}", $ket);
+
+                // $syaratDoc[] = $datasyarat;
+                // $ada[] = $worksheet->getCell("D{$currentRow}")->getValue();
+                // $tidakada[] = $worksheet->getCell("E{$currentRow}")->getValue();
+                // $tidakperlu[] = $worksheet->getCell("F{$currentRow}")->getValue();
+                // $lengkap[] = $worksheet->getCell("G{$currentRow}")->getValue();
+                // $belum[] = $worksheet->getCell("H{$currentRow}")->getValue();
+                // $keterangan[] = $worksheet->getCell("I{$currentRow}")->getValue();
+            }
+
+            // $index++;
+            $currentRow++;
         }
+
+        // while ($row <= $endRow) {
+        //     if($row == 21){
+        //         $row++;
+        //         continue;
+        //     }
+        //     $valueADA = $worksheet->getCell("D{$row}")->getValue();
+        //     $valueADAtidakperlu = $worksheet->getCell("F{$row}")->getValue();
+        //     $valueLengkap = $worksheet->getCell("G{$row}")->getValue();
+
+        //     if ($valueADAtidakperlu === 'Y') {
+        //         $status_lengkap = 'Lengkap';
+        //         $status_verifikasi = true;
+        //     } else {
+        //         if ($valueADA === '' || $valueADA === null) {
+        //             $status_lengkap = 'Belum Lengkap';
+        //             $status_verifikasi = false;
+        //             break;
+        //         }
+        //         if ($valueLengkap === '' || $valueLengkap === null) {
+        //             $status_lengkap = 'Belum Lengkap';
+        //             $status_verifikasi = false;
+        //             break;
+        //         }
+        //     }
+        //     $status_lengkap = 'Lengkap';
+        //     $status_verifikasi = true;
+
+        //     $row++;
+        // }
 
         // === TENTUKAN FILE SOURCE ===
         if (
@@ -152,6 +253,7 @@ class BudgetSubmissionController extends Controller
             Storage::disk('private')->exists($pengajuan->path_file_submission) &&
             $status_lengkap == 'Lengkap' &&
             $status_verifikasi
+            // $is_marked
         ) {
             $sourcePath = $pengajuan->path_file_submission;
             // === TAMBAH WATERMARK ===
@@ -218,7 +320,7 @@ class BudgetSubmissionController extends Controller
             }
         }
 
-        return redirect()->route('keuangan.dashboard')->with('success', 'Berhasil kirim tanggapan');
+        return redirect()->route('keuangan.pengajuan')->with('success', 'Berhasil kirim tanggapan');
     }
 
 
@@ -231,12 +333,53 @@ class BudgetSubmissionController extends Controller
 
         $fullPath = Storage::disk('private')->path($filePath);
 
-        $mpdf = new Mpdf([
+        // --- PROSES GHOSTSCRIPT (START) ---
+        $tempFixedPath = $fullPath . '_fixed.pdf';
+        $gsBinary = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'gswin64c' : 'gs';
+
+        // Gunakan escapeshellarg untuk keamanan path file
+        $command = "{$gsBinary} -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=" . escapeshellarg($tempFixedPath) . " " . escapeshellarg($fullPath) . " 2>&1";
+
+        // Jalankan dan tangkap output error-nya
+        $output = shell_exec($command);
+
+        if (!file_exists($tempFixedPath)) {
+            Log::error("Ghostscript Gagal. Output: " . $output);
+            // Jika gagal, jangan lanjut ke mPDF karena pasti crash. 
+            // Beri info ke user atau throw error yang lebih jelas.
+            throw new \Exception("Gagal memproses PDF. Pastikan Ghostscript terinstall. Error: " . $output);
+        } else {
+            rename($tempFixedPath, $fullPath);
+            Log::info("Ghostscript Berhasil merubah versi PDF ke 1.4");
+        }
+        // --- PROSES GHOSTSCRIPT (END) ---
+
+        // --- PROSES GHOSTSCRIPT (START) ---
+        // Buat nama file sementara untuk hasil konversi
+        $tempFixedPath = $fullPath . '_fixed.pdf';
+
+        // Cek OS untuk menentukan perintah Ghostscript
+        // Di Windows biasanya 'gswin64c', di Linux cukup 'gs'
+        $gsBinary = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'gswin64c' : 'gs';
+
+        // Perintah untuk menurunkan versi ke 1.4 agar bisa dibaca mPDF/FPDI
+        $command = "{$gsBinary} -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=\"{$tempFixedPath}\" \"{$fullPath}\"";
+
+        shell_exec($command);
+
+        // Jika konversi berhasil, timpa file asli dengan file yang sudah diperbaiki
+        if (file_exists($tempFixedPath)) {
+            rename($tempFixedPath, $fullPath);
+        }
+        // --- PROSES GHOSTSCRIPT (END) ---
+
+        $mpdf = new \Mpdf\Mpdf([
             'tempDir' => storage_path('app/mpdf'),
         ]);
 
         // === LOAD FILE PDF ASLI ===
         $pageCount = $mpdf->SetSourceFile($fullPath);
+
 
         for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
 
@@ -537,6 +680,30 @@ class BudgetSubmissionController extends Controller
 
         $fullPath = Storage::disk('private')->path($filePath);
 
+        // --- PROSES GHOSTSCRIPT (START) ---
+        $tempFixedPath = $fullPath . '_fixed.pdf';
+
+        // Logika pendeteksi OS agar tidak perlu ubah-ubah kode saat hosting
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            // Ganti path ini sesuai dengan versi yang terinstall di laptop Anda
+            $gsBinary = '"C:\Program Files\gs\gs10.04.0\bin\gswin64c.exe"';
+        } else {
+            $gsBinary = 'gs';
+        }
+
+        $command = "{$gsBinary} -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=" . escapeshellarg($tempFixedPath) . " " . escapeshellarg($fullPath) . " 2>&1";
+
+        $output = shell_exec($command);
+
+        if (file_exists($tempFixedPath)) {
+            rename($tempFixedPath, $fullPath);
+            Log::info("Ghostscript: Berhasil konversi ke v1.4 untuk Kuitansi.");
+        } else {
+            Log::error("Ghostscript Gagal. Output: " . $output);
+            // Tetap lanjutkan atau throw error tergantung preferensi Anda
+        }
+        // --- PROSES GHOSTSCRIPT (END) ---
+
         $mpdf = new Mpdf([
             'tempDir' => storage_path('app/mpdf'),
         ]);
@@ -726,7 +893,9 @@ class BudgetSubmissionController extends Controller
         $no = $worksheet->getCell('B4')->getValue();
 
         $startCell = 7;
-        $endCell = 37;
+        // $endCell = 36;
+        $currentRow = $startCell;
+        $maxRows = 100;
 
         // Inisialisasi array
         $syaratDoc = [];
@@ -737,27 +906,57 @@ class BudgetSubmissionController extends Controller
         $belum = [];
         $keterangan = [];
 
-        // Loop untuk mengambil data dengan skip baris kosong
-        while ($startCell <= $endCell) {
-            if($startCell == 21){
-                $startCell++;
-                continue;
-            }
-            $datasyarat = $worksheet->getCell("C{$startCell}")->getValue();
-            
-            // Skip jika nama dokumen kosong
-            if (trim($datasyarat) !== '' && $datasyarat !== null) {
+        while (count($syaratDoc) < 30 && $currentRow < $maxRows) {
+            $datasyarat = $worksheet->getCell("C{$currentRow}")->getValue();
+
+            // Cek apakah cell C kosong (baik null, spasi, atau empty string)
+            if ($datasyarat !== null && trim($datasyarat) !== '') {
                 $syaratDoc[] = $datasyarat;
-                $ada[] = $worksheet->getCell("D{$startCell}")->getValue();
-                $tidakada[] = $worksheet->getCell("E{$startCell}")->getValue();
-                $tidakperlu[] = $worksheet->getCell("F{$startCell}")->getValue();
-                $lengkap[] = $worksheet->getCell("G{$startCell}")->getValue();
-                $belum[] = $worksheet->getCell("H{$startCell}")->getValue();
-                $keterangan[] = $worksheet->getCell("I{$startCell}")->getValue();
+                $ada[] = $worksheet->getCell("D{$currentRow}")->getValue();
+                $tidakada[] = $worksheet->getCell("E{$currentRow}")->getValue();
+                $tidakperlu[] = $worksheet->getCell("F{$currentRow}")->getValue();
+                $lengkap[] = $worksheet->getCell("G{$currentRow}")->getValue();
+                $belum[] = $worksheet->getCell("H{$currentRow}")->getValue();
+                $keterangan[] = $worksheet->getCell("I{$currentRow}")->getValue();
             }
-            
-            $startCell++;
+
+            $currentRow++;
         }
+
+        // for ($startCell = 7; $startCell <= $endCell; $startCell++) {
+        //     // if ($startCell   == 21) {
+        //     //     continue;
+        //     // }
+        //     $syaratDoc[] = $worksheet->getCell("C{$startCell}")->getValue();
+        //     $data[] = $worksheet->getCell("D{$startCell}")->getValue();
+        //     $tidakada[] = $worksheet->getCell("E{$startCell}")->getValue();
+        //     $tidakperlu[] = $worksheet->getCell("F{$startCell}")->getValue();
+        //     $lengkap[] = $worksheet->getCell("G{$startCell}")->getValue();
+        //     $belum[] = $worksheet->getCell("H{$startCell}")->getValue();
+        //     $keterangan[] = $worksheet->getCell("I{$startCell}")->getValue();
+        // }
+
+        // Loop untuk mengambil data dengan skip baris kosong
+        // while ($startCell <= $endCell) {
+        //     if($startCell == 21){
+        //         $startCell++;
+        //         continue;
+        //     }
+        //     $datasyarat = $worksheet->getCell("C{$startCell}")->getValue();
+
+        //     // Skip jika nama dokumen kosong
+        //     if (trim($datasyarat) !== '' && $datasyarat !== null) {
+        //         $syaratDoc[] = $datasyarat;
+        //         $ada[] = $worksheet->getCell("D{$startCell}")->getValue();
+        //         $tidakada[] = $worksheet->getCell("E{$startCell}")->getValue();
+        //         $tidakperlu[] = $worksheet->getCell("F{$startCell}")->getValue();
+        //         $lengkap[] = $worksheet->getCell("G{$startCell}")->getValue();
+        //         $belum[] = $worksheet->getCell("H{$startCell}")->getValue();
+        //         $keterangan[] = $worksheet->getCell("I{$startCell}")->getValue();
+        //     }
+
+        //     $startCell++;
+        // }
 
         $catatan = $worksheet->getCell('B40')->getValue();
 

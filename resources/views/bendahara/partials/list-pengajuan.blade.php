@@ -1,62 +1,62 @@
 {{-- ================= SEARCH & FILTER ================= --}}
 <div class="bg-white rounded-md shadow-sm border border-gray-200 p-6 mb-6">
-    <form method="GET" action="" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <form method="GET" action="{{route('bendahara.search')}}" class="space-y-5">
+        
+        {{-- Search --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Cari Pengajuan</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input type="text" name="search" value="{{ request('search') }}"
+                    class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-colors"
+                    placeholder="Cari nama pengajuan...">
+            </div>
+        </div>
 
-            {{-- Search --}}
-            <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Cari Pengajuan</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </div>
-                    <input type="text" name="search" value="{{ request('search') }}"
-                        class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003A8F] focus:border-[#003A8F] focus:outline-none"
-                        placeholder="Cari nama pengajuan...">
+        {{-- Date Range & Buttons --}}
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            
+            {{-- Date Inputs --}}
+            <div class="flex flex-col sm:flex-row gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Mulai Tanggal</label>
+                    <input type="date" name="start_date" value="{{ request('start_date') }}"
+                        class="block w-full px-3 py-2.5 border border-gray-300 rounded-md text-gray-900 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-colors">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Sampai Tanggal</label>
+                    <input type="date" name="end_date" value="{{ request('end_date') }}"
+                        class="block w-full px-3 py-2.5 border border-gray-300 rounded-md text-gray-900 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-colors">
                 </div>
             </div>
 
-            {{-- Filter Status --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Status Arsip</label>
-                <select name="status"
-                    class="block w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003A8F] focus:border-[#003A8F] focus:outline-none">
-                    <option value="">Semua Status</option>
-                    <option value="belum_diarsipkan" {{ request('status') == 'belum_diarsipkan' ? 'selected' : '' }}>
-                        Belum Diarsipkan
-                    </option>
-                    <option value="sudah_diarsipkan" {{ request('status') == 'sudah_diarsipkan' ? 'selected' : '' }}>
-                        Sudah Diarsipkan
-                    </option>
-                </select>
+            {{-- Action Buttons --}}
+            <div class="flex gap-3">
+                <a href="{{ url()->current() }}"
+                    class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-md transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                        </path>
+                    </svg>
+                    Reset
+                </a>
+                <button type="submit"
+                    class="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#003A8F] hover:bg-[#003A9F] text-white font-medium rounded-md shadow-sm transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    Cari
+                </button>
             </div>
-
         </div>
 
-        {{-- Buttons --}}
-        <div class="flex gap-3">
-            <button type="submit"
-                class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#003A8F] hover:bg-[#002766] text-white font-medium rounded-md shadow-sm transition-all duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z">
-                    </path>
-                </svg>
-                Filter
-            </button>
-            <a href=""
-                class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-md transition-all duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
-                    </path>
-                </svg>
-                Reset
-            </a>
-        </div>
     </form>
 </div>
 
@@ -176,6 +176,9 @@
                 </p>
             </div>
         @endforelse
+        <div>
+            {{$submit_sign->links()}}
+        </div>
     </div>
 </div>
 
@@ -296,6 +299,9 @@
                 </p>
             </div>
         @endforelse
+        <div>
+            {{$pengajuans->links()}}
+        </div>
     </div>
 </div>
 

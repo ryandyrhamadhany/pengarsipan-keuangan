@@ -107,111 +107,164 @@ class KeuanganController extends Controller
         $kuitansi = trim(preg_replace('/^Nomor\s*:\s*/i', '', $nokuitansi));
 
         $startCell = 7;
-        $endCell = 37;
+        // $endCell = 36;
+        $currentRow = $startCell;
+        $maxRows = 100;
 
         $syaratDoc = [];
-        while ($startCell <= $endCell) {
-            $datasyarat = $worksheet->getCell("C{$startCell}")->getValue();
-            if($startCell == 21){
-                $startCell++;
-                continue;
-            }
-            $syaratDoc[] = $datasyarat;
-            $startCell++;
-        }
 
-        // ======== dokumen
-        $startCell = 7;
-        $ada = [];
-        while ($startCell <= $endCell) {
-            if($startCell == 21){
-                $startCell++;
-                continue;
-            }
-            if (
-                $worksheet->getCell("D{$startCell}")->getValue() !== null ||
-                $worksheet->getCell("E{$startCell}")->getValue() !== null ||
-                $worksheet->getCell("F{$startCell}")->getValue() !== null
-            ) {
-                $dataada = $worksheet->getCell("D{$startCell}")->getValue();
-            } else {
-                $worksheet->setCellValue("D{$startCell}", 'Y');
-                $writer = new Xlsx($spreadsheet);
-                $writer->save($filePathMetadata);
-                $dataada = $worksheet->getCell("D{$startCell}")->getValue();
-            }
-            $ada[] = $dataada;
-            $startCell++;
-        }
-        $startCell = 7;
-        $tidakada = [];
-        while ($startCell <= $endCell) {
-            if($startCell == 21){
-                $startCell++;
-                continue;
-            }
-            $datatidakada = $worksheet->getCell("E{$startCell}")->getValue();
-            $tidakada[] = $datatidakada;
-            $startCell++;
-        }
-        $startCell = 7;
-        $tidakperlu = [];
-        while ($startCell <= $endCell) {
-            if($startCell == 21){
-                $startCell++;
-                continue;
-            }
-            $datatidakperlu = $worksheet->getCell("F{$startCell}")->getValue();
-            $tidakperlu[] = $datatidakperlu;
-            $startCell++;
-        }
+        while (count($syaratDoc) < 30 && $currentRow < $maxRows) {
+            $datasyarat = $worksheet->getCell("C{$currentRow}")->getValue();
 
-        // ========== tanda tangan
-        $startCell = 7;
-        $lengkap = [];
-        while ($startCell <= $endCell) {
-            if($startCell == 21){
-                $startCell++;
-                continue;
-            }
-            if (
-                $worksheet->getCell("G{$startCell}")->getValue() !== null ||
-                $worksheet->getCell("H{$startCell}")->getValue() !== null ||
-                $worksheet->getCell("I{$startCell}")->getValue() !== null
-            ) {
-                $datalengkap = $worksheet->getCell("G{$startCell}")->getValue();
-            } else {
-                $worksheet->setCellValue("G{$startCell}", 'Y');
-                $writer = new Xlsx($spreadsheet);
-                $writer->save($filePathMetadata);
-                $datalengkap = $worksheet->getCell("G{$startCell}")->getValue();
-            }
-            $lengkap[] = $datalengkap;
-            $startCell++;
-        }
-        $startCell = 7;
-        $belum = [];
-        while ($startCell <= $endCell) {
-            if($startCell == 21){
-                $startCell++;
-                continue;
-            }
-            $databelum = $worksheet->getCell("H{$startCell}")->getValue();
-            $belum[] = $databelum;
-            $startCell++;
-        }
+            // Cek apakah cell C kosong (baik null, spasi, atau empty string)
+            if ($datasyarat !== null && trim($datasyarat) !== '') {
+                $syaratDoc[] = $datasyarat;
 
-        $startCell = 7;
-        $keterangan = [];
-        while ($startCell <= $endCell) {
-            if($startCell == 21){
-                $startCell++;
-                continue;
+                if (
+                    $worksheet->getCell("D{$currentRow}")->getValue() !== null ||
+                    $worksheet->getCell("E{$currentRow}")->getValue() !== null ||
+                    $worksheet->getCell("F{$currentRow}")->getValue() !== null
+                ) {
+                    $worksheet->setCellValue("D{$currentRow}", 'Y');
+                    $writer = new Xlsx($spreadsheet);
+                    $writer->save($filePathMetadata);
+                    // $dataada = $worksheet->getCell("D{$currentRow}")->getValue();
+                } else {
+                    $worksheet->setCellValue("D{$currentRow}", 'Y');
+                    $writer = new Xlsx($spreadsheet);
+                    $writer->save($filePathMetadata);
+                    $dataada = $worksheet->getCell("D{$currentRow}")->getValue();
+                }
+
+                if (
+                    $worksheet->getCell("G{$currentRow}")->getValue() !== null ||
+                    $worksheet->getCell("H{$currentRow}")->getValue() !== null
+                ) {
+                    $worksheet->setCellValue("D{$currentRow}", 'Y');
+                    $writer = new Xlsx($spreadsheet);
+                    $writer->save($filePathMetadata);
+                    // $lengkap = $worksheet->getCell("G{$currentRow}")->getValue();
+                } else {
+                    $worksheet->setCellValue("G{$currentRow}", 'Y');
+                    $writer = new Xlsx($spreadsheet);
+                    $writer->save($filePathMetadata);
+                    $datalengkap = $worksheet->getCell("G{$currentRow}")->getValue();
+                }
+
+                $ada[] = $worksheet->getCell("D{$currentRow}")->getValue();
+                $tidakada[] = $worksheet->getCell("E{$currentRow}")->getValue();
+                $tidakperlu[] = $worksheet->getCell("F{$currentRow}")->getValue();
+                $lengkap[] = $worksheet->getCell("G{$currentRow}")->getValue();
+                $belum[] = $worksheet->getCell("H{$currentRow}")->getValue();
+                $keterangan[] = $worksheet->getCell("I{$currentRow}")->getValue();
+
+                // dokumen
             }
-            $dataketerangan = $worksheet->getCell("I{$startCell}")->getValue();
-            $keterangan[] = $dataketerangan;
-            $startCell++;
+
+            $currentRow++;
         }
+        // while ($startCell <= $endCell) {
+        //     $datasyarat = $worksheet->getCell("C{$startCell}")->getValue();
+        //     if($startCell == 21){
+        //         $startCell++;
+        //         continue;
+        //     }
+        //     $syaratDoc[] = $datasyarat;
+        //     $startCell++;
+        // }
+
+        // // ======== dokumen
+        // $startCell = 7;
+        // $ada = [];
+        // while ($startCell <= $endCell) {
+        //     if($startCell == 21){
+        //         $startCell++;
+        //         continue;
+        //     }
+        //     if (
+        //         $worksheet->getCell("D{$startCell}")->getValue() !== null ||
+        //         $worksheet->getCell("E{$startCell}")->getValue() !== null ||
+        //         $worksheet->getCell("F{$startCell}")->getValue() !== null
+        //     ) {
+        //         $dataada = $worksheet->getCell("D{$startCell}")->getValue();
+        //     } else {
+        //         $worksheet->setCellValue("D{$startCell}", 'Y');
+        //         $writer = new Xlsx($spreadsheet);
+        //         $writer->save($filePathMetadata);
+        //         $dataada = $worksheet->getCell("D{$startCell}")->getValue();
+        //     }
+        //     $ada[] = $dataada;
+        //     $startCell++;
+        // }
+        // $startCell = 7;
+        // $tidakada = [];
+        // while ($startCell <= $endCell) {
+        //     if($startCell == 21){
+        //         $startCell++;
+        //         continue;
+        //     }
+        //     $datatidakada = $worksheet->getCell("E{$startCell}")->getValue();
+        //     $tidakada[] = $datatidakada;
+        //     $startCell++;
+        // }
+        // $startCell = 7;
+        // $tidakperlu = [];
+        // while ($startCell <= $endCell) {
+        //     if($startCell == 21){
+        //         $startCell++;
+        //         continue;
+        //     }
+        //     $datatidakperlu = $worksheet->getCell("F{$startCell}")->getValue();
+        //     $tidakperlu[] = $datatidakperlu;
+        //     $startCell++;
+        // }
+
+        // // ========== tanda tangan
+        // $startCell = 7;
+        // $lengkap = [];
+        // while ($startCell <= $endCell) {
+        //     if($startCell == 21){
+        //         $startCell++;
+        //         continue;
+        //     }
+        //     if (
+        //         $worksheet->getCell("G{$startCell}")->getValue() !== null ||
+        //         $worksheet->getCell("H{$startCell}")->getValue() !== null ||
+        //         $worksheet->getCell("I{$startCell}")->getValue() !== null
+        //     ) {
+        //         $datalengkap = $worksheet->getCell("G{$startCell}")->getValue();
+        //     } else {
+        //         $worksheet->setCellValue("G{$startCell}", 'Y');
+        //         $writer = new Xlsx($spreadsheet);
+        //         $writer->save($filePathMetadata);
+        //         $datalengkap = $worksheet->getCell("G{$startCell}")->getValue();
+        //     }
+        //     $lengkap[] = $datalengkap;
+        //     $startCell++;
+        // }
+        // $startCell = 7;
+        // $belum = [];
+        // while ($startCell <= $endCell) {
+        //     if($startCell == 21){
+        //         $startCell++;
+        //         continue;
+        //     }
+        //     $databelum = $worksheet->getCell("H{$startCell}")->getValue();
+        //     $belum[] = $databelum;
+        //     $startCell++;
+        // }
+
+        // $startCell = 7;
+        // $keterangan = [];
+        // while ($startCell <= $endCell) {
+        //     if($startCell == 21){
+        //         $startCell++;
+        //         continue;
+        //     }
+        //     $dataketerangan = $worksheet->getCell("I{$startCell}")->getValue();
+        //     $keterangan[] = $dataketerangan;
+        //     $startCell++;
+        // }
 
         $catatan = $worksheet->getCell('B40')->getValue();
 
@@ -220,35 +273,22 @@ class KeuanganController extends Controller
 
         return view('keuangan.check-pengajuan', compact('pengajuan', 'namaKegiatan', 'kuitansi', 'syaratDoc', 'ada', 'tidakada', 'tidakperlu', 'lengkap', 'belum', 'keterangan', 'catatan'));
     }
+
+    public function search_pengajuan(Request $request)
+    {
+        if ($request->search != null) {
+            $submit = BudgetSubmission::with('user')
+                ->where('budget_submission_name', 'LIKE', '%' . $request->search . '%')
+                ->whereBetween('updated_at', [$request->start_date, $request->end_date])
+                ->latest()->get();
+        } else {
+            $submit = BudgetSubmission::with('user')->whereBetween('updated_at', [$request->start_date, $request->end_date])->latest()->get();
+        }
+        return view('keuangan.search.search_result', compact('submit'));
+    }
+
+    public function report()
+    {
+        return view('keuangan.report.report');
+    }
 }
-
-
-    /**
-     * Normalisasi nilai dari Excel
-     * Mengubah berbagai format kosong menjadi null
-     * Hanya mengembalikan 'Y' jika benar-benar 'Y'
-     */
-    // private function normalizeValue($value)
-    // {
-    //     // Jika null
-    //     if ($value === null) {
-    //         return null;
-    //     }
-        
-    //     // Konversi ke string dan trim
-    //     $value = trim((string) $value);
-        
-    //     // Jika string kosong atau hanya whitespace
-    //     if ($value === '') {
-    //         return null;
-    //     }
-        
-    //     // Jika nilai adalah 'Y' (case-insensitive)
-    //     if (strtoupper($value) === 'Y') {
-    //         return 'Y';
-    //     }
-        
-    //     // Selain itu, anggap kosong
-    //     return null;
-    // }
-

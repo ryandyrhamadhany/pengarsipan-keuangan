@@ -217,7 +217,7 @@ class CategoryController extends Controller
             $temp[] = $rak->rack_name; // tambahkan rak dalam temp
             $racks->push($rak);
         }
-        $digitalarchive = DigitalArchive::where('category_id', $category->id)->get();
+        $digitalarchive = DigitalArchive::where('category_id', $category->id)->latest()->paginate(10, ['*'], 'digital_arsip');
         // if ($category->payment_method_id !== null) {
         // } else if ($category->funding_source_id !== null) {
         //     $digitalarchive = DigitalArchive::where('category_funding_id', $category->id)->get();
