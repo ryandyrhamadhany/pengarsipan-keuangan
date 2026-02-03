@@ -337,39 +337,22 @@ class BudgetSubmissionController extends Controller
         $tempFixedPath = $fullPath . '_fixed.pdf';
         $gsBinary = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'gswin64c' : 'gs';
 
-        // Gunakan escapeshellarg untuk keamanan path file
-        $command = "{$gsBinary} -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=" . escapeshellarg($tempFixedPath) . " " . escapeshellarg($fullPath) . " 2>&1";
+        // Command Flattening: Menyatukan coretan/TTD agar tidak hilang saat versi turun
+        $command = "{$gsBinary} -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH " .
+            "-dPreserveAnnots=false " .    // Meratakan coretan ke background
+            "-dShowAnnots=true " .         // Tampilkan coretan sebelum diratakan
+            "-dPDFSETTINGS=/prepress " .   // Kualitas tinggi untuk TTD
+            "-sOutputFile=" . escapeshellarg($tempFixedPath) . " " .
+            escapeshellarg($fullPath) . " 2>&1";
 
-        // Jalankan dan tangkap output error-nya
         $output = shell_exec($command);
 
-        if (!file_exists($tempFixedPath)) {
-            Log::error("Ghostscript Gagal. Output: " . $output);
-            // Jika gagal, jangan lanjut ke mPDF karena pasti crash. 
-            // Beri info ke user atau throw error yang lebih jelas.
-            throw new \Exception("Gagal memproses PDF. Pastikan Ghostscript terinstall. Error: " . $output);
-        } else {
-            rename($tempFixedPath, $fullPath);
-            Log::info("Ghostscript Berhasil merubah versi PDF ke 1.4");
-        }
-        // --- PROSES GHOSTSCRIPT (END) ---
-
-        // --- PROSES GHOSTSCRIPT (START) ---
-        // Buat nama file sementara untuk hasil konversi
-        $tempFixedPath = $fullPath . '_fixed.pdf';
-
-        // Cek OS untuk menentukan perintah Ghostscript
-        // Di Windows biasanya 'gswin64c', di Linux cukup 'gs'
-        $gsBinary = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'gswin64c' : 'gs';
-
-        // Perintah untuk menurunkan versi ke 1.4 agar bisa dibaca mPDF/FPDI
-        $command = "{$gsBinary} -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=\"{$tempFixedPath}\" \"{$fullPath}\"";
-
-        shell_exec($command);
-
-        // Jika konversi berhasil, timpa file asli dengan file yang sudah diperbaiki
         if (file_exists($tempFixedPath)) {
             rename($tempFixedPath, $fullPath);
+            Log::info("Ghostscript Berhasil meratakan layer & merubah versi ke 1.4");
+        } else {
+            Log::error("Ghostscript Gagal. Output: " . $output);
+            throw new \Exception("Gagal memproses PDF: " . $output);
         }
         // --- PROSES GHOSTSCRIPT (END) ---
 
@@ -682,25 +665,22 @@ class BudgetSubmissionController extends Controller
 
         // --- PROSES GHOSTSCRIPT (START) ---
         $tempFixedPath = $fullPath . '_fixed.pdf';
+        $gsBinary = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'gswin64c' : 'gs';
 
-        // Logika pendeteksi OS agar tidak perlu ubah-ubah kode saat hosting
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            // Ganti path ini sesuai dengan versi yang terinstall di laptop Anda
-            $gsBinary = '"C:\Program Files\gs\gs10.04.0\bin\gswin64c.exe"';
-        } else {
-            $gsBinary = 'gs';
-        }
-
-        $command = "{$gsBinary} -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=" . escapeshellarg($tempFixedPath) . " " . escapeshellarg($fullPath) . " 2>&1";
+        // Gunakan command yang sama agar coretan tetap muncul
+        $command = "{$gsBinary} -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH " .
+            "-dPreserveAnnots=false " .
+            "-dShowAnnots=true " .
+            "-dPDFSETTINGS=/prepress " .
+            "-sOutputFile=" . escapeshellarg($tempFixedPath) . " " .
+            escapeshellarg($fullPath) . " 2>&1";
 
         $output = shell_exec($command);
 
         if (file_exists($tempFixedPath)) {
             rename($tempFixedPath, $fullPath);
-            Log::info("Ghostscript: Berhasil konversi ke v1.4 untuk Kuitansi.");
         } else {
             Log::error("Ghostscript Gagal. Output: " . $output);
-            // Tetap lanjutkan atau throw error tergantung preferensi Anda
         }
         // --- PROSES GHOSTSCRIPT (END) ---
 
