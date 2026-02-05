@@ -7,6 +7,7 @@ use App\Models\BudgetSubmission;
 use App\Models\Pengajuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mpdf\Mpdf;
 
 class UserController extends Controller
 {
@@ -60,8 +61,63 @@ class UserController extends Controller
         return view('user.worklist.worklist', compact('proses_submissions', 'all_submissions', 'archive_submit'));
     }
 
-    public function report()
+    public function report(Request $request)
     {
-        return view('user.report.report');
+        if (isset($request->from_date) && isset($request->target_date)) {
+            $submission = BudgetSubmission::with('user')->where('user_id', Auth::id())->whereBetween('updated_at', [$request->from_date, $request->target_date])->paginate(10, ['*'], 'submit_result_filter');
+            return view('user.report.report', compact('submission'));
+        }
+        $submission = BudgetSubmission::with('user')->where('user_id', Auth::id())->paginate(10, ['*'], 'result_no_filter');
+        return view('user.report.report', compact('submission'));
+    }
+
+    public function report_submission(Request $request)
+    {
+        $pengajuan = BudgetSubmission::with('user')
+            ->where('user_id', Auth::id())
+            ->whereBetween('updated_at', [$request->from_date, $request->target_date])
+            ->get();
+
+        $data = [
+            'title' => 'Laporan Semua Pengajuan Divisi ',
+            'pengajuan' => $pengajuan,
+            'tanggal_awal' => $request->from_date,
+            'tanggal_akhir' => $request->target_date,
+            'watermark' => storage_path('app/public/images/watermark.png'),
+        ];
+
+        $html = view('user.report.submission_report', $data)->render();
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
+
+        return response($mpdf->Output('Laporan Pengajuan.pdf', 'S'))->header('Content-Type', 'application/pdf');
+    }
+
+    public function report_submit_nominal(Request $request)
+    {
+        $pengajuan = BudgetSubmission::with('user')
+            ->where('user_id', Auth::id())
+            ->where('is_archive', 1)
+            ->whereBetween('updated_at', [$request->from_date, $request->target_date])
+            ->get();
+
+        $totalNominal = $pengajuan->sum('nominal');
+
+        $data = [
+            'title' => 'Laporan Semua Pengajuan Divisi ',
+            'pengajuan' => $pengajuan,
+            'totalNominal' => $totalNominal,
+            'tanggal_awal' => $request->from_date,
+            'tanggal_akhir' => $request->target_date,
+            'watermark' => storage_path('app/public/images/watermark.png'),
+        ];
+
+        $html = view('user.report.submission_nominal_report', $data)->render();
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
+
+        return response($mpdf->Output('Laporan Biaya Pengajuan.pdf', 'S'))->header('Content-Type', 'application/pdf');
     }
 }

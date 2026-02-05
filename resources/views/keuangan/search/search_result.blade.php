@@ -41,9 +41,9 @@
                             </div>
                         </div>
 
-                        <div class="block text-sm font-medium text-gray-700 mb-2">
+                        {{-- <div class="block text-sm font-medium text-gray-700 mb-2">
                             Wajib diisi tanggal dibawah ini!
-                        </div>
+                        </div> --}}
                         {{-- Date Range & Buttons --}}
                         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
 

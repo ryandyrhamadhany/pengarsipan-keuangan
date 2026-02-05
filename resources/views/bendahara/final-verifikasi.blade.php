@@ -380,8 +380,7 @@
                                             <span
                                                 class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-600 font-medium">Rp</span>
                                             <input type="number" name="biaya"
-                                                value="{{ $pengajuan->biaya ?? '' }}" placeholder="0" min="0"
-                                                step="1000"
+                                                value="{{ $pengajuan->biaya ?? '' }}" placeholder="0" min="0" required 
                                                 class="w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-800 bg-white
                                                     focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
                                         </div>

@@ -10,7 +10,9 @@ use App\Models\PaymentMethod;
 use App\Models\Pengajuan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Mpdf\Mpdf;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BendaharaController extends Controller
@@ -98,12 +100,93 @@ class BendaharaController extends Controller
 
     public function report()
     {
-        return view('bendahara.report.report');
+        if (isset($request->from_date) && isset($request->target_date)) {
+            $submission = BudgetSubmission::with('user')->where('verification_status', 1)->whereBetween('updated_at', [$request->from_date, $request->target_date])->paginate(10, ['*'], 'submit_result_filter');
+            return view('keuangan.report.report', compact('submission'));
+        }
+        $submission = BudgetSubmission::with('user')->where('verification_status', 1)->paginate(10, ['*'], 'result_no_filter');
+        return view('bendahara.report.report', compact('submission'));
+    }
+
+    public function report_sign_submission(Request $request)
+    {
+        $pengajuan = BudgetSubmission::with('user')->with('revenue_officer')
+            ->where('revenue_officer_id', Auth::id())
+            ->where('is_archive', 1)
+            ->whereBetween('updated_at', [$request->from_date, $request->target_date])
+            ->get();
+
+        $data = [
+            'title' => 'Laporan Semua Pengajuan yang ditanda tangani',
+            'pengajuan' => $pengajuan,
+            'name' => Auth::user()->name,
+            'tanggal_awal' => $request->from_date,
+            'tanggal_akhir' => $request->target_date,
+            'watermark' => storage_path('app/public/images/watermark.png'),
+        ];
+
+        $html = view('bendahara.report.report_submission_sign', $data)->render();
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
+
+        return response($mpdf->Output('Laporan Semua Pengajuan ditanda tangani.pdf', 'S'))->header('Content-Type', 'application/pdf');
+    }
+
+    public function report_sign_submission_nominal(Request $request)
+    {
+        $pengajuan = BudgetSubmission::with('user')->with('revenue_officer')
+            ->where('revenue_officer_id', Auth::id())
+            ->where('is_archive', 1)
+            ->whereBetween('updated_at', [$request->from_date, $request->target_date])
+            ->get();
+
+        $totalNominal = $pengajuan->sum('nominal');
+
+        $data = [
+            'title' => 'Laporan Nominal Pengajuan yang ditanda tangani',
+            'pengajuan' => $pengajuan,
+            'name' => Auth::user()->name,
+            'totalNominal' => $totalNominal,
+            'tanggal_awal' => $request->from_date,
+            'tanggal_akhir' => $request->target_date,
+            'watermark' => storage_path('app/public/images/watermark.png'),
+        ];
+
+        $html = view('bendahara.report.report_submission_sign_nominal', $data)->render();
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
+
+        return response($mpdf->Output('Laporan Nominal Pengajuan yang ditanda tangani.pdf', 'S'))->header('Content-Type', 'application/pdf');
+    }
+
+    public function report_all_sign_submission(Request $request)
+    {
+        $pengajuan = BudgetSubmission::with('user')->with('revenue_officer')
+            ->where('is_archive', 1)
+            ->whereBetween('updated_at', [$request->from_date, $request->target_date])
+            ->get();
+
+        $data = [
+            'title' => 'Laporan Semua Pengajuan yang ditanda tangani',
+            'pengajuan' => $pengajuan,
+            'tanggal_awal' => $request->from_date,
+            'tanggal_akhir' => $request->target_date,
+            'watermark' => storage_path('app/public/images/watermark.png'),
+        ];
+
+        $html = view('bendahara.report.report_all_sign_submission', $data)->render();
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
+
+        return response($mpdf->Output('Laporan Semua Pengajuan yang ditanda tangani.pdf', 'S'))->header('Content-Type', 'application/pdf');
     }
 
     public function search_pengajuan(Request $request)
     {
-        if ($request->search != null) {
+        if ($request->filled('start_date') && $request->filled('end_date')) {
             $submit = BudgetSubmission::with('user')
                 ->where('budget_submission_name', 'LIKE', '%' . $request->search . '%')
                 ->where('verification_status', 1)
@@ -111,7 +194,8 @@ class BendaharaController extends Controller
                 ->latest()->get();
         } else {
             $submit = BudgetSubmission::with('user')
-                ->whereBetween('updated_at', [$request->start_date, $request->end_date])
+                ->where('budget_submission_name', 'LIKE', '%' . $request->search . '%')
+                // ->whereBetween('updated_at', [$request->start_date, $request->end_date])
                 ->where('verification_status', 1)
                 ->latest()->get();
         }

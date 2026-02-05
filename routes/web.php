@@ -127,6 +127,8 @@ Route::get('/administrator/report', [AdminController::class, 'report'])->name('a
 // Route::get('/pengajuan', [UserController::class, 'pengajuan'])->name('user.pengajuan');
 Route::get('/worklist', [UserController::class, 'worklist'])->name('user.worklist');
 Route::get('/user/report', [UserController::class, 'report'])->name('user.report');
+Route::get('/user/report/laporan_pengajuan', [UserController::class, 'report_submission'])->name('laporan.user.pengajuan');
+Route::get('/user/report/laporan_pengajuan_nominal', [UserController::class, 'report_submit_nominal'])->name('laporan.user.pengajuan_nominal');
 
 
 // ==================================================================== Route Keuangan
@@ -135,8 +137,10 @@ Route::get('/keuangan/check/{id}', [KeuanganController::class, 'check_pengajuan'
 Route::put('/keuangan/update/{id}', [BudgetSubmissionController::class, 'update_check'])->name('keuangan.checkandupate');
 Route::put('/keuangan/perbaiki/{id}', [BudgetSubmissionController::class, 'perbaikan'])->name('keuangan.perbaiki');
 Route::get('/keuangan/pengajuan', [KeuanganController::class, 'all_submit'])->name('keuangan.pengajuan');
-Route::get('/keuangan/report', [KeuanganController::class, 'report'])->name('keuangan.report');
 Route::get('/keuangan/search', [KeuanganController::class, 'search_pengajuan'])->name('keuangan.search');
+Route::get('/keuangan/report', [KeuanganController::class, 'report'])->name('keuangan.report');
+Route::get('/keuangan/report/all_submission', [KeuanganController::class, 'report_all_submission'])->name('keuangan.report.semua_pengajuan');
+Route::get('/keuangan/report/verify_submission', [KeuanganController::class, 'report_verification_submission'])->name('keuangan.report.pengajuan_diverifikasi');
 
 // ===================================================================== Route Bendahara
 Route::get('/bendahara/sign/{id}', [BendaharaController::class, 'document_sign'])->name('bendahara.sign');
@@ -144,11 +148,14 @@ Route::put('/bendahara/verifikasi/{id}', [BudgetSubmissionController::class, 'fi
 // Route::get('/archive/pengajuan/{id}', [DigitalArchiveController::class, 'show_in_year'])->name('digital.archive');
 // Route::get('/archive/pengajuan/show/{id}', [DigitalArchiveController::class, 'show_digital_archive'])->name('digital.archive.show');
 Route::get('/bendahara/pengajuan', [BendaharaController::class, 'pengajuan'])->name('bendahara.pengajuan');
+Route::get('/bendahara/search', [BendaharaController::class, 'search_pengajuan'])->name('bendahara.search');
 Route::get('/bendahara/report', [BendaharaController::class, 'report'])->name('bendahara.report');
+Route::get('/bendahara/report_sign', [BendaharaController::class, 'report_sign_submission'])->name('bendahara.report_sign');
+Route::get('/bendahara/report_sign_nominal', [BendaharaController::class, 'report_sign_submission_nominal'])->name('bendahara.report_sign_nominal');
+Route::get('/bendahara/report_sign_all', [BendaharaController::class, 'report_all_sign_submission'])->name('bendahara.report_sign_all');
 
 Route::get('/lihat/digital/{id}', [DigitalArchiveController::class, 'name_file'])->name('lihat.digital_archive');
 Route::get('/download/digital/{id}', [DigitalArchiveController::class, 'download_file'])->name('download.digital_archive');
-Route::get('/bendahara/search', [BendaharaController::class, 'search_pengajuan'])->name('bendahara.search');
 
 
 // =================================================================== Route Kepala 
