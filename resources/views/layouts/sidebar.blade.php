@@ -44,7 +44,7 @@
             };
 
             $roleInputArsip =
-                in_array($role, ['Admin', 'Bendahara', 'Keuangan']) || $privileged ? route('admin.archive') : '#';
+                in_array($role, ['Admin', 'Bendahara', 'Keuangan', 'Kepala Kantor TVRI']) || $privileged ? route('admin.archive') : '#';
 
             $roleKelolaUser = $role === 'Admin' ? route('account.index') : '#';
 
@@ -125,6 +125,7 @@
                     ['label' => 'Pengajuan', 'href' => route('bendahara.pengajuan'), 'icon' => $icons['Pengajuan']],
                     // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
                     ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
+                    
                     [
                         'label' => 'Notifikasi',
                         'href' => $notificationRoute,
@@ -136,6 +137,7 @@
             } elseif ($role === 'Kepala Kantor TVRI') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
+                    ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                     ['label' => 'Report', 'href' => $roleReport, 'icon' => $icons['Report']],
                     // ['label' => 'Pengajuan', 'href' => route('bendahara.pengajuan'), 'icon' => $icons['Pengajuan']],
                     // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],

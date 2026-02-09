@@ -22,7 +22,7 @@
                 <div class="flex items-center">
                     <div class="flex items-center gap-2">
                         <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-md"></div>
-                        <h1 class="text-xl font-bold text-slate-900">FinanceApp</h1>
+                        <h1 class="text-xl font-bold text-slate-900">VATRANS AKU APP</h1>
                     </div>
                 </div>
                 @if (Route::has('login'))
@@ -53,9 +53,9 @@
                 <div class="inline-block mb-4 px-4 py-1.5 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
                     Sistem Pengajuan & Arsip Digital
                 </div>
-                <h2 class="text-4xl font-bold text-slate-900 sm:text-5xl md:text-6xl leading-tight">
+                <h2 class="text-4xl font-bold text-slate-900 sm:text-5xl md:text-6xl leading-relaxed">
                     Kelola Pengajuan dengan<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Lebih Efisien</span>
+                    <span class="block mt-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Lebih Efisien</span>
                 </h2>
                 <p class="mt-6 text-lg text-slate-600 max-w-2xl mx-auto">
                     Platform terintegrasi untuk pengajuan kegiatan, barang, dan administrasi lainnya dengan proses verifikasi yang terstruktur dan mudah dipantau.
@@ -135,7 +135,7 @@
                         </svg>
                     </div>
                     <h4 class="text-xl font-semibold text-slate-900 mb-3">Keamanan Terjamin</h4>
-                    <p class="text-slate-600 leading-relaxed">Perlindungan data dengan enkripsi berlapis dan akses berbasis role pengguna.</p>
+                    <p class="text-slate-600 leading-relaxed">akses berbasis role pengguna.</p>
                 </div>
 
                 <!-- Feature 5 -->
@@ -220,7 +220,7 @@
                                 </svg>
                             </div>
                             <h4 class="text-xl font-bold text-slate-900 mb-2">Sistem Terpercaya</h4>
-                            <p class="text-slate-600">Dipercaya oleh berbagai organisasi untuk mengelola pengajuan mereka</p>
+                            <p class="text-slate-600">Dipercaya oleh TVRI Stasiun Kalimanatan Selatan untuk mengelola pengajuan mereka</p>
                         </div>
                     </div>
                 </div>
@@ -235,7 +235,7 @@
                 <div>
                     <div class="flex items-center gap-2 mb-4">
                         <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-md"></div>
-                        <h4 class="text-lg font-semibold">FinanceApp</h4>
+                        <h4 class="text-lg font-semibold">VATRANS AKU APP</h4>
                     </div>
                     <p class="text-slate-400 leading-relaxed">
                         Solusi digital untuk mengelola pengajuan dan arsip dokumen dengan efisien dan aman.
@@ -247,7 +247,7 @@
                         @if (Route::has('login'))
                             @guest
                                 <li><a href="{{ route('login') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Masuk</a></li>
-                                <li><a href="{{ route('register') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Daftar</a></li>
+                                {{-- <li><a href="{{ route('register') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Daftar</a></li> --}}
                             @else
                                 <li><a href="{{ url('/dashboard') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Dashboard</a></li>
                             @endguest
@@ -260,8 +260,8 @@
                         <div>
                             <p class="text-white font-medium">Ryandy Rhamadhany</p>
                             <p class="text-slate-500 text-sm mb-1">Backend Developer</p>
-                            <a href="https://instagram.com/username1" target="_blank" class="text-slate-400 hover:text-cyan-400 text-sm transition-colors">
-                                @username1
+                            <a href="https://www.instagram.com/ryandyrhamadhany23?igsh=bXYwNzl1d2dxZmd1" target="_blank" class="text-slate-400 hover:text-cyan-400 text-sm transition-colors">
+                                @ryandyrhamadhany23
                             </a>
                         </div>
                         <div>

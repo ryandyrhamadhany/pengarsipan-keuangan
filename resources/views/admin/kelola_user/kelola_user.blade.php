@@ -32,9 +32,9 @@
                 <div class="group bg-white p-6 rounded-2xl shadow-lg border-t-4 border-red-500 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-start justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Admin</p>
+                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Administrator</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ $users->where('role', 'admin')->count() }}
+                                {{ $users->where('role', 'Admin')->count() }}
                             </h3>
                             <p class="text-xs text-red-600 mt-2 font-semibold">Administrator aktif</p>
                         </div>
@@ -52,7 +52,7 @@
                         <div>
                             <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">User Biasa</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ $users->where('role', 'user')->count() }}
+                                {{ $users->where('role',  '!=', 'Admin')->count() }}
                             </h3>
                             <p class="text-xs text-green-600 mt-2 font-semibold">Pengguna standar</p>
                         </div>

@@ -122,6 +122,8 @@ Route::post('/file/upload/{id}', [ArchiveFileController::class, 'update_new_file
 Route::get('/kelola/user', [AdminController::class, 'kelola_user'])->name('admin.kelola');
 Route::get('/setting/environment', [AdminController::class, 'environment'])->name('admin.envi');
 Route::get('/administrator/report', [AdminController::class, 'report'])->name('admin.report');
+Route::get('/administrator/report_account', [AdminController::class, 'report_account_submission'])->name('admin.report_account');
+Route::get('/administrator/report_status', [AdminController::class, 'report_count_status'])->name('admin.report_status');
 
 // =================================================================== Route tampilan User
 // Route::get('/pengajuan', [UserController::class, 'pengajuan'])->name('user.pengajuan');

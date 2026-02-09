@@ -11,7 +11,7 @@
                         </span>
 
                     </div>
-                    <h2 class="text-sm text-gray-700 mt-3 text-center">Selamat Datang di Sistem Informasi Ruang Keuangan</h2>
+                    <h2 class="text-sm text-gray-700 mt-3 text-center">Selamat Datang Silahkan Login</h2>
                 </div>
 
                 <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -98,14 +98,14 @@
                     </div>
                 </form>
 
-                <div class="mt-6 text-center">
+                {{-- <div class="mt-6 text-center">
                     <p class="text-sm text-gray-700 font-medium">
                         Don't have an account yet? 
                         <a href="{{ route('register') }}" class="font-bold text-indigo-700 hover:text-indigo-500 transition underline">
                             Register
                         </a>
                     </p>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

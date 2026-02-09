@@ -100,18 +100,18 @@
                             <a href="{{route('bendahara.report_sign_all' ,[
                                 'from_date' => request('from_date'),
                                 'target_date' => request('target_date'),
-                            ])}}" target="blank" class="group p-6 bg-white border-2 border-gray-200 rounded-md hover:border-green-500 hover:shadow-md transition-all duration-200">
+                            ])}}" target="blank" class="group p-6 bg-white border-2 border-gray-200 rounded-md hover:border-indigo-500 hover:shadow-md transition-all duration-200">
                                 <div class="flex items-start space-x-4">
-                                    <div class="w-12 h-12 bg-green-100 rounded-md flex items-center justify-center group-hover:bg-green-200 transition-colors">
-                                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <div class="w-12 h-12 bg-indigo-100 rounded-md flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
+                                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                         </svg>
                                     </div>
                                     <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-800 group-hover:text-green-600 transition-colors">Laporan Pengajuan yang sudah ditanda tangani</h4>
+                                        <h4 class="font-semibold text-gray-800 group-hover:text-indigo-600 transition-colors">Laporan Pengajuan yang sudah ditanda tangani</h4>
                                         <p class="text-sm text-gray-500 mt-1">Semua laporan pengajuan yang sudah ditanda tangani oleh semua akun</p>
                                     </div>
-                                    <svg class="w-5 h-5 text-gray-400 group-hover:text-green-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                     </svg>
                                 </div>
