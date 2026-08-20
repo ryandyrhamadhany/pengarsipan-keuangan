@@ -7,7 +7,7 @@
 
     {{-- TOMBOL KEMBALI --}}
     <div class="#">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+        <div class="max-w-7xl mx-auto py-2">
             <a href="{{ route('cabinet.show', $category->cabinet_id) }}"
                 class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-2 py-2 rounded-full border border-gray-200
                     shadow-lg transition-all duration-200 ease-in-out hover:bg-gray-400 hover:shadow-md active:bg-gray-300 active:scale-95">
@@ -20,10 +20,10 @@
     </div>
 
     <div class="py-4 bg-gray-100 min-h-screen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
+        <div class="max-w-7xl mx-auto">
             {{-- Header Category --}}
             <div class="bg-white/90 backdrop-blur-xl shadow-lg rounded-2xl p-6 border border-gray-200 mb-8">
+                
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                         <h3 class="text-lg font-semibold text-gray-700">Daftar Sub Kategori</h3>
@@ -34,8 +34,7 @@
                     <form action="{{route('subcategory.create')}}" method="GET">
                         @csrf
                         <input type="text" name="category_id" value="{{$category->id}}" class="hidden">
-                        <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600
-                                hover:from-emerald-600 hover:to-teal-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl
+                        <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-green-500 text-white font-medium rounded-lg hover:shadow-lg
                                 transform hover:-translate-y-0.5 transition-all duration-200">
                                 <img src="https://img.icons8.com/?size=20&id=EkK2AS8KSyo0&format=png&color=ffffff"
                                 class="w-5" />
@@ -57,6 +56,20 @@
                             Tambah sub kategori
                         </a>
                     </div> --}}
+                </div>
+
+                <div class="mt-6">
+                    <div class="text-md text-blue-700 font-extrabold">
+                        Path Posisi Sekarang
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="text-sm text-blue-900 font-bold">
+                            {{$category->cabinet->cabinet_name}} > 
+                        </div>
+                        <div class="text-sm text-blue-900 font-bold">
+                            {{$category->category_name}} > 
+                        </div>
+                    </div>
                 </div>
 
                 {{-- Daftar Category --}}

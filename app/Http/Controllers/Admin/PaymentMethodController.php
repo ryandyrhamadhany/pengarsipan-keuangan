@@ -21,7 +21,7 @@ class PaymentMethodController extends Controller
      */
     public function create()
     {
-        return view('admin.setting_environment.payment_methods_create');
+        return view('admin.setting_environment.payment_method.create');
     }
 
     /**
@@ -56,7 +56,7 @@ class PaymentMethodController extends Controller
     public function edit($id)
     {
         $paymentMethod = PaymentMethod::findOrFail($id);
-        return view('admin.setting_environment.payment_methods_edit', compact('paymentMethod'));
+        return view('admin.setting_environment.payment_method.edit', compact('paymentMethod'));
     }
 
     /**

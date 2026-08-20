@@ -216,7 +216,7 @@
                         </div>
                         <h3 class="text-lg font-semibold text-gray-800">Semua Arsip</h3>
                     </div>
-                    <a href="{{ route('admin.archive') }}" class="text-sm text-[#003A8F] hover:text-[#0052CC] font-medium">
+                    <a href="{{ route('arsip') }}" class="text-sm text-[#003A8F] hover:text-[#0052CC] font-medium">
                         Lihat Semua →
                     </a>
                 </div>
@@ -335,7 +335,7 @@
                     </a> --}}
 
                     {{-- Button: Semua Pengajuan --}}
-                    <a href="{{route('admin.archive')}}" class="flex items-center justify-center p-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-lg shadow-md transition-all">
+                    <a href="{{route('arsip')}}" class="flex items-center justify-center p-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-lg shadow-md transition-all">
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
                         </svg>

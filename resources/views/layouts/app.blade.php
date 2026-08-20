@@ -20,40 +20,67 @@
 
 <body class="font-sans antialiased bg-gray-100">
     <div class="flex min-h-screen">
+ 
+        <div class="h-min-screen w-20">
+            <!-- Ruang kosong ini menahan konten utama agar tidak tergeser ke kiri di belakang sidebar -->
+        </div>
 
-        {{-- SIDEBAR --}}
-        <aside class="w-60 bg-white border-r shadow-sm fixed left-0 top-0 h-screen z-50">
-            @include('layouts.sidebar')
-        </aside>
+        <livewire:sidebar />
+
+        {{-- <div class="w-60 bg-white border-r shadow-sm fixed left-0 top-0 h-screen z-50">
+        </div> --}}
 
         {{-- MAIN CONTENT --}}
-        <div class="ml-60 flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col">
 
             {{-- TOP NAV --}}
             @include('layouts.navigation')
 
             {{-- SLOT CONTENT --}}
-            <main class="flex-1 p-6">
+            <main class="">
                 {{ $slot }}
             </main>
         </div>
     </div>
-</div>
-
     {{-- SWEETALERT --}}
     <script>
-        @if (session('success'))
-            Swal.fire({ icon: 'success', title: 'Berhasil', text: "{{ session('success') }}", timer: 2000, showConfirmButton: false })
-        @endif
-        @if (session('error'))
-            Swal.fire({ icon: 'error', title: 'Gagal', text: "{{ session('error') }}" })
-        @endif
-        @if (session('warning'))
-            Swal.fire({ icon: 'warning', title: 'Peringatan', text: "{{ session('warning') }}" })
-        @endif
-        @if (session('info'))
-            Swal.fire({ icon: 'info', title: 'Informasi', text: "{{ session('info') }}" })
-        @endif
+        const flash = {
+            success: @json(session('success')),
+            error: @json(session('error')),
+            warning: @json(session('warning')),
+            info: @json(session('info')),
+        };
+
+        if (flash.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: flash.success,
+                timer: 2000,
+                showConfirmButton: false
+            })
+        }
+        if (flash.error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: flash.error
+            })
+        }
+        if (flash.warning) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: flash.warning
+            })
+        }
+        if (flash.info) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Informasi',
+                text: flash.info
+            })
+        }
     </script>
 </body>
 

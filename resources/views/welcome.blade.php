@@ -21,7 +21,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-md"></div>
+                        <img src="{{ asset('images/tvri.png') }}" class="h-12" alt="TVRI">
                         <h1 class="text-xl font-bold text-slate-900">VVeP APP</h1>
                     </div>
                 </div>
@@ -80,6 +80,71 @@
             </div>
         </div>
     </section>
+
+    <!-- Profil Instansi -->
+<section class="py-20 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Logo & Identitas -->
+        <div class="text-center mb-14">
+            <img src="{{ asset('images/tvri.png') }}" class="h-20 mx-auto mb-6" alt="TVRI">
+            <h3 class="text-2xl font-bold text-slate-900">LLP TVRI Kalimantan Selatan</h3>
+            <p class="mt-2 text-slate-600 max-w-xl mx-auto">
+                Jl. A. Yani No. Km. 6, Pemurus Luar, Kec. Banjarmasin Tim., Kota Banjarmasin, Kalimantan Selatan 70249
+            </p>
+            <p class="mt-4 text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                TVRI Stasiun Kalimantan Selatan merupakan lembaga penyiaran publik yang menghadirkan tayangan
+                edukasi, informasi, dan hiburan berbasis budaya lokal bagi masyarakat Kalimantan Selatan.
+            </p>
+        </div>
+
+        <!-- Visi & Misi -->
+        <div class="grid md:grid-cols-2 gap-6 mb-14">
+            <div class="bg-slate-50 p-8 rounded-md border border-slate-200">
+                <div class="inline-block mb-4 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold tracking-wide">
+                    VISI
+                </div>
+                <h4 class="text-lg font-semibold text-slate-900 mb-3">Visi TVRI Kalimantan Selatan</h4>
+                <p class="text-slate-600 leading-relaxed">
+                    "Menjadi Televisi Pilihan Di Tanah Banua" dengan semboyan
+                    <span class="font-medium text-slate-800">"TVRI KALSEL TV-nya Urang Banua"</span>.
+                </p>
+            </div>
+
+            <div class="bg-slate-50 p-8 rounded-md border border-slate-200">
+                <div class="inline-block mb-4 px-3 py-1 bg-cyan-50 text-cyan-700 rounded-full text-xs font-semibold tracking-wide">
+                    MISI
+                </div>
+                <h4 class="text-lg font-semibold text-slate-900 mb-3">Misi TVRI Stasiun Kalimantan Selatan</h4>
+                <ul class="space-y-3 text-slate-600 leading-relaxed">
+                    <li class="flex gap-2">
+                        <span class="text-blue-600 font-semibold">1.</span>
+                        <span>Menyelenggarakan penyiaran edukasi dan entertainment untuk pencerahan dan mencerdaskan masyarakat Kalimantan Selatan dengan basis budaya lokal.</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span class="text-blue-600 font-semibold">2.</span>
+                        <span>Menjadi wadah bagi masyarakat Kalimantan Selatan untuk menyampaikan aspirasi dan promosi dengan semangat demokrasi serta nilai-nilai luhur tanah banua.</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span class="text-blue-600 font-semibold">3.</span>
+                        <span>Menyiarkan program-program acara bermutu dan bermanfaat sesuai keinginan dan kebutuhan masyarakat.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Ucapan Terima Kasih -->
+        <div class="text-center bg-gradient-to-br from-blue-50 to-cyan-50 rounded-md p-8">
+            <p class="text-slate-700">
+                Terima kasih kepada <span class="font-semibold text-slate-900">TVRI Stasiun Kalimantan Selatan</span>
+                atas dukungannya, serta kepada
+                <span class="font-medium text-slate-800">Ryandy Rhamadhany</span>,
+                <span class="font-medium text-slate-800">Muhammad Maulidi</span>, dan
+                <span class="font-medium text-slate-800">Muhammad Rio Bisma Saputra</span>
+                yang telah mengembangkan aplikasi ini.
+            </p>
+        </div>
+    </div>
+</section>
 
     <!-- Features Grid -->
     <section class="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
@@ -234,7 +299,7 @@
             <div class="grid md:grid-cols-3 gap-12">
                 <div>
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-md"></div>
+                        <img src="{{ asset('images/tvri.png') }}" class="h-12" alt="TVRI">
                         <h4 class="text-lg font-semibold">VVeP APP</h4>
                     </div>
                     <p class="text-slate-400 leading-relaxed">

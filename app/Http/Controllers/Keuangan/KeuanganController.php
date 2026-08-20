@@ -68,7 +68,7 @@ class KeuanganController extends Controller
 
         $sudah_diverifikasi = BudgetSubmission::where('verification_status', 1)->count();
 
-        return view('keuangan.dashboard', compact(
+        return view('keuangan.home', compact(
             'pengajuans',
             'total_pengajuan',
             'perlu_diperiksa',
@@ -300,50 +300,5 @@ class KeuanganController extends Controller
         }
         $submission = BudgetSubmission::with('user')->paginate(10, ['*'], 'result_no_filter');
         return view('keuangan.report.report', compact('submission'));
-    }
-
-    public function report_all_submission(Request $request)
-    {
-        $pengajuan = BudgetSubmission::with('user')
-            ->whereBetween('updated_at', [$request->from_date, $request->target_date])
-            ->get();
-
-        $data = [
-            'title' => 'Laporan Semua Pengajuan',
-            'pengajuan' => $pengajuan,
-            'tanggal_awal' => $request->from_date,
-            'tanggal_akhir' => $request->target_date,
-            'watermark' => storage_path('app/public/images/watermark.png'),
-        ];
-
-        $html = view('keuangan.report.all_submission_report', $data)->render();
-
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML($html);
-
-        return response($mpdf->Output('Laporan Semua Pengajuan.pdf', 'S'))->header('Content-Type', 'application/pdf');
-    }
-
-    public function report_verification_submission(Request $request)
-    {
-        $pengajuan = BudgetSubmission::with('user')->with('finance_officer')
-            ->where('verification_status', 1)
-            ->whereBetween('updated_at', [$request->from_date, $request->target_date])
-            ->get();
-
-        $data = [
-            'title' => 'Laporan Pengajuan diverifikasi',
-            'pengajuan' => $pengajuan,
-            'tanggal_awal' => $request->from_date,
-            'tanggal_akhir' => $request->target_date,
-            'watermark' => storage_path('app/public/images/watermark.png'),
-        ];
-
-        $html = view('keuangan.report.verify_submission', $data)->render();
-
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML($html);
-
-        return response($mpdf->Output('Laporan Pengajuan Diverifikasi.pdf', 'S'))->header('Content-Type', 'application/pdf');
     }
 }

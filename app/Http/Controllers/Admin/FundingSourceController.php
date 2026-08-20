@@ -21,7 +21,7 @@ class FundingSourceController extends Controller
      */
     public function create()
     {
-        return view('admin.setting_environment.funding-sources_create');
+        return view('admin.setting_environment.funding_source.create');
     }
 
     /**
@@ -57,7 +57,7 @@ class FundingSourceController extends Controller
     public function edit($id)
     {
         $fundingSource = FundingSource::findOrFail($id);
-        return view('admin.setting_environment.funding-sources_edit', compact('fundingSource'));
+        return view('admin.setting_environment.funding_source.edit', compact('fundingSource'));
     }
 
     /**

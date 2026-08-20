@@ -11,10 +11,10 @@
             {{-- Stats Cards --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 {{-- Total Users --}}
-                <div class="group bg-white p-6 rounded-2xl shadow-lg border-t-4 border-blue-500 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="group bg-white p-6 rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-start justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Total User</p>
+                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Total Pengguna</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
                                 {{ $users->count() }}
                             </h3>
@@ -29,7 +29,7 @@
                 </div>
 
                 {{-- Admin Count --}}
-                <div class="group bg-white p-6 rounded-2xl shadow-lg border-t-4 border-red-500 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="group bg-white p-6 rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-start justify-between">
                         <div>
                             <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Administrator</p>
@@ -47,10 +47,10 @@
                 </div>
 
                 {{-- User Count --}}
-                <div class="group bg-white p-6 rounded-2xl shadow-lg border-t-4 border-green-500 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="group bg-white p-6 rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-start justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">User Biasa</p>
+                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Pengguna Biasa</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
                                 {{ $users->where('role',  '!=', 'Admin')->count() }}
                             </h3>
@@ -79,7 +79,7 @@
                             </div>
                             <div>
                                 <h3 class="text-2xl font-bold text-white">
-                                    Daftar User Terdaftar
+                                    Daftar Pengguna Terdaftar
                                 </h3>
                                 <p class="text-blue-100 text-sm mt-1">Kelola akses dan hak pengguna</p>
                             </div>
@@ -161,7 +161,7 @@
                                         {{-- Name --}}
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center gap-3">
-                                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-white font-bold shadow-md">
+                                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold shadow-md">
                                                     {{ strtoupper(substr($user->name, 0, 1)) }}
                                                 </div>
                                                 <div>

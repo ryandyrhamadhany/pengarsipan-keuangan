@@ -21,7 +21,7 @@ class AdminController extends Controller
         $pengajuan = BudgetSubmission::all()->count();
         $akun = User::all()->count();
         $arsiplist = DigitalArchive::paginate(10, ['*'], 'arsip_list');
-        return view('admin.admin-dashboard', compact('arsip', 'pengajuan', 'akun', 'arsiplist'));
+        return view('admin.dashboard', compact('arsip', 'pengajuan', 'akun', 'arsiplist'));
     }
 
     public function input_archive(Request $request)
@@ -36,7 +36,7 @@ class AdminController extends Controller
     {
         $payment_method = PaymentMethod::all();
         $funding_source = FundingSource::all();
-        return view('admin.setting_environment.setting_environment', compact('payment_method', 'funding_source'));
+        return view('admin.setting_environment.environment', compact('payment_method', 'funding_source'));
     }
 
     public function report()

@@ -23,7 +23,7 @@ class AccountManageController extends Controller
      */
     public function create()
     {
-        return view('admin.kelola_user.user_create');
+        return view('admin.kelola_user.create');
     }
 
     /**
@@ -63,7 +63,7 @@ class AccountManageController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-        return view('admin.kelola_user.user_edit', compact('user'));
+        return view('admin.kelola_user.edit', compact('user'));
     }
 
     /**

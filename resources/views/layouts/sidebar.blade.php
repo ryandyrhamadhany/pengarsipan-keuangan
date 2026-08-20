@@ -1,11 +1,15 @@
-<aside
+<div class="h-screen w-20 bg-blue-700">
+    
+</div>
+
+{{-- <aside
     class="w-60 min-h-screen bg-gradient-to-b from-[#003A8F] to-[#002766] text-white shadow-2xl flex flex-col transition-all duration-300 hover:shadow-blue-500/20 relative overflow-hidden">
     <!-- Background Decorative Elements -->
     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#1890FF] to-[#0050C8]"></div>
     <div class="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-xl"></div>
     <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-xl"></div>
 
-    {{-- LOGO ENHANCED --}}
+    LOGO ENHANCED
     <div
         class="h-20 flex items-center justify-center bg-gray-800/50 border border-gray-700/30 hover:bg-gray-800/70 backdrop-blur-sm relative z-10 px-4">
         <a href="{{ route('dashboard') }}"
@@ -20,7 +24,7 @@
         </a>
     </div>
 
-    {{-- MAIN NAVIGATION --}}
+    MAIN NAVIGATION
     <nav class="flex-1 p-4 space-y-1 overflow-y-auto relative z-10">
         @php
             use Illuminate\Support\Facades\Auth;
@@ -249,7 +253,7 @@
         @endforeach
     </nav>
 
-    {{-- ACCOUNT MENU --}}
+    ACCOUNT MENU
     <div class="px-4 relative z-10">
         <div class="mb-2 px-3">
             <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Account</p>
@@ -290,7 +294,7 @@
             </a>
         @endforeach
 
-        {{-- LOGOUT --}}
+        LOGOUT
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit"
@@ -310,7 +314,7 @@
         </form>
     </div>
 
-    {{-- USER PROFILE CARD --}}
+    USER PROFILE CARD
     <div class="p-4 border-b border-gray-700/50 relative z-10">
         <div class="flex items-center space-x-3 p-3 transition-all duration-300">
             <div class="relative">
@@ -395,4 +399,4 @@
             }, 3000);
         }
     });
-</script>
+</script> --}}
