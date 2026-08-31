@@ -119,6 +119,7 @@ class VerificationController extends Controller
                 ->with('error', 'Pengajuan ini sedang diperiksa oleh petugas keuangan lain');
         }
     }
+    
     public function verify_bendahara(Request $request, string $id)
     {
         $service = new VerificationService();

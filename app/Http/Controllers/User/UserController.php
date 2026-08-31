@@ -12,7 +12,7 @@ use Mpdf\Mpdf;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index() // dashboard pengajuan
     {
         $userId = Auth::id();
 
@@ -49,12 +49,7 @@ class UserController extends Controller
         ));
     }
 
-    // public function pengajuan()
-    // {
-    //     return view('user.pengajuan.pengajuan');
-    // }
-
-    public function worklist() // tidak dipakai lagi
+    public function worklist()
     {
         $proses_submissions = BudgetSubmission::with('user')->where('user_id', Auth::id())->get();
 
@@ -65,15 +60,15 @@ class UserController extends Controller
         return view('user.monitoring', compact('proses_submissions', 'all_submissions', 'archive_submit'));
     }
 
-    public function report(Request $request)
-    {
-        if (isset($request->from_date) && isset($request->target_date)) {
-            $submission = BudgetSubmission::with('user')->where('user_id', Auth::id())->whereBetween('updated_at', [$request->from_date, $request->target_date])->paginate(10, ['*'], 'submit_result_filter');
-            return view('user.report.report', compact('submission'));
-        }
-        $submission = BudgetSubmission::with('user')->where('user_id', Auth::id())->paginate(10, ['*'], 'result_no_filter');
-        return view('user.report.report', compact('submission'));
-    }
+    // public function report(Request $request) // tidak dipakai lagi
+    // {
+    //     if (isset($request->from_date) && isset($request->target_date)) {
+    //         $submission = BudgetSubmission::with('user')->where('user_id', Auth::id())->whereBetween('updated_at', [$request->from_date, $request->target_date])->paginate(10, ['*'], 'submit_result_filter');
+    //         return view('user.report.report', compact('submission'));
+    //     }
+    //     $submission = BudgetSubmission::with('user')->where('user_id', Auth::id())->paginate(10, ['*'], 'result_no_filter');
+    //     return view('user.report.report', compact('submission'));
+    // }
 
-    
+
 }
