@@ -179,7 +179,7 @@ new class extends Component {
                 $name = [
                     'home' => 'Home',
                     'pengajuan' => 'Pengajuan',
-                    'monitor' => 'Monitor',
+                    'monitor' => 'Monitoring',
                     'notification' => 'Notification',
                     'report' => 'Report',
                 ];

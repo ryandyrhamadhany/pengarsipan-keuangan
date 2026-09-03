@@ -21,17 +21,17 @@ class UserController extends Controller
 
         // BELUM LENGKAP
         $belum_lengkap = BudgetSubmission::where('user_id', $userId)
-            ->where('requirements_status', '!=', 'Lengkap')
+            ->where('requirements_status', 'Belum Lengkap')
             ->count();
 
         // BELUM DIVERIFIKASI
         $belum_diverifikasi = BudgetSubmission::where('user_id', $userId)
-            ->where('verification_status', 'Belum Diverifikasi')
+            ->where('verification_status', 0)->where('is_archive', 0)
             ->count();
 
         // SELESAI
         $selesai = BudgetSubmission::where('user_id', $userId)
-            ->where('verification_status', 'Selesai')
+            ->where('verification_status', 1)->where('is_archive', 0)
             ->count();
 
         // BudgetSubmission TERBARU

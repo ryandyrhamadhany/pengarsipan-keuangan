@@ -60,7 +60,7 @@
                     <div class="bg-white rounded-xl shadow-md border border-gray-200 p-6">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
-                                <p class="text-sm text-gray-500 mb-1">Belum Lengkap</p>
+                                <p class="text-sm text-gray-500 mb-1">Dikembalikan</p>
                                 <p class="text-3xl font-bold text-yellow-600">{{ $belum_lengkap ?? 0 }}</p>
                             </div>
                             <div class="p-4 bg-yellow-100 rounded-lg">
@@ -125,7 +125,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {{-- Buat Pengajuan Baru --}}
-                        <a href="{{ route('submit.index') }}"
+                        <a href="{{ route('submit.create') }}"
                             class="flex items-center gap-4 p-5 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-lg border border-blue-200 hover:shadow-md transition-all">
                             <div class="p-3 bg-blue-500 rounded-lg">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
@@ -156,23 +156,6 @@
                                 <p class="text-xs text-gray-600">Kelola pengajuan Anda</p>
                             </div>
                         </a>
-
-                        {{-- Arsip Digital --}}
-                        {{-- <a href="{{ route('digital.index') }}"
-                            class="flex items-center gap-4 p-5 bg-gradient-to-br from-teal-50 to-teal-100/50 rounded-lg border border-teal-200 hover:shadow-md transition-all">
-                            <div class="p-3 bg-teal-500 rounded-lg">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800">Arsip Digital</p>
-                                <p class="text-xs text-gray-600">Lihat arsip dokumen</p>
-                            </div>
-                        </a> --}}
                     </div>
                 </div>
 
@@ -211,15 +194,15 @@
                                         <span class="text-xs text-gray-500">
                                             {{ $submit->created_at->diffForHumans() }}
                                         </span>
-                                        @if ($submit->requirements_status == 'Lengkap')
+                                        @if ($submit->verification_status)
                                             <span
                                                 class="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-700">
-                                                Lengkap
+                                                diverifikasi
                                             </span>
                                         @else
                                             <span
-                                                class="px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700">
-                                                Belum Lengkap
+                                                class="px-2 py-0.5 text-xs font-medium rounded-full bg-red-100 text-red-700">
+                                                Belum diverifikasi
                                             </span>
                                         @endif
                                     </div>

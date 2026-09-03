@@ -24,13 +24,14 @@ class ChecklistFactory
         $this->sourcePath = 'template/' . $this->fileChecklist;
     }
 
+    // ============================================================================ Utama
     // membuat file checklist baru
     public function createChecklist(string $submit_name): string
     {
         // perbaiki nama pengajuan untuk path file
         $namaPengajuan = str_replace(' ', '_', $submit_name);
 
-        // nama file checklist
+        // nama file checklist dan buat path
         $checklistName = str_replace('_main', '', $this->fileChecklist);
         $newFileName = time() . '_' . $namaPengajuan . '_' . $checklistName;
         $destinationPath = 'metadata_pengajuan/' . $newFileName;
@@ -49,54 +50,6 @@ class ChecklistFactory
         }
 
         return $destinationPath;
-    }
-
-    // set nama pengajuan di checklist
-    public function setSubmitNameInChecklist(string $submit_name): void
-    {
-        $namaPengajuan = str_replace(' ', '_', $submit_name);
-        $checklistName = str_replace('_main', '', $this->fileChecklist);
-        $newFileName = time() . '_' . $namaPengajuan . '_' . $checklistName;
-        $destinationPath = 'metadata_pengajuan/' . $newFileName;
-
-        if (Storage::disk('private')->exists($destinationPath)) {
-            $filePathMetadata = Storage::disk('private')->path($destinationPath);
-            $spreadsheet = IOFactory::load($filePathMetadata);
-            $worksheet = $spreadsheet->getActiveSheet();
-            $worksheet->setCellValue("B3", 'Nama Kegiatan : ' . $submit_name);
-            $writer = new Xlsx($spreadsheet);
-            $writer->save($filePathMetadata);
-        }
-    }
-
-    public function setNoKuitansi(Request $request, ?BudgetSubmission $budgetSubmission): void
-    {
-        if (Storage::disk('private')->exists($budgetSubmission->path_file_requirements_status)) {
-            $filePathMetadata = Storage::disk('private')->path($budgetSubmission->path_file_requirements_status);
-            $spreadsheet = IOFactory::load($filePathMetadata);
-            $worksheet = $spreadsheet->getActiveSheet();
-        }
-        $worksheet->getCell('B4')->setValue("Nomor : {$request->kuitansi}");
-        $writer = new Xlsx($spreadsheet);
-        $writer->save($filePathMetadata);
-    }
-
-    // cek apakah checklist ada
-    public function checklistExists(BudgetSubmission $submission): void
-    {
-        if (Str::contains($submission->path_file_requirements_status, 'CHECKLIST')) {
-            // hapus file requirement sebelumnya
-            if (Storage::disk('private')->exists($submission->path_file_requirements_status)) {
-                Storage::disk('private')->delete($submission->path_file_requirements_status);
-            }
-
-            // buat file baru
-            $destinationPath = $this->createChecklist($submission->name);
-
-            $submission->update([
-                'path_file_requirements_status' => $destinationPath,
-            ]);
-        }
     }
 
     // ambil centang checklist
@@ -156,7 +109,7 @@ class ChecklistFactory
         ];
     }
 
-    // set centang dasar checklist
+    // set centang awal checklist
     public function setDefaultValueChecklist(BudgetSubmission $budgetSubmission): ?array
     {
         if (Storage::disk('private')->exists($budgetSubmission->path_file_requirements_status)) {
@@ -229,28 +182,6 @@ class ChecklistFactory
         ];
     }
 
-    // update nama checklist
-    public function updateChecklist(BudgetSubmission $budgetSubmission, Request $request): ?string
-    {
-        // ubah spasi menjadi underscore
-        $namaPengajuan = str_replace(' ', '_', $request->name);
-
-        // nama file checklist
-        $checkName = str_replace('_main', '', $this->fileChecklist);
-        $newFileName = time() . '_' . $namaPengajuan . '_' . $checkName;
-        $destinationPath = 'metadata_pengajuan/' . $newFileName;
-
-        // rename file requirements checklist
-        if (
-            $budgetSubmission->path_file_requirements_status &&
-            Storage::disk('private')->exists($budgetSubmission->path_file_requirements_status)
-        ) {
-            Storage::disk('private')->move($budgetSubmission->path_file_requirements_status, $destinationPath);
-        }
-
-        return $destinationPath;
-    }
-
     // set nilai centang checklist
     public function setValueChecklist(BudgetSubmission $budgetSubmission, Request $request): void
     {
@@ -292,6 +223,7 @@ class ChecklistFactory
         $writer->save($filePathMetadata);
     }
 
+    // ambil value kolom tertentu dari checklist
     public function getValue(string $colomn, BudgetSubmission $budgetSubmission): ?array
     {
         if (Storage::disk('private')->exists($budgetSubmission->path_file_requirements_status)) {
@@ -310,5 +242,76 @@ class ChecklistFactory
         }
 
         return $valueResult;
+    }
+
+    // ======================================================================= FITUR TAMBAHAN
+    // set nama pengajuan di checklist
+    public function setSubmitNameInChecklist(string $submit_name): void
+    {
+        $namaPengajuan = str_replace(' ', '_', $submit_name);
+        $checklistName = str_replace('_main', '', $this->fileChecklist);
+        $newFileName = time() . '_' . $namaPengajuan . '_' . $checklistName;
+        $destinationPath = 'metadata_pengajuan/' . $newFileName;
+
+        if (Storage::disk('private')->exists($destinationPath)) {
+            $filePathMetadata = Storage::disk('private')->path($destinationPath);
+            $spreadsheet = IOFactory::load($filePathMetadata);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $worksheet->setCellValue("B3", 'Nama Kegiatan : ' . $submit_name);
+            $writer = new Xlsx($spreadsheet);
+            $writer->save($filePathMetadata);
+        }
+    }
+
+    public function setNoKuitansi(Request $request, ?BudgetSubmission $budgetSubmission): void
+    {
+        if (Storage::disk('private')->exists($budgetSubmission->path_file_requirements_status)) {
+            $filePathMetadata = Storage::disk('private')->path($budgetSubmission->path_file_requirements_status);
+            $spreadsheet = IOFactory::load($filePathMetadata);
+            $worksheet = $spreadsheet->getActiveSheet();
+        }
+        $worksheet->getCell('B4')->setValue("Nomor : {$request->kuitansi}");
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filePathMetadata);
+    }
+
+    // cek apakah checklist ada
+    public function checklistExists(BudgetSubmission $submission): void
+    {
+        if (Str::contains($submission->path_file_requirements_status, 'CHECKLIST')) {
+            // hapus file requirement sebelumnya
+            if (Storage::disk('private')->exists($submission->path_file_requirements_status)) {
+                Storage::disk('private')->delete($submission->path_file_requirements_status);
+            }
+
+            // buat file baru
+            $destinationPath = $this->createChecklist($submission->name);
+
+            $submission->update([
+                'path_file_requirements_status' => $destinationPath,
+            ]);
+        }
+    }
+
+    // update nama checklist
+    public function updateChecklist(BudgetSubmission $budgetSubmission, Request $request): ?string
+    {
+        // ubah spasi menjadi underscore
+        $namaPengajuan = str_replace(' ', '_', $request->name);
+
+        // nama file checklist
+        $checkName = str_replace('_main', '', $this->fileChecklist);
+        $newFileName = time() . '_' . $namaPengajuan . '_' . $checkName;
+        $destinationPath = 'metadata_pengajuan/' . $newFileName;
+
+        // rename file requirements checklist
+        if (
+            $budgetSubmission->path_file_requirements_status &&
+            Storage::disk('private')->exists($budgetSubmission->path_file_requirements_status)
+        ) {
+            Storage::disk('private')->move($budgetSubmission->path_file_requirements_status, $destinationPath);
+        }
+
+        return $destinationPath;
     }
 }

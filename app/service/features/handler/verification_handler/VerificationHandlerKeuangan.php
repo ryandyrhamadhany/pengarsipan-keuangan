@@ -11,6 +11,10 @@ use Mpdf\Mpdf;
 
 class VerificationHandlerKeuangan extends VerificationHandler
 {
+    public function createDigitalArchive(): bool
+    {
+        return false;
+    }
     public function setVerificator(string $id, $authid): bool
     {
         // 1. Eksekusi Atomic Update (MySQL otomatis mengunci row ini secara mutlak)

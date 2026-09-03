@@ -49,7 +49,17 @@
             error: @json(session('error')),
             warning: @json(session('warning')),
             info: @json(session('info')),
+            validation: @json($errors->all()), 
         };
+
+        if (flash.validation && flash.validation.length > 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: flash.validation.join(', '), // Menggabungkan semua error dipisah tanda koma
+                confirmButtonText: 'Coba Periksa Lagi'
+            });
+        }
 
         if (flash.success) {
             Swal.fire({

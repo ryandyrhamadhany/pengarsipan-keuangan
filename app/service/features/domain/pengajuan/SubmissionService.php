@@ -7,7 +7,7 @@ use App\service\features\handler\checklist_factory\ChecklistFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-use App\service\features\handler\pdf_handler\PDFHandlerImpl;
+use App\service\features\handler\pdf_handler\PDFHandler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,7 +20,7 @@ class SubmissionService
     public function __construct()
     {
         $this->iduser = Auth::check() ? Auth::user()->id : null;
-        $this->pdfHandler = new PDFHandlerImpl();
+        $this->pdfHandler = new PDFHandler();
         $this->checklistFactory = new ChecklistFactory();
     }
 
