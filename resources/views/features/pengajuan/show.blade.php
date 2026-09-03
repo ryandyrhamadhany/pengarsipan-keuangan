@@ -9,7 +9,7 @@
     <div class="py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <a href="{{ route('user.monitoring') }}"
-                class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-md border border-gray-200 hover:bg-gray-200 transition-colors">
+                class="inline-flex items-center gap-2 bg-white text-gray-700 px-4 py-2 rounded-md shadow-md border border-gray-200 hover:bg-gray-100 transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -21,7 +21,7 @@
 
     <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm rounded-md">
+            <div class="bg-white overflow-hidden shadow-md rounded-md">
                 <div class="p-8 space-y-6">
 
                     {{-- Header Informasi --}}
@@ -77,15 +77,15 @@
 
                         {{-- Status Badges --}}
                         <div class="flex flex-wrap gap-2 pb-4 mb-4 border-b border-gray-200">
-                            @if ($pengajuan->requirements_status == 'Belum Lengkap' && $pengajuan->requirements_status == 0)
+                            @if ($pengajuan->requirements_status == 'Belum Lengkap' && $pengajuan->verification_status == 0)
                                 <span class="px-3 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-700">
-                                    Tahapan: Dalam Proses
+                                    Dalam Proses
                                 </span>
                             @endif
 
                             <span
                                 class="px-3 py-1 rounded-md text-xs font-medium {{ $pengajuan->requirements_status == 'Lengkap' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
-                                Kelengkapan: {{ ucfirst($pengajuan->requirements_status) }}
+                                {{ $pengajuan->requirements_status }}
                             </span>
 
                             <span
@@ -97,6 +97,14 @@
                                 class="px-3 py-1 rounded-md text-xs font-medium {{ $pengajuan->is_archive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' }}">
                                 {{ $pengajuan->is_archive ? 'Diarsipkan' : 'Belum Diarsipkan' }}
                             </span>
+
+                            @if ($pengajuan->is_return == 1)
+                                <span
+                                class="px-3 py-1 rounded-md text-xs font-medium {{ $pengajuan->is_return ? 'bg-yellow-100 text-yellow-700' : '' }}">
+                                Dikembalikan
+                                </span>
+                            @endif
+                            
                         </div>
 
                         {{-- Diperiksa Oleh --}}
@@ -180,7 +188,19 @@
 
                     {{-- File Pengajuan --}}
                     <div class="bg-white rounded-md shadow-sm border border-gray-200 p-6">
-                        <h3 class="font-semibold text-gray-800 mb-4">File Pengajuan</h3>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-semibold text-gray-800 mb-4">File Pengajuan</h3>
+                            @if ($pengajuan->is_return)
+                            <div class="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-md flex items-center">
+                                <svg class="w-3 h-3 mr-1" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                Pengajuan dikembalikan silakan perbaiki dan lengkapi syarat sesuai checklist yang tertera
+                            </div>
+                            @endif
+                        </div>
 
                         {{-- File Saat Ini --}}
                         <div
@@ -219,10 +239,10 @@
                                             <select name="payment_method" id="payment_method"
                                                 class="w-full border border-gray-300 rounded-md px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-[#003A8F] focus:border-[#003A8F] focus:outline-none transition-colors"
                                                 required>
-                                                <option value="">Pilih metode pembayaran</option>
+                                                <option value="" disabled>Pilih metode pembayaran</option>
                                                 @foreach ($payment_method as $payment)
                                                     <option value="{{ $payment->id }}"
-                                                        {{ $pengajuan->payment_method_id == $payment->id ? 'selected' : '' }}>
+                                                        {{ $pengajuan->assigned_payment_method == $payment->id ? 'selected' : '' }}>
                                                         {{ $payment->payment_method_name }} -
                                                         {{ $payment->sub_category }}
                                                     </option>
@@ -238,10 +258,10 @@
                                             <select name="funding_source" id="funding_source"
                                                 class="w-full border border-gray-300 rounded-md px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-[#003A8F] focus:border-[#003A8F] focus:outline-none transition-colors"
                                                 required>
-                                                <option value="">Pilih sumber dana</option>
+                                                <option value="" disabled>Pilih sumber dana</option>
                                                 @foreach ($funding_source as $funding)
                                                     <option value="{{ $funding->id }}"
-                                                        {{ $pengajuan->funding_source_id == $funding->id ? 'selected' : '' }}>
+                                                        {{ $pengajuan->assigned_funding_source == $funding->id ? 'selected' : '' }}>
                                                         {{ $funding->funding_source_name }} -
                                                         {{ $funding->sub_category }}
                                                     </option>
@@ -315,22 +335,22 @@
                     @endif
 
                     {{-- Tabel Dokumen --}}
-                    <div class="bg-white rounded-md shadow-sm border border-gray-200 p-6">
+                    <div class="bg-white shadow-sm border border-gray-200 p-6 rounded-md">
                         <h3 class="font-semibold text-gray-800 mb-4">Checklist Dokumen</h3>
 
-                        <div class="overflow-x-auto rounded-md border border-gray-200">
+                        <div class="overflow-x-auto rounded-md border border-gray-300">
                             <table class="min-w-full bg-white text-sm">
                                 <thead class="bg-gray-100 text-gray-700 text-xs">
                                     <tr>
-                                        <th rowspan="2" class="px-4 py-3 border border-gray-300 text-center">No
+                                        <th rowspan="2" class="px-4 py-3 border-b border-r border-gray-300 text-center">No
                                         </th>
-                                        <th rowspan="2" class="px-4 py-3 border border-gray-300">Nama Dokumen & TTD
+                                        <th rowspan="2" class="px-4 py-3 border-b border-r border-gray-300">Nama Dokumen & TTD
                                         </th>
-                                        <th colspan="3" class="px-4 py-3 border border-gray-300 text-center">
+                                        <th colspan="3" class="px-4 py-3 border-b border-r border-gray-300 text-center">
                                             Dokumen</th>
-                                        <th colspan="2" class="px-4 py-3 border border-gray-300 text-center">Tanda
+                                        <th colspan="2" class="px-4 py-3 border-b border-r border-gray-300 text-center">Tanda
                                             Tangan</th>
-                                        <th rowspan="2" class="px-4 py-3 border border-gray-300 text-center">
+                                        <th rowspan="2" class="px-4 py-3 border-b border-gray-300 text-center">
                                             Keterangan</th>
                                     </tr>
                                     <tr>
@@ -349,49 +369,40 @@
                                     @foreach ($syaratDoc as $index => $dokumen)
                                         <tr class="hover:bg-gray-50">
                                             <td
-                                                class="px-4 py-3 border border-gray-300 text-gray-900 font-medium text-center">
+                                                class="px-4 py-3 border-t border-r border-gray-300 text-gray-900 font-medium text-center">
                                                 {{ $no++ }}
                                             </td>
 
-                                            <td class="px-4 py-3 border border-gray-300 text-gray-900">
+                                            <td class="px-4 py-3 border-t border-r border-gray-300 text-gray-900">
                                                 {{ $dokumen }}
-                                                {{-- @php
-                                                    if (preg_match('/^[IVX]+\.\d+/', $dokumen)) {
-                                                        echo "<span class='font-bold text-blue-700'>$dokumen</span>";
-                                                    } elseif (preg_match('/^\d+\.\d+/', $dokumen)) {
-                                                        echo "<span class='pl-6 text-gray-800'>$dokumen</span>";
-                                                    } else {
-                                                        echo "<span class='text-gray-800'>$dokumen</span>";
-                                                    }
-                                                @endphp --}}
                                             </td>
 
-                                            <td class="px-4 py-3 border border-gray-300 text-center">
+                                            <td class="px-4 py-3 border-t border-r border-gray-300 text-center">
                                                 <input type="radio" class="w-4 h-4 text-green-600" disabled
                                                     {{ isset($ada[$index]) && $ada[$index] ? 'checked' : '' }}>
                                             </td>
 
-                                            <td class="px-4 py-3 border border-gray-300 text-center">
+                                            <td class="px-4 py-3 border-t border-r border-gray-300 text-center">
                                                 <input type="radio" class="w-4 h-4 text-red-600" disabled
                                                     {{ isset($tidakada[$index]) && $tidakada[$index] ? 'checked' : '' }}>
                                             </td>
 
-                                            <td class="px-4 py-3 border border-gray-300 text-center">
+                                            <td class="px-4 py-3 border-t border-r border-gray-300 text-center">
                                                 <input type="radio" class="w-4 h-4 text-yellow-600" disabled
                                                     {{ isset($tidakperlu[$index]) && $tidakperlu[$index] ? 'checked' : '' }}>
                                             </td>
 
-                                            <td class="px-4 py-3 border border-gray-300 text-center">
+                                            <td class="px-4 py-3 border-t border-r border-gray-300 text-center">
                                                 <input type="radio" class="w-4 h-4 text-blue-600" disabled
                                                     {{ isset($lengkap[$index]) && $lengkap[$index] ? 'checked' : '' }}>
                                             </td>
 
-                                            <td class="px-4 py-3 border border-gray-300 text-center">
+                                            <td class="px-4 py-3 border-t border-r border-gray-300 text-center">
                                                 <input type="radio" class="w-4 h-4 text-gray-600" disabled
                                                     {{ isset($belum[$index]) && $belum[$index] ? 'checked' : '' }}>
                                             </td>
 
-                                            <td class="px-4 py-3 border border-gray-300 text-gray-900">
+                                            <td class="px-4 py-3 border-t border-gray-300 text-gray-900">
                                                 {{ $keterangan[$index] ?? '-' }}
                                             </td>
                                         </tr>
@@ -400,7 +411,6 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
