@@ -110,7 +110,7 @@ class ChecklistFactory
     }
 
     // set centang awal checklist
-    public function setDefaultValueChecklist(BudgetSubmission $budgetSubmission): ?array
+    public function setDefaultValueChecklist(BudgetSubmission $budgetSubmission): void
     {
         if (Storage::disk('private')->exists($budgetSubmission->path_file_requirements_status)) {
             $filePathMetadata = Storage::disk('private')->path($budgetSubmission->path_file_requirements_status);
@@ -118,23 +118,10 @@ class ChecklistFactory
             $worksheet = $spreadsheet->getActiveSheet();
         }
 
-        $namaKegiatan = $worksheet->getCell('B3')->getValue();
-        $noKuitansi = $worksheet->getCell('B4')->getValue();
-
         $startCell = 7;
         $endCell = 36;
 
-        $syaratDoc = [];
-        $ada = [];
-        $tidakada = [];
-        $tidakperlu = [];
-        $lengkap = [];
-        $belum = [];
-        $keterangan = [];
-
         for ($i = $startCell; $i <= $endCell; $i++) {
-            $syaratDoc[] = $worksheet->getCell("C{$i}")->getValue();
-
             // auto checklist
             if (
                 $worksheet->getCell("D{$i}")->getValue() === null &&
@@ -142,8 +129,6 @@ class ChecklistFactory
                 $worksheet->getCell("F{$i}")->getValue() === null
             ) {
                 $worksheet->setCellValue("D{$i}", 'Y');
-                $writer = new Xlsx($spreadsheet);
-                $writer->save($filePathMetadata);
             }
 
             if (
@@ -151,35 +136,10 @@ class ChecklistFactory
                 $worksheet->getCell("H{$i}")->getValue() === null
             ) {
                 $worksheet->setCellValue("G{$i}", 'Y');
-                $writer = new Xlsx($spreadsheet);
-                $writer->save($filePathMetadata);
             }
-
-            $ada[] = $worksheet->getCell("D{$i}")->getValue();
-            $tidakada[] = $worksheet->getCell("E{$i}")->getValue();
-            $tidakperlu[] = $worksheet->getCell("F{$i}")->getValue();
-            $lengkap[] = $worksheet->getCell("G{$i}")->getValue();
-            $belum[] = $worksheet->getCell("H{$i}")->getValue();
-            $keterangan[] = $worksheet->getCell("I{$i}")->getValue();
         }
-
-        $catatan = $worksheet->getCell('B40')->getValue();
-
-        return [
-            'nama_kegiatan' => $namaKegiatan,
-            'no' => $noKuitansi,
-            'catatan' => $catatan,
-            // Ini adalah contoh array di dalam array (Nested Array)
-            'checklist_data' => [
-                'syarat_doc'  => $syaratDoc,
-                'ada'         => $ada,
-                'tidak_ada'   => $tidakada,
-                'tidak_perlu' => $tidakperlu,
-                'lengkap'     => $lengkap,
-                'belum'       => $belum,
-                'keterangan'  => $keterangan,
-            ]
-        ];
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filePathMetadata);
     }
 
     // set nilai centang checklist

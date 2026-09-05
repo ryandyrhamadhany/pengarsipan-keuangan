@@ -46,6 +46,8 @@ class VerificationController extends Controller
         return view('features.ppspm.list', compact('pengajuans', 'my_proses'));
     }
 
+
+
     public function get_item_keuangan(string $id)
     {
         $service = new VerificationService();
@@ -54,7 +56,10 @@ class VerificationController extends Controller
         $pengajuan = $service->getItemKeuangan($id);
 
         // set default value untuk file requirement 
-        $result = $checklistFactory->setDefaultValueChecklist($pengajuan);
+        $checklistFactory->setDefaultValueChecklist($pengajuan);
+
+        // ambil value checklist
+        $result = $checklistFactory->getChecklistValue($pengajuan);
 
         $namaKegiatan   = $result['nama_kegiatan'] ?? '-';
         $noKuitansi     = $result['noKuitansi'] ?? '-';
@@ -107,6 +112,9 @@ class VerificationController extends Controller
         return view('features.verifikasi_ppspm.ppspm_verifikasi_check', compact('doc', 'payment_method', 'funding_source', 'cabinets'));
     }
 
+
+
+
     public function verify_keuangan(Request $request, string $id)
     {
         $service = new VerificationService();
@@ -119,7 +127,6 @@ class VerificationController extends Controller
                 ->with('error', 'Pengajuan ini sedang diperiksa oleh petugas keuangan lain');
         }
     }
-    
     public function verify_bendahara(Request $request, string $id)
     {
         $service = new VerificationService();

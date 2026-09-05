@@ -11,10 +11,6 @@ use Mpdf\Mpdf;
 
 class VerificationHandlerKeuangan extends VerificationHandler
 {
-    public function createDigitalArchive(): bool
-    {
-        return false;
-    }
     public function setVerificator(string $id, $authid): bool
     {
         // 1. Eksekusi Atomic Update (MySQL otomatis mengunci row ini secara mutlak)
@@ -39,21 +35,18 @@ class VerificationHandlerKeuangan extends VerificationHandler
         return true;
     }
 
+    public function setValueChecklist(Request $request): void
+    {
+        $this->checklistFactory->setValueChecklist($this->submission, $request);
+    }
+
     public function verifySubmission(): void
     {
         $valueADA = $this->checklistFactory->getValue('D', $this->submission);
         $valueADAtidakperlu = $this->checklistFactory->getValue('F', $this->submission);
         $valueLengkap = $this->checklistFactory->getValue('G', $this->submission);
-        // $startCekCell = 7;
-        // $endCekCell = 36;
-        // $status_lengkap = '';
-        // $status_verifikasi = false;
 
         for ($i = 0; $i < count($valueADA); $i++) {
-
-            // $valueADA = $worksheet->getCell("D{$i}")->getValue();
-            // $valueADAtidakperlu = $worksheet->getCell("F{$i}")->getValue();
-            // $valueLengkap = $worksheet->getCell("G{$i}")->getValue();
 
             $valueADAget = $valueADA[$i];
             $valueADAtidakperluget = $valueADAtidakperlu[$i];
@@ -62,24 +55,26 @@ class VerificationHandlerKeuangan extends VerificationHandler
             if ($valueADAtidakperluget === 'Y') {
                 $this->isComplete = 'Lengkap';
                 $this->isVerify = true;
-                // $is_marked = 1;
             } else {
                 if ($valueADAget === '' || $valueADAget === null) {
                     $this->isComplete = 'Belum Lengkap';
                     $this->isVerify = false;
-                    // $is_marked = 0;
+                    $this->isReturn = true;
+                    $this->isMarked = false;
                     break;
                 }
                 if ($valueLengkapget === '' || $valueLengkapget === null) {
                     $this->isComplete = 'Belum Lengkap';
                     $this->isVerify = false;
-                    // $is_marked = 0;
+                    $this->isReturn = true;
+                    $this->isMarked = false;
                     break;
                 }
             }
             $this->isComplete = 'Lengkap';
             $this->isVerify = true;
-            // $is_marked = 1;
+            $this->isReturn = false;
+            $this->isMarked = false;
         }
     }
 
@@ -89,7 +84,8 @@ class VerificationHandlerKeuangan extends VerificationHandler
             $this->submission->path_file_submission &&
             Storage::disk('private')->exists($this->submission->path_file_submission) &&
             $this->isComplete == 'Lengkap' &&
-            $this->isVerify
+            $this->isVerify &&
+            !$this->isReturn
             // $is_marked
         ) {
             $sourcePath = $this->submission->path_file_submission;
@@ -209,6 +205,8 @@ class VerificationHandlerKeuangan extends VerificationHandler
         $mpdf->Output($fullPath, 'F');
 
         Log::info('Watermark PDF berhasil: ' . $filePath);
+
+        $this->isMarked = true;
     }
 
     public function updateSubmission(Request $request): void
@@ -218,8 +216,8 @@ class VerificationHandlerKeuangan extends VerificationHandler
             'message' => $request->catatan,
             'requirements_status' => $this->isComplete,
             'verification_status' => $this->isVerify,
-            'is_marked' => ($this->isComplete == 'Lengkap' && $this->isVerify == 1 ? 1 : 0),
-            'is_return' => ($this->isComplete == 'Lengkap' && $this->isVerify == 1 ? 0 : 1),
+            'is_marked' => $this->isMarked,
+            'is_return' => $this->isReturn,
         ]);
     }
 }

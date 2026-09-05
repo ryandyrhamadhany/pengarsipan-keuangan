@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 
 class VerificationService
 {
-    private VerificationHandler $verify;
     private $authid;
     private $checklistFactory;
 
@@ -25,25 +24,27 @@ class VerificationService
 
     public function keuanganVerify(Request $request, string $id): bool
     {
-        $this->verify = new VerificationHandlerKeuangan();
+        $verify = new VerificationHandlerKeuangan();
 
         // set verifikator 
-        $result = $this->verify->setVerificator($id, $this->authid);
+        $result = $verify->setVerificator($id, $this->authid);
         if (!$result) {
             return false;
         }
 
         // set value checklist
-        $this->verify->setValueChecklist($request);
+        $verify->setValueChecklist($request);
 
         // verfikasi submission
-        $this->verify->verifySubmission();
+        $verify->verifySubmission();
 
         // add watermark keuangan
-        $this->verify->addWatermark();
+        $verify->addWatermark();
 
         // update db
-        $this->verify->updateSubmission($request);
+        $verify->updateSubmission($request);
+
+        $verify->clear();
 
         return true;
     }
@@ -55,6 +56,38 @@ class VerificationService
         // Cek apakah checklist sudah ada, jika belum buat checklist baru
         $this->checklistFactory->checklistExists($pengajuan);
 
+        return $pengajuan;
+    }
+
+    public function BendaharaVerify(Request $request, string $id): bool
+    {
+        $verify = new VerificationHandlerBendahara($request);
+
+        $authStatus = $verify->setVerificator($id, $this->authid);
+        if(!$authStatus){
+            return false;
+        }
+
+        $verify->verifySubmission();
+
+        $verify->addWatermark();
+
+        $result = $verify->createDigitalArchive();
+        if (!$result) {
+            return false;
+        }
+
+        $verify->updateSubmission($request);
+
+        return true;
+    }
+
+    public function getItemBendahara(string $id): ?BudgetSubmission
+    {
+        $pengajuan = BudgetSubmission::with('user')
+            ->with('finance_officer')
+            ->with('revenue_officer')
+            ->where('id', $id)->first();
         return $pengajuan;
     }
 
@@ -77,32 +110,5 @@ class VerificationService
         return $doc;
     }
 
-    public function BendaharaVerify(Request $request, string $id): bool
-    {
-        $this->verify = new VerificationHandlerBendahara($request);
-
-        $this->verify->setVerificator($id, $this->authid);
-
-        $this->verify->verifySubmission();
-
-        $this->verify->addWatermark();
-
-        $result = $this->verify->createDigitalArchive();
-        if (!$result) {
-            return false;
-        }
-
-        $this->verify->updateSubmission($request);
-
-        return true;
-    }
-
-    public function getItemBendahara(string $id): ?BudgetSubmission
-    {
-        $pengajuan = BudgetSubmission::with('user')
-            ->with('finance_officer')
-            ->with('revenue_officer')
-            ->where('id', $id)->first();
-        return $pengajuan;
-    }
+    
 }
