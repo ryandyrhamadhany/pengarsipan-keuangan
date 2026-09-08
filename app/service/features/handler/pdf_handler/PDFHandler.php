@@ -4,7 +4,7 @@ namespace App\service\features\handler\pdf_handler;
 
 use App\Models\BudgetSubmission;
 use Illuminate\Http\UploadedFile;
-
+use Illuminate\Support\Facades\Log;
 // use App\service\features\handler\pdf_handler\PDFHandler;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,13 +13,6 @@ class PDFHandler
 
     public function savePDF(?UploadedFile $file): ?string
     {
-        // if ($file) {
-        //     $filename = time() . '_' . $file->getClientOriginalName();
-        //     $path = $file->storeAs('pengajuan', $filename, 'private');
-        // } else {
-        //     $path = null;
-        // }
-        // return $path;
         if (! $file) {
             return null;
         }
@@ -30,24 +23,9 @@ class PDFHandler
 
     public function updatePDF(BudgetSubmission $budgetSubmission, ?UploadedFile $file): ?string
     {
-        // if (!$file) {
-        //     if (
-        //         $budgetSubmission->path_file_submission &&
-        //         Storage::disk('private')->exists($budgetSubmission->path_file_submission)
-        //     ) {
-
-        //         Storage::disk('private')->delete($budgetSubmission->path_file_submission);
-
-        //         $filenew = $file;
-        //         $fileName = time() . '_' . $filenew->getClientOriginalName();
-        //         $path = $file->storeAs('pengajuan', $fileName, 'private');
-        //     }
-        // } else {
-        //     $path = null;
-        // }
-
         // return $path;
         if (! $file) {
+            Log::info('Tidak ada file baru yang diunggah untuk pengajuan ID: ' . $budgetSubmission->id . '. Menggunakan file lama.');
             return $budgetSubmission->path_file_submission;
         }
 
@@ -62,6 +40,7 @@ class PDFHandler
         // 2. Upload file baru (selalu dieksekusi selama $file ada)
         $fileName = time() . '_' . $file->getClientOriginalName();
 
+        Log::info('Mengunggah file baru untuk pengajuan ID: ' . $budgetSubmission->id . '. Nama file: ' . $fileName);
         return $file->storeAs('pengajuan', $fileName, 'private');
     }
 }

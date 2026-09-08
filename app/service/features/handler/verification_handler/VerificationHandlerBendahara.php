@@ -13,14 +13,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Mpdf\Mpdf;
-use Override;
 
 class VerificationHandlerBendahara extends VerificationHandler
 {
-    public $kuitansi = null;
-    public $path = null;
-    public $digital = null;
-    public Request $request;
+    private $path = null;
+    private $nominal = 0;
+    private $kuitansi = null;
+    private $nospby = null;
+
+    private $paymentMethod = null;
+    private $fundingSource = null;
+    private $cabinet = null;
+
+    private $digital = null;
+    private Request $request;
 
     public function __construct(Request $req)
     {
@@ -28,47 +34,77 @@ class VerificationHandlerBendahara extends VerificationHandler
         $this->request = $req;
     }
 
-    public function setVerificator(string $id, $authid): bool
+    public function setVerificator(string $id, $auth): bool
     {
-        // 1. Eksekusi Atomic Update (MySQL otomatis mengunci row ini secara mutlak)
-        $affected = BudgetSubmission::with('user')->where('id', $id)
-            ->where(function ($query) use ($authid) {
+        $affected = BudgetSubmission::where('id', $id)
+            ->where(function ($query) use ($auth) {
                 $query->whereNull('revenue_officer_id')
-                    ->orWhere('revenue_officer_id', $authid);
+                ->orWhere('revenue_officer_id', $auth->id);
             })
             ->update([
-                'revenue_officer_id' => $authid,
+            'revenue_officer_id' => $auth->id,
             ]);
 
         // Jika 0, berarti data sudah dikunci/diisi oleh petugas keuangan lain
         if ($affected === 0) {
             return false;
         }
+        // 1. Eksekusi Atomic Update (MySQL otomatis mengunci row ini secara mutlak)
+        // $affected = BudgetSubmission::with('user')->where('id', $id)
+        //     ->where(function ($query) use ($auth) {
+        //         $query->whereNull('revenue_officer_id')
+        //         ->orWhere('revenue_officer_id', $auth->id);
+        //     })
+        //     ->update([
+        //     'revenue_officer_id' => $auth->id,
+        //     ]);
+
+        // // Jika 0, berarti data sudah dikunci/diisi oleh petugas keuangan lain
+        // if ($affected === 0) {
+        //     return false;
+        // }
 
         // 2. Set $this->submission beserta relasinya setelah berhasil update
         $this->setSubmission($id);
-        $this->verificator = $authid;
+        $this->verificator = $auth;
+
+        Log::info('Berhasil set Verificator Bendahara');
 
         return true;
     }
 
     public function verifySubmission(): void
     {
-        // $pengajuan = BudgetSubmission::with('user')->with('finance_officer')->with('revenue_officer')->findOrFail($id);
-        $this->checklistFactory->setNoKuitansi($this->request, $this->submission);
+        // simpan file pengajuan baru yang sudah ttd
         $file = $this->request->File('file_pengajuan');
         $this->path = $this->pdfHandler->updatePDF($this->submission, $file);
+        Log::info('File pengajuan berhasil diperbarui untuk pengajuan ID: ' . $this->submission->id . '. Path baru: ' . $this->path);
 
+        // set nominal yang dibayarkan
+        $this->nominal = $this->request->biaya;
+
+        // set nomor kuitansi
         $this->kuitansi = $this->request->kuitansi;
+        $this->checklistFactory->setNoKuitansi($this->kuitansi, $this->submission);
+
+        // set nomor spby
+        $this->nospby = $this->request->nospby;
+
+        // set data arsip
+        $this->paymentMethod = $this->request->payment_method;
+        $this->fundingSource = $this->request->funding_source;
+        $this->cabinet = $this->request->cabinet_id;
+
         $this->isComplete = true;
         $this->isVerify = true;
     }
 
     public function addWatermark(): void
     {
-        if (Storage::disk('private')->exists($this->submission->path_file_submission)) {
+        if (Storage::disk('private')->exists($this->path)) {
             $noKuitansi = $this->submission->user->role . ' ' . $this->kuitansi;
-            $this->addWatermarkWithKuitansiToPdf($this->submission->path_file_submission, $noKuitansi);
+            $this->addWatermarkWithKuitansiToPdf($this->path, $noKuitansi);
+            $this->isMarked = true;
         }
     }
 
@@ -167,31 +203,35 @@ class VerificationHandlerBendahara extends VerificationHandler
 
     public function createDigitalArchive(): bool
     {
-        $payment = PaymentMethod::findOrFail($this->request->payment_method);
-        $funding = FundingSource::findOrFail($this->request->funding_source);
+        Log::info('Membuat arsip digital untuk pengajuan ID: ' . $this->submission->id);
+        $payment = PaymentMethod::findOrFail($this->paymentMethod);
+        $funding = FundingSource::findOrFail($this->fundingSource);
         $year = now()->year;
 
         // ========== CARI CATEGORY ==========
         $category = Category::with('payment_method')->with('funding_source')
-            ->where('cabinet_id', $this->request->cabinet_id)
+            ->where('cabinet_id', $this->cabinet)
             ->where('year', $year)
             ->whereRelation('payment_method', 'id', $payment->id)
             ->whereRelation('funding_source', 'id', $funding->id)
             ->first();
 
         $idcategory = $category?->id;
+        Log::info('Kategori arsip ditemukan: ' . ($idcategory ?? 'Tidak ditemukan') . ' untuk kombinasi: Cabinet ID ' . $this->cabinet . ', Payment Method ID ' . $payment->id . ', Funding Source ID ' . $funding->id . ', Year ' . $year);
 
         // ========== VALIDASI ==========
         if (!$idcategory) {
+            Log::error('Kategori arsip tidak ditemukan untuk kombinasi: Cabinet ID ' . $this->cabinet . ', Payment Method ID ' . $payment->id . ', Funding Source ID ' . $funding->id . ', Year ' . $year);
             return false;
         }
 
-        // === COPY FILE KE FOLDER ARCHIVE ===
+        // === COPY FILE KE FOLDER ARCHIVE === pindah ke handler archive pdf
         if (Storage::disk('private')->exists($this->path)) {
             $newPath = 'archive/' . basename($this->path);
             Storage::disk('private')->copy($this->path, $newPath);
+            Log::info('File pengajuan berhasil disalin ke folder arsip: ' . $newPath);
         } else {
-            // return redirect()->back()->with('error', 'File pengajuan tidak ditemukan');
+            Log::error('File pengajuan tidak ditemukan: ' . $this->path);
             return false;
         }
 
@@ -201,27 +241,31 @@ class VerificationHandlerBendahara extends VerificationHandler
             'from_division' => $this->submission->user->role,
             'submiter_name' => $this->submission->user->name,
             'finance_officer_name' => $this->submission->finance_officer->name,
-            'revenue_officer_name' => $this->verificator,
+            'revenue_officer_name' => $this->verificator->name,
             'file_path_archive' => $newPath,
-            'archive_code' => $this->request->kuitansi,
-            'nominal' => $this->request->biaya,
-            'archive_by' => $this->verificator,
+            'archive_code' => $this->kuitansi,
+            'nominal' => $this->nominal,
+            'archive_by' => $this->verificator->name,
             'disposal_date' => Carbon::now()->addYear(5),
-            'no_spby' => $this->request->no_spby,
+            'no_spby' => $this->nospby,
         ]);
+        Log::info('Arsip digital berhasil dibuat dengan ID: ' . $this->digital->id . ' untuk pengajuan ID: ' . $this->submission->id);
+
+        $this->isArchive = true;
 
         return true;
     }
 
-    public function updateSubmission(Request $request): void
+    public function updateSubmission(): void
     {
         $this->submission->update([
-            'revenue_officer_id' => $this->verificator,
+            'revenue_officer_id' => $this->verificator->id,
             'path_file_submission' => $this->path,
-            'assigned_payment_method' => $request->payment_method,
-            'assigned_funding_source' => $request->funding_source,
-            'is_archive'   => 1,
-            'nominal' => $request->biaya,
+            'assigned_payment_method' => $this->paymentMethod,
+            'assigned_funding_source' => $this->fundingSource,
+            'is_marked' => $this->isMarked,
+            'is_archive'   => $this->isArchive,
+            'nominal' => $this->nominal,
             'digital_archive_id' => $this->digital->id,
         ]);
     }

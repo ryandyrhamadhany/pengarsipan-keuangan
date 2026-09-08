@@ -90,7 +90,7 @@
 
                             <span
                                 class="px-3 py-1 rounded-md text-xs font-medium {{ $pengajuan->verification_status ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                                {{ $pengajuan->verification_status ? 'Sudah Diverifikasi' : 'Belum Diverifikasi' }}
+                                {{ $pengajuan->verification_status ? 'Diverifikasi' : 'Belum Diverifikasi' }}
                             </span>
 
                             <span

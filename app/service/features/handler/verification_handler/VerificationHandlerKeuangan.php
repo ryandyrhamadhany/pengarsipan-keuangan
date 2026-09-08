@@ -11,16 +11,24 @@ use Mpdf\Mpdf;
 
 class VerificationHandlerKeuangan extends VerificationHandler
 {
-    public function setVerificator(string $id, $authid): bool
+    private Request $request;
+
+    public function __construct(Request $req)
+    {
+        parent::__construct();
+        $this->request = $req;
+    }
+
+    public function setVerificator(string $id, $auth): bool
     {
         // 1. Eksekusi Atomic Update (MySQL otomatis mengunci row ini secara mutlak)
         $affected = BudgetSubmission::where('id', $id)
-            ->where(function ($query) use ($authid) {
+            ->where(function ($query) use ($auth) {
                 $query->whereNull('finance_officers_id')
-                    ->orWhere('finance_officers_id', $authid);
+                ->orWhere('finance_officers_id', $auth->id);
             })
             ->update([
-                'finance_officers_id' => $authid,
+            'finance_officers_id' => $auth->id,
             ]);
 
         // Jika 0, berarti data sudah dikunci/diisi oleh petugas keuangan lain
@@ -30,8 +38,9 @@ class VerificationHandlerKeuangan extends VerificationHandler
 
         // 2. Set $this->submission beserta relasinya setelah berhasil update
         $this->setSubmission($id);
-        $this->verificator = $authid;
+        $this->verificator = $auth;
 
+        Log::info('Berhasil set Verificator Keuangan');
         return true;
     }
 
@@ -55,6 +64,8 @@ class VerificationHandlerKeuangan extends VerificationHandler
             if ($valueADAtidakperluget === 'Y') {
                 $this->isComplete = 'Lengkap';
                 $this->isVerify = true;
+                $this->isReturn = false;
+                $this->isMarked = false;
             } else {
                 if ($valueADAget === '' || $valueADAget === null) {
                     $this->isComplete = 'Belum Lengkap';
@@ -205,15 +216,13 @@ class VerificationHandlerKeuangan extends VerificationHandler
         $mpdf->Output($fullPath, 'F');
 
         Log::info('Watermark PDF berhasil: ' . $filePath);
-
-        $this->isMarked = true;
     }
 
-    public function updateSubmission(Request $request): void
+    public function updateSubmission(): void
     {
         $this->submission->update([
-            'finance_officers_id' => $this->verificator,
-            'message' => $request->catatan,
+            'finance_officers_id' => $this->verificator->id,
+            'message' => $this->request->catatan,
             'requirements_status' => $this->isComplete,
             'verification_status' => $this->isVerify,
             'is_marked' => $this->isMarked,

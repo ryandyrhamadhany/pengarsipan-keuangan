@@ -6,6 +6,7 @@ use App\Models\BudgetSubmission;
 use App\service\features\handler\checklist_factory\ChecklistFactory;
 use App\service\features\handler\pdf_handler\PDFHandler;
 use Illuminate\Http\Request;
+use Log;
 
 abstract class VerificationHandler
 {
@@ -16,6 +17,7 @@ abstract class VerificationHandler
     public bool $isVerify;
     public bool $isReturn;
     public bool $isMarked;
+    public bool $isArchive;
 
     public $checklistFactory;
     public $pdfHandler;
@@ -28,13 +30,14 @@ abstract class VerificationHandler
 
     public function setSubmission(string $id): void
     {
+        Log::info('Berhasil set pengajuan');
         $this->submission = BudgetSubmission::with('user')->with('finance_officer')->findOrFail($id);
     }
 
     public abstract function setVerificator(string $id, $authid): bool;
     public abstract function verifySubmission(): void;
     public abstract function addWatermark(): void;
-    public abstract function updateSubmission(Request $request): void;
+    public abstract function updateSubmission(): void;
 
     public function clear(): void
     {
@@ -45,6 +48,7 @@ abstract class VerificationHandler
         $this->isVerify = false;
         $this->isMarked = false;
         $this->isReturn = false;
+        $this->isArchive = false;
 
         $this->checklistFactory = null;
         $this->pdfHandler = null;

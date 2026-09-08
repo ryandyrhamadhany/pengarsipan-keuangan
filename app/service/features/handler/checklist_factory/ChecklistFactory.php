@@ -223,14 +223,14 @@ class ChecklistFactory
         }
     }
 
-    public function setNoKuitansi(Request $request, ?BudgetSubmission $budgetSubmission): void
+    public function setNoKuitansi(string $noKuitansi, ?BudgetSubmission $budgetSubmission): void
     {
         if (Storage::disk('private')->exists($budgetSubmission->path_file_requirements_status)) {
             $filePathMetadata = Storage::disk('private')->path($budgetSubmission->path_file_requirements_status);
             $spreadsheet = IOFactory::load($filePathMetadata);
             $worksheet = $spreadsheet->getActiveSheet();
         }
-        $worksheet->getCell('B4')->setValue("Nomor : {$request->kuitansi}");
+        $worksheet->getCell('B4')->setValue("Nomor : {$noKuitansi}");
         $writer = new Xlsx($spreadsheet);
         $writer->save($filePathMetadata);
     }

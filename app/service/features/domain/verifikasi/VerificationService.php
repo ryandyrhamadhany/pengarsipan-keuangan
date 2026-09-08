@@ -3,31 +3,31 @@
 namespace App\service\features\domain\verifikasi;
 
 use App\Models\BudgetSubmission;
+use App\Models\User;
 use App\service\features\handler\verification_handler\VerificationHandlerBendahara;
 use App\service\features\handler\checklist_factory\ChecklistFactory;
 use App\service\features\handler\verification_handler\VerificationHandler;
 use App\service\features\handler\verification_handler\VerificationHandlerKeuangan;
-use Auth;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class VerificationService
 {
-    private $authid;
+    private User $verificator;
     private $checklistFactory;
 
     public function __construct()
     {
-        $this->authid = Auth::user()->id;
+        $this->verificator = Auth::user();
         $this->checklistFactory = new ChecklistFactory();
     }
 
     public function keuanganVerify(Request $request, string $id): bool
     {
-        $verify = new VerificationHandlerKeuangan();
+        $verify = new VerificationHandlerKeuangan($request);
 
         // set verifikator 
-        $result = $verify->setVerificator($id, $this->authid);
+        $result = $verify->setVerificator($id, $this->verificator);
         if (!$result) {
             return false;
         }
@@ -42,7 +42,7 @@ class VerificationService
         $verify->addWatermark();
 
         // update db
-        $verify->updateSubmission($request);
+        $verify->updateSubmission();
 
         $verify->clear();
 
@@ -63,8 +63,8 @@ class VerificationService
     {
         $verify = new VerificationHandlerBendahara($request);
 
-        $authStatus = $verify->setVerificator($id, $this->authid);
-        if(!$authStatus){
+        $authStatus = $verify->setVerificator($id, $this->verificator);
+        if (!$authStatus) {
             return false;
         }
 
@@ -77,7 +77,7 @@ class VerificationService
             return false;
         }
 
-        $verify->updateSubmission($request);
+        $verify->updateSubmission();
 
         return true;
     }
@@ -93,7 +93,7 @@ class VerificationService
 
     public function PPSPMVerify(Request $request, string $id): void
     {
-        $this->verify = new VerificationHandlerBendahara();
+        $this->verify = new VerificationHandlerBendahara($request);
 
         $this->verify->setVerificator();
 
