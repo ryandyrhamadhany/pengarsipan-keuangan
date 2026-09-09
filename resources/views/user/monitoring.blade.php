@@ -350,7 +350,7 @@
                                     </h3>
                                 </div>
                                 <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-md">
-                                    {{ $archive_submit->where('status_kelengkapan', 'Lengkap')->where('status_verifikasi', 1)->count() }}
+                                    {{ $archive_submit->where('requirements_status', 'Lengkap')->where('verification_status', 1)->where('is_archive', 1)->count() }}
                                     Item
                                 </span>
                             </div>
@@ -366,7 +366,7 @@
                                             {{-- Number Badge --}}
                                             <div
                                                 class="flex-shrink-0 p-2 flex items-center justify-center bg-lime-300 font-semibold text-sm rounded-md">
-                                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
+                                                <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
                                                 <path d="M44,17v21c0,2.76-2.24,5-5,5H9c-2.76,0-5-2.24-5-5V20h35c0.55,0,1-0.45,1-1s-0.45-1-1-1H4V9c0-1.65,1.35-3,3-3h8.14	c1.53,0,2.9,0.85,3.58,2.21l1.62,3.24c0.17,0.34,0.51,0.55,0.9,0.55H39C41.76,12,44,14.24,44,17z"></path>
                                                 </svg>
                                             </div>
@@ -475,11 +475,9 @@
                                         <p class="text-gray-500 font-medium">Belum ada submit yang selesai</p>
                                     </div>
                                 @endforelse
-
                                 {{ $archive_submit->links() }}
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -83,10 +83,17 @@
                                 </span>
                             @endif
 
-                            <span
-                                class="px-3 py-1 rounded-md text-xs font-medium {{ $pengajuan->requirements_status == 'Lengkap' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
-                                {{ $pengajuan->requirements_status }}
-                            </span>
+                            @if ($pengajuan->requirements_status == 'Belum Diperiksa')
+                                <span
+                                    class="px-3 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700">
+                                    {{ $pengajuan->requirements_status }}
+                                </span>
+                            @else
+                                <span
+                                    class="px-3 py-1 rounded-md text-xs font-medium {{ $pengajuan->requirements_status == 'Lengkap' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
+                                    {{ $pengajuan->requirements_status }}
+                                </span>
+                            @endif
 
                             <span
                                 class="px-3 py-1 rounded-md text-xs font-medium {{ $pengajuan->verification_status ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
