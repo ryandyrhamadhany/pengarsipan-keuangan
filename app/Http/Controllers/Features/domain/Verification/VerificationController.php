@@ -28,9 +28,14 @@ class VerificationController extends Controller
 
     public function list_verify_bendahara()
     {
-        $submit_sign = BudgetSubmission::where('is_archive', 0)->paginate(10, ['*'], 'submit_no_sign');
+        $submit_sign = BudgetSubmission::where('is_archive', 0)
+            ->where('requirements_status', 'Lengkap')
+            ->where('verification_status', 1)
+            ->latest()->paginate(10, ['*'], 'submit_no_sign');
+
         $pengajuans = BudgetSubmission::where('requirements_status', 'Lengkap')
             ->where('verification_status', 1)
+            ->latest()
             ->paginate(10, ['*'], 'all_submit');
 
         return view('features.bendahara.list', compact('pengajuans', 'submit_sign'));
