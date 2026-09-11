@@ -14,8 +14,7 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <h2 class="text-2xl font-bold">Pengajuan saya</h2>
-                                <p class="text-white/90 text-sm mt-1">Kelola dan pantau semua pengajuan keuangan anda
-                                    dalam satu tempat</p>
+                                <p class="text-white/90 text-sm mt-1">Kelola dan pantau semua pengajuan keuangan anda</p>
                             </div>
                         </div>
                     </div>
@@ -46,112 +45,94 @@
                                 @php $no = 1; @endphp
 
                                 @forelse ($proses_submissions as $proses)
-                                    @if ($proses->requirements_status == 'Belum Lengkap' && $proses->verification_status == 0)
-                                        <div
-                                            class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:bg-gray-100 shadow-md transition-all duration-200">
-                                            {{-- Number Badge --}}
-                                            <div class="bg-yellow-300 text-white p-2 rounded-md"> 
-                                                <img src="https://img.icons8.com/?size=30&id=94703&format=png&color=ffffff" alt="">
-                                            </div>
+                                <div
+                                    class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:bg-gray-100 shadow-md transition-all duration-200">
+                                    {{-- Number Badge --}}
+                                    <div class="bg-yellow-300 text-white p-2 rounded-md"> 
+                                        <img src="https://img.icons8.com/?size=30&id=94703&format=png&color=ffffff" alt="">
+                                    </div>
 
-                                            {{-- Content --}}
-                                            <a href="{{ route('submit.show', $proses->id) }}" class="flex-1 px-6">
-                                                <div class="text-lg font-semibold text-gray-800 mb-2 pb-2 border-b border-gray-200 truncate">
-                                                    {{ $proses->budget_submission_name }}
-                                                </div>
-
-                                                <div class="flex flex-wrap items-center justify-between">
-                                                    <div class="flex flex-wrap items-center gap-2">
-                                                        <span
-                                                            class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
-                                                            <svg class="w-3 h-3 mr-1" fill="currentColor"
-                                                                viewBox="0 0 20 20">
-                                                                <circle cx="10" cy="10" r="3" />
-                                                            </svg>
-                                                            Proses
-                                                        </span>
-    
-                                                        @if ($proses->requirements_status == 'Belum Lengkap')
-                                                            <span
-                                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
-                                                                <svg class="w-3 h-3 mr-1" fill="none"
-                                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                                                </svg>
-                                                                Belum Lengkap
-                                                            </span>
-                                                        @endif
-    
-                                                        <span
-                                                            class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
-                                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
-                                                                viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                                            </svg>
-                                                            Belum Diverifikasi
-                                                        </span>
-    
-                                                        @if ($proses->is_return == 1)
-                                                            <span
-                                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-orange-100 text-orange-700">
-                                                                <svg class="w-3 h-3 mr-1" fill="none"
-                                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                                                                </svg>
-                                                                Dikembalikan
-                                                            </span>
-                                                        @endif
-    
-                                                        @if ($proses->is_archive == 1)
-                                                            <span
-                                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-purple-100 text-purple-700">
-                                                                <svg class="w-3 h-3 mr-1" fill="none"
-                                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                                                </svg>
-                                                                Diarsipkan
-                                                            </span>
-                                                        @endif
-                                                    </div>
-
-                                                    <div class="text-xs text-gray-500 ml-2">
-                                                        {{ $proses->updated_at->diffForHumans() }}
-                                                    </div>
-                                                </div>
-                                            </a>
-
-                                            {{-- Action Buttons --}}
-                                            <div class="flex gap-2 flex-shrink-0">
-                                                <a href="{{ route('submit.edit', $proses->id) }}"
-                                                    class="p-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-md transition-colors"
-                                                    title="Edit">
-                                                    <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
-                                                        <path d="M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L 14.076172 5.9238281 z"></path>
+                                    {{-- Content --}}
+                                    <a href="{{ route('submit.show', $proses->id) }}" class="flex-1 px-6">
+                                        <div class="text-lg font-semibold text-gray-800 mb-2 pb-2 border-b border-gray-200 truncate">
+                                            {{ $proses->budget_submission_name }}
+                                        </div>
+                                        <div class="flex flex-wrap items-center justify-between">
+                                            <div class="flex flex-wrap items-center gap-2">
+                                                @if ($proses->requirements_status == 'Belum Lengkap' && $proses->verification_status == 0)
+                                                <span
+                                                    class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
+                                                    <svg class="w-3 h-3 mr-1" fill="currentColor"
+                                                        viewBox="0 0 20 20">
+                                                        <circle cx="10" cy="10" r="3" />
                                                     </svg>
-                                                </a>
-
-                                                <form action="{{ route('submit.destroy', $proses->id) }}" method="POST"
-                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus submit ini?');">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button
-                                                        class="p-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-md transition-colors"
-                                                        title="Hapus">
-                                                        <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
-                                                            <path d="M 10 2 L 9 3 L 3 3 L 3 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 4.3652344 7 L 6.0683594 22 L 17.931641 22 L 19.634766 7 L 4.3652344 7 z"></path>
+                                                    Proses
+                                                </span>
+                                                @endif
+                                                @if ($proses->requirements_status == 'Belum Lengkap')
+                                                <span
+                                                    class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
+                                                    <svg class="w-3 h-3 mr-1" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                                    </svg>
+                                                    Belum Lengkap
+                                                </span>
+                                                @endif
+                                                @if ($proses->verification_status == 0)
+                                                <span
+                                                    class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
+                                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                    Belum Diverifikasi
+                                                </span>
+                                                @endif
+                                                @if ($proses->is_return == 1)
+                                                    <span
+                                                        class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-orange-100 text-orange-700">
+                                                        <svg class="w-3 h-3 mr-1" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
                                                         </svg>
-                                                    </button>
-                                                </form>
+                                                        Dikembalikan
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <div class="text-xs text-gray-500 ml-2">
+                                                {{ $proses->updated_at->diffForHumans() }}
                                             </div>
                                         </div>
-                                    @endif
+                                    </a>
+                                    {{-- Action Buttons --}}
+                                    <div class="flex gap-2 flex-shrink-0">
+                                        <a href="{{ route('submit.edit', $proses->id) }}"
+                                            class="p-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-md transition-colors"
+                                            title="Edit">
+                                            <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+                                                <path d="M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L 14.076172 5.9238281 z"></path>
+                                            </svg>
+                                        </a>
+                                        <form action="{{ route('submit.destroy', $proses->id) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus submit ini?');">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button
+                                                class="p-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-md transition-colors"
+                                                title="Hapus">
+                                                <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+                                                    <path d="M 10 2 L 9 3 L 3 3 L 3 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 4.3652344 7 L 6.0683594 22 L 17.931641 22 L 19.634766 7 L 4.3652344 7 z"></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                                 @empty
                                     <div class="text-center py-12 bg-gray-50 rounded-md">
                                         <div
@@ -379,19 +360,19 @@
 
                                                 <div class="flex flex-wrap items-center justify-between">
                                                     <div class="flex flex-wrap items-center gap-2">
-                                                        @if ($archived->verification_status == 1)
-                                                            <span
-                                                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
-                                                                <svg class="w-3 h-3 mr-1" fill="none"
-                                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                </svg>
-                                                                Selesai
-                                                            </span>
+                                                        @if ($archived->requirements_status == 'Lengkap' && $archived->verification_status == 1)
+                                                        <span
+                                                            class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
+                                                            <svg class="w-3 h-3 mr-1" fill="none"
+                                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
+                                                            Selesai
+                                                        </span>
                                                         @endif
-    
+                                                        @if ($archived->requirements_status == 'Lengkap')
                                                         <span
                                                             class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
                                                             <svg class="w-3 h-3 mr-1" fill="none"
@@ -402,7 +383,8 @@
                                                             </svg>
                                                             Lengkap
                                                         </span>
-    
+                                                        @endif
+                                                        @if ($archived->verification_status == 1)
                                                         <span
                                                             class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
                                                             <svg class="w-3 h-3 mr-1" fill="none"
@@ -413,18 +395,18 @@
                                                             </svg>
                                                             Diverifikasi
                                                         </span>
-    
+                                                        @endif
                                                         @if ($archived->is_archive == 1)
-                                                            <span
-                                                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
-                                                                <svg class="w-3 h-3 mr-1" fill="none"
-                                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                                                </svg>
-                                                                Diarsipkan
-                                                            </span>
+                                                        <span
+                                                            class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
+                                                            <svg class="w-3 h-3 mr-1" fill="none"
+                                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                                            </svg>
+                                                            Diarsipkan
+                                                        </span>
                                                         @endif
                                                     </div>
 

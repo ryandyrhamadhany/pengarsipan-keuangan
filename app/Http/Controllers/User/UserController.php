@@ -51,12 +51,20 @@ class UserController extends Controller
 
     public function worklist()
     {
-        $proses_submissions = BudgetSubmission::with('user')->where('user_id', Auth::id())->get();
+        $proses_submissions = BudgetSubmission::with('user')
+            ->where('user_id', Auth::id())
+            ->where('requirements_status', 'Belum Lengkap')
+            ->where('verification_status', 0)
+            ->get();
 
         $service = new SubmissionService();
         $all_submissions = $service->getAllSubmissions()->paginate(10, ['*'], 'all_submit');
 
-        $archive_submit = BudgetSubmission::with('user')->where('user_id', Auth::id())->where('is_archive', 1)->paginate(10, ['*'], 'archive_submit');
+        $archive_submit = BudgetSubmission::with('user')
+            ->where('user_id', Auth::id())
+            ->where('is_archive', 1)
+            ->paginate(10, ['*'], 'archive_submit');
+
         return view('user.monitoring', compact('proses_submissions', 'all_submissions', 'archive_submit'));
     }
 

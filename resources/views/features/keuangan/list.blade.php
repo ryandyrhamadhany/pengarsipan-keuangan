@@ -68,7 +68,7 @@
                 </form>
             </div>
 
-            {{-- ================= DAFTAR PENGAJUAN ================= --}}
+            {{-- ================= DAFTAR PENGAJUAN DIPROSES ================= --}}
             <div class="bg-white rounded-md shadow-md border border-gray-200 p-6 mb-4">
                 <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
                     <div>
@@ -103,31 +103,45 @@
                                     <div class="flex flex-wrap items-center gap-2">
                                         {{-- Status Sedang Proses --}}
                                         @if ($proses->requirements_status == 'Belum Lengkap' && $proses->verification_status == 0)
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
-                                                Proses
-                                            </span>
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor"
+                                                viewBox="0 0 20 20">
+                                                <circle cx="10" cy="10" r="3" />
+                                            </svg>
+                                            Proses
+                                        </span>
                                         @endif
-    
-                                        {{-- Status Kelengkapan --}}
                                         @if ($proses->requirements_status == 'Belum Lengkap')
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
-                                                Belum Lengkap
-                                            </span>
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
+                                            <svg class="w-3 h-3 mr-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                            </svg>
+                                            Belum Lengkap
+                                        </span>
                                         @endif
-    
-                                        {{-- Status Verifikasi --}}
                                         @if ($proses->verification_status == 0)
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
-                                                Belum Diverifikasi
-                                            </span>
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
+                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            Belum Diverifikasi
+                                        </span>
                                         @endif
-
-                                        @if ($proses->requirements_status == 'Belum Lengkap' && $proses->is_return == 0)
+                                        @if ($proses->requirements_status == 'Belum Lengkap' && $proses->verification_status == 0 && $proses->is_return == 0)
                                             <span
                                                 class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-orange-100 text-orange-700">
+                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" />
+                                                </svg>
                                                 Diperbaiki
                                             </span>
                                         @endif
@@ -175,7 +189,7 @@
                 </div>
             </div>
 
-            {{-- ================= DAFTAR PENGAJUAN ================= --}}
+            {{-- ================= DAFTAR PENGAJUAN BELUM DIPERIKSA ================= --}}
             <div class="bg-white rounded-md shadow-md border border-gray-200 p-6 mb-4">
                 <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
                     <div>
@@ -208,51 +222,27 @@
                                 {{-- STATUS --}}
                                 <div class="flex justify-between">
                                     <div class="flex flex-wrap items-center gap-2">
-                                        {{-- Status Sedang Proses --}}
-                                        @if ($submit->requirements_status == 'Belum Lengkap' && $submit->verification_status == 0)
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
-                                                Proses
-                                            </span>
+                                        @if ($submit->requirements_status == 'Belum Diperiksa')
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-gray-100 text-gray-700">
+                                            <svg class="w-3 h-3 mr-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            Belum Diperiksa
+                                        </span>
                                         @endif
-    
-                                        {{-- Status Kelengkapan --}}
-                                        @if ($submit->requirements_status == 'Belum Lengkap')
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
-                                                Belum Lengkap
-                                            </span>
-                                        @elseif($submit->requirements_status == 'Lengkap')
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
-                                                Lengkap
-                                            </span>
-                                        @else
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
-                                                Belum Diperiksa
-                                            </span>
-                                        @endif
-    
-                                        {{-- Status Verifikasi --}}
-                                        @if ($submit->verification_status == 1)
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
-                                                Diverifikasi
-                                            </span>
-                                        @else
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
-                                                Belum Diverifikasi
-                                            </span>
-                                        @endif
-    
-                                        {{-- Status Arsip --}}
-                                        @if ($submit->is_archive == 1)
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
-                                                Diarsipkan
-                                            </span>
+                                        @if ($submit->verification_status == 0)
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
+                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            Belum Diverifikasi
+                                        </span>
                                         @endif
                                     </div>
                                     <div class="flex gap-2">
@@ -336,11 +326,20 @@
                                         @if ($all->requirements_status == 'Belum Lengkap' && $all->verification_status == 0)
                                             <span
                                                 class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
+                                                <svg class="w-3 h-3 mr-1" fill="currentColor"
+                                                    viewBox="0 0 20 20">
+                                                    <circle cx="10" cy="10" r="3" />
+                                                </svg>
                                                 Proses
                                             </span>
                                         @elseif ($all->requirements_status == 'Lengkap' && $all->verification_status == 1 && $all->is_archive == 1)
                                             <span
                                                 class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
+                                                <svg class="w-3 h-3 mr-1" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
                                                 Selesai
                                             </span>
                                         @endif
@@ -349,16 +348,33 @@
                                         @if ($all->requirements_status == 'Belum Lengkap')
                                             <span
                                                 class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-yellow-100 text-yellow-700">
+                                                <svg class="w-3 h-3 mr-1" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                                </svg>
                                                 Belum Lengkap
                                             </span>
                                         @elseif($all->requirements_status == 'Lengkap')
                                             <span
                                                 class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
+                                                <svg class="w-3 h-3 mr-1" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
                                                 Lengkap
                                             </span>
                                         @else
                                             <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
+                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-gray-100 text-gray-700">
+                                                <svg class="w-3 h-3 mr-1" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
                                                 Belum Diperiksa
                                             </span>
                                         @endif
@@ -367,11 +383,21 @@
                                         @if ($all->verification_status == 1)
                                             <span
                                                 class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
+                                                <svg class="w-3 h-3 mr-1" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                                </svg>
                                                 Diverifikasi
                                             </span>
                                         @else
                                             <span
                                                 class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700">
+                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
                                                 Belum Diverifikasi
                                             </span>
                                         @endif
@@ -380,7 +406,23 @@
                                         @if ($all->is_archive == 1)
                                             <span
                                                 class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
+                                                <svg class="w-3 h-3 mr-1" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                                </svg>
                                                 Diarsipkan
+                                            </span>
+                                        @endif
+
+                                        @if ($all->requirements_status == 'Belum Lengkap' && $all->verification_status == 0 && $all->is_return == 0)
+                                            <span
+                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-orange-100 text-orange-700">
+                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" />
+                                                </svg>
+                                                Diperbaiki
                                             </span>
                                         @endif
                                     </div>
