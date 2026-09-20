@@ -225,13 +225,9 @@ class VerificationHandlerBendahara extends VerificationHandler
             return false;
         }
 
-        // === COPY FILE KE FOLDER ARCHIVE === pindah ke handler archive pdf
-        if (Storage::disk('private')->exists($this->path)) {
-            $newPath = 'archive/' . basename($this->path);
-            Storage::disk('private')->copy($this->path, $newPath);
-            Log::info('File pengajuan berhasil disalin ke folder arsip: ' . $newPath);
-        } else {
-            Log::error('File pengajuan tidak ditemukan: ' . $this->path);
+        $newPath = $this->pdfHandler->createArchivePDF($this->path);
+        if (!$newPath) {
+            Log::error('Gagal membuat arsip PDF untuk pengajuan ID: ' . $this->submission->id);
             return false;
         }
 

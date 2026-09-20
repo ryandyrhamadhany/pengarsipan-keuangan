@@ -43,4 +43,16 @@ class PDFHandler
         Log::info('Mengunggah file baru untuk pengajuan ID: ' . $budgetSubmission->id . '. Nama file: ' . $fileName);
         return $file->storeAs('pengajuan', $fileName, 'private');
     }
+
+    public function createArchivePDF(string $path): ?string
+    {
+        if (!Storage::disk('private')->exists($path)) {
+            Log::error('File pengajuan tidak ditemukan: ' . $path);
+            return null;
+        }
+        $newPath = 'archive/' . basename($path); // buat sistem pembuatan nama baru 
+        Storage::disk('private')->copy($path, $newPath);
+        Log::info('File pengajuan berhasil disalin ke folder arsip: ' . $newPath);
+        return $newPath;
+    }
 }
