@@ -6,7 +6,7 @@
     </x-slot>
 
     {{-- TOMBOL KEMBALI --}}
-    <div class="py-4 mt-2">
+    <div class="py-6">
         <div class="mx-auto max-w-7xl sm:px-2 lg:px-4">
             <a href="{{ route('verify.list.keuangan') }}"
                 class="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700 shadow-md transition-all duration-200 hover:bg-gray-100">
@@ -36,7 +36,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="mb-1 text-xl font-bold text-gray-700">
+                                <h3 class="text-xl font-bold text-gray-700">
                                     {{ $pengajuan->budget_submission_name }}
                                 </h3>
                             </div>
@@ -505,6 +505,7 @@
                         </div>
                     @endif
                 </form>
+                
             </div>
         </div>
     </div>
