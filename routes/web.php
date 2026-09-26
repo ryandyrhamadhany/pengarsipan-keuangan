@@ -171,7 +171,8 @@ Route::middleware('auth', 'verified')->group(function () {
 
     //route tampilan arsip
     Route::get('/arsip', [ArsipController::class, 'arsip'])->name('arsip');
-    Route::get('/arsip/cabinet', [ArsipController::class, 'cabinet'])->name('arsip.cabinet');
+    Route::get('/arsip/dashboard', [ArsipController::class, 'dashboard'])->name('arsip.dashboard');
+    // Route::get('/arsip/cabinet', [ArsipController::class, 'cabinet'])->name('arsip.cabinet');
     // Route::get('/arsip/category/{id}', [ArsipController::class, 'category'])->name('arsip.category');
     // Route::get('/arsip/sub_category/{id}', [ArsipController::class, 'sub_category'])->name('arsip.sub_category');
     // Route::get('/arsip/year/{id}', [ArsipController::class, 'year'])->name('arsip.year');
@@ -316,7 +317,7 @@ Route::get('/bendahara/report_sign_all', [BendaharaController::class, 'report_al
 // Route::get('/download/digital/{id}', [DigitalArchiveController::class, 'download_file'])->name('download.digital_archive');
 
 
-// =================================================================== Route Kepala 
+// =================================================================== Route Kepala
 Route::get('/kepala/report', [KepalaController::class, 'report'])->name('kepala.report');
 
 

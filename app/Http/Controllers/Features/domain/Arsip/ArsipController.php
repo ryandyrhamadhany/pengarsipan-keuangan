@@ -8,39 +8,50 @@ use App\Models\Cabinet;
 use App\Models\Category;
 use App\Models\DigitalArchive;
 use App\Models\DocumentFolder;
+use Auth;
 use Illuminate\Http\Request;
 
 class ArsipController extends Controller
 {
     public function arsip()
     {
-        return redirect()->route('arsip.cabinet');
+        return redirect()->route('arsip.dashboard');
     }
 
-    public function cabinet()
+    public function dashboard()
     {
-        $cabinets = Cabinet::all();
-        // return view('admin.archive.archive-rack', compact('raks', 'categories'));
-        return view('features.arsip.cabinet.cabinet', compact('cabinets'));
+        $cabinets = Cabinet::with('category')->get();
+        $user = Auth::user();
+        return view('features.arsip.dashboard', compact('cabinets', 'user'));
     }
+
+    // public function cabinet()
+    // {
+    //     $cabinets = Cabinet::all();
+    //     // return view('admin.archive.archive-rack', compact('raks', 'categories'));
+    //     return view('features.arsip.cabinet.cabinet', compact('cabinets'));
+    // }
 
     public function category(string $id)
     {
         $cabinet = Cabinet::findOrFail($id);
-        $result = Category::where('cabinet_id', $cabinet->id)->get(); // ambil category berdasarkan cabinet
+        $categories = Category::where('cabinet_id', $cabinet->id)
+            ->select('category_name')
+            ->distinct()
+            ->get();
 
-        $categories = collect();
-        $temp  = [];
+        // $categories = collect();
+        // $temp  = [];
 
-        // ambil kategori kabinet dan yang sama dilewati
-        foreach ($result as $category) {
-            if (in_array($category->category_name, $temp)) {
-                continue;
-            }
+        // // ambil kategori kabinet dan yang sama dilewati
+        // foreach ($result as $category) {
+        //     if (in_array($category->category_name, $temp)) {
+        //         continue;
+        //     }
 
-            $temp[] = $category->category_name;
-            $categories->push($category);
-        }
+        //     $temp[] = $category->category_name;
+        //     $categories->push($category);
+        // }
         return view('features.arsip.category.category', compact('cabinet', 'categories'));
     }
 

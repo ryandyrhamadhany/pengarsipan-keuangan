@@ -39,11 +39,15 @@ class Cabinet extends Model
         'description',
     ];
 
-    public function files()
-    {
-        return ArchiveFile::whereIn(
-            'document_folder_id',
-            $this->folders()->pluck('id')
-        )->get();
+    public function category(){
+        return $this->hasMany(Category::class, 'cabinet_id', 'id');
     }
+
+    // public function files()
+    // {
+    //     return ArchiveFile::whereIn(
+    //         'document_folder_id',
+    //         $this->folders()->pluck('id')
+    //     )->get();
+    // }
 }
