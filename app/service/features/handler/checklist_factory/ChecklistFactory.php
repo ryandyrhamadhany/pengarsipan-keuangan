@@ -30,9 +30,9 @@ class ChecklistFactory
     {
         // perbaiki nama pengajuan untuk path file
         $namaPengajuan = str_replace(' ', '_', $submit_name);
+        $checklistName = str_replace('_main', '', $this->fileChecklist);
 
         // nama file checklist dan buat path
-        $checklistName = str_replace('_main', '', $this->fileChecklist);
         $newFileName = time() . '_' . $namaPengajuan . '_' . $checklistName;
         $destinationPath = 'metadata_pengajuan/' . $newFileName;
 

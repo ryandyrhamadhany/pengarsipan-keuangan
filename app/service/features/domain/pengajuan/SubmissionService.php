@@ -3,6 +3,7 @@
 namespace App\service\features\domain\pengajuan;
 
 use App\Models\BudgetSubmission;
+use App\Models\User;
 use App\service\features\handler\checklist_factory\ChecklistFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -13,28 +14,28 @@ use Illuminate\Support\Facades\Storage;
 
 class SubmissionService
 {
-    private $iduser;
     private $pdfHandler;
     private $checklistFactory;
 
-    public function __construct()
+    public function __construct(PDFHandler $pdf, ChecklistFactory $checklist)
     {
-        $this->iduser = Auth::check() ? Auth::user()->id : null;
-        $this->pdfHandler = new PDFHandler();
-        $this->checklistFactory = new ChecklistFactory();
+        $this->pdfHandler = $pdf;
+        $this->checklistFactory = $checklist;
     }
 
-    public function createSubmission(Request $request): void
+    public function createSubmission(User $user, Request $request): void
     {
         // buat path file pdf pengajuan
-        $upload_file = $request->file('file');
-        $path = $this->pdfHandler->savePDF($upload_file);
+        $path = $this->pdfHandler->savePDF(
+            $request->file('file')
+        );
+
         // buat path file excel checklist 
         $destinationPath = $this->checklistFactory->createChecklist($request->name);
         $this->checklistFactory->setSubmitNameInChecklist($request->name);
 
         $pengajuan = BudgetSubmission::create([
-            'user_id' => $this->iduser,
+            'user_id' => $user->id,
             'budget_submission_name' => $request->name,
             'assigned_payment_method' => $request->payment_method,
             'assigned_funding_source' => $request->funding_source,
@@ -47,6 +48,8 @@ class SubmissionService
             'is_return' => 0,
             'message' => null,
         ]);
+
+        $this->checklistFactory->setDefaultValueChecklist($pengajuan);
     }
 
     public function fixingSubmission(Request $request, string $id)
@@ -65,6 +68,8 @@ class SubmissionService
         ]);
     }
 
+    // ---------------------------------------------------------------------------------------------------
+
     public function getSubmissionById(int $id): ?BudgetSubmission
     {
         $submission = BudgetSubmission::with('finance_officer')->with('revenue_officer')
@@ -75,6 +80,45 @@ class SubmissionService
         $this->checklistFactory->checklistExists($submission);
         return $submission;
     }
+
+    public function getAllSubmissions(int $id): Builder
+    {
+        $all_submissions = BudgetSubmission::where('user_id', $id)
+            ->latest();
+        return $all_submissions;
+    }
+
+    public function getSubmissionByType(int $id, string $type): Builder
+    {
+        $colomn = '';
+        $value = '';
+        $verifvalue = 0;
+        
+        switch ($type) {
+            case 'kembali':
+                $colomn = 'requirements_status';
+                $value = 'Belum Lengkap';
+                break;
+            case 'belum':
+                $colomn = 'requirements_status';
+                $value = 'Belum Diperiksa';
+                break;
+            case 'arsip':
+                $colomn = 'is_archive';
+                $value = '1';
+                $verifvalue = 1;
+                break;
+        }
+
+        $items = BudgetSubmission::with('user')
+            ->where('user_id', $id)
+            ->where($colomn, $value)
+            ->where('verification_status', $verifvalue);
+
+        return $items;
+    }
+
+    // ---------------------------------------------------------------------------------------------------
 
     public function updateSubmission(Request $request, string $id): void
     {
@@ -110,9 +154,10 @@ class SubmissionService
         $pengajuan->delete();
     }
 
-    public function getAllSubmissions(): Builder
+
+
+    public function getChecklistValueSubmission(): ?array
     {
-        $all_submissions = BudgetSubmission::where('user_id', $this->iduser)->latest();
-        return $all_submissions;
+        return [];
     }
 }

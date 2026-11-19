@@ -1,99 +1,103 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl leading-tight">
+        <h2 class="text-xl font-semibold leading-tight">
             {{ __('Pengajuan Keuangan') }}
         </h2>
     </x-slot>
 
-    <div class="py-12 min-h-screen">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+    <div class="min-h-screen py-6">
+        <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
             {{-- Main Card --}}
-            <div class="bg-white shadow-sm rounded-md overflow-hidden border border-gray-200">
-                {{-- Header --}}
-                <div class="bg-[#003A8F] p-6">
-                    <h2 class="text-xl font-semibold text-white">
-                        Buat Pengajuan Keuangan
-                    </h2>
-                    <p class="text-sm text-white/90 mt-1">
-                        Lengkapi formulir untuk mengajukan keuangan
-                    </p>
-                </div>
-
+            <div class="overflow-hidden rounded-md border border-gray-200 bg-white shadow-md">
                 {{-- Form Section --}}
                 <div class="p-8">
+                    <div class="border-b-2 border-blue-900 pb-6">
+                        <h2 class="text-lg font-bold text-blue-900">
+                            Buat Pengajuan Keuangan
+                        </h2>
+                        <p class="mt-1 text-xs text-gray-500">
+                            Lengkapi formulir untuk mengajukan keuangan
+                        </p>
+                    </div>
                     <form action="{{ route('submit.store') }}" method="POST" enctype="multipart/form-data"
-                        class="space-y-6">
+                        class="space-y-6 mt-10">
                         @csrf
 
-                        <div class="p-2 bg-yellow-100 border-2 border-yellow-500 rounded-md">
+                        {{-- <div class="rounded-md border-2 border-yellow-500 bg-yellow-100 p-2">   // masih penting !!
                             <div class="font-semibold text-yellow-700">
                                 Note!
                             </div>
                             <div class="text-xs text-yellow-600">
-                                jika ingin mengajukan dokumen untuk PPSPM silahkan berikan nama pengajuan dengan kata kunci yang jelas misalkan kata kunci <strong>Gaji</strong> contohnya: <strong>Gaji</strong> Divisi Program April 2026 
+                                jika ingin mengajukan dokumen untuk PPSPM silahkan berikan nama pengajuan dengan kata
+                                kunci yang jelas misalkan kata kunci <strong>Gaji</strong> contohnya:
+                                <strong>Gaji</strong> Divisi Program April 2026
                             </div>
-                        </div>
+                        </div> --}}
 
-                        {{-- Nama Pengajuan --}}
-                        <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-700">
-                                Nama Pengajuan <span class="text-red-500">*</span>
+                        <div class="">
+                            <label class="text-xs font-medium text-gray-500">
+                                Nama Pengajuan
                             </label>
-                            <input type="text" name="name"
-                                class="w-full border border-gray-300 rounded-md px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-[#003A8F] focus:border-[#003A8F] focus:outline-none transition-colors"
-                                placeholder="Contoh: Pengajuan Pembelian Laptop untuk Tim IT" required>
-                            <p class="text-xs text-gray-500">
-                                Gunakan nama yang jelas dan spesifik untuk memudahkan identifikasi
-                            </p>
+                            <div class="w-full border-b-2 border-gray-300">
+                                <input type="text" name="name"
+                                    class="w-full border-none bg-transparent p-0 py-2 text-base text-gray-700 focus:outline-none focus:ring-0"
+                                    placeholder="Contoh: Pengajuan Pembelian Laptop untuk Tim IT" required>
+                            </div>
                         </div>
 
                         {{-- Metode Pembayaran & Sumber Dana --}}
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
                             {{-- Metode Pembayaran --}}
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">
-                                    Metode Pembayaran <span class="text-red-500">*</span>
+                            <div class="">
+                                <label class="block text-xs font-medium text-gray-500">
+                                    Metode Pembayaran
                                 </label>
-                                <select name="payment_method" id="payment_method"
-                                    class="w-full border border-gray-300 rounded-md px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-[#003A8F] focus:border-[#003A8F] focus:outline-none transition-colors"
-                                    required>
-                                    <option value="" selected disabled>Pilih metode pembayaran</option>
-                                    @foreach ($payment_method as $payment)
-                                        <option value="{{ $payment->id }}">
-                                            {{ $payment->payment_method_name }} - {{ $payment->sub_category }}
+                                <div class="border-b-2 border-gray-300">
+                                    <select name="payment_method" id="payment_method"
+                                        class="w-full border-none bg-transparent p-0 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
+                                        required>
+                                        <option value="" class="px-4" selected disabled> Pilih metode pembayaran
                                         </option>
-                                    @endforeach
-                                </select>
+                                        @foreach ($payment_method as $payment)
+                                            <option value="{{ $payment->id }}" class="px-4">
+                                                {{ $payment->payment_method_name }} - {{ $payment->sub_category }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
 
                             {{-- Sumber Dana --}}
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">
-                                    Sumber Dana <span class="text-red-500">*</span>
+                            <div class="">
+                                <label class="block text-xs font-medium text-gray-500">
+                                    Sumber Dana
                                 </label>
-                                <select name="funding_source" id="funding_source"
-                                    class="w-full border border-gray-300 rounded-md px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-[#003A8F] focus:border-[#003A8F] focus:outline-none transition-colors"
-                                    required>
-                                    <option value="" selected disabled>Pilih sumber dana</option>
-                                    @foreach ($funding_source as $funding)
-                                        <option value="{{ $funding->id }}">
-                                            {{ $funding->funding_source_name }} - {{ $funding->sub_category }}
+                                <div class="border-b-2 border-gray-300">
+                                    <select name="funding_source" id="funding_source"
+                                        class="w-full border-none bg-transparent p-0 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
+                                        required>
+                                        <option value="" class="px-4" selected disabled>Pilih sumber dana
                                         </option>
-                                    @endforeach
-                                </select>
+                                        @foreach ($funding_source as $funding)
+                                            <option value="{{ $funding->id }}" class="px-4">
+                                                {{ $funding->funding_source_name }} - {{ $funding->sub_category }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
                         {{-- File Upload --}}
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-700">
-                                Dokumen PDF Pengajuan <span class="text-red-500">*</span>
+                            <label class="block text-xs font-medium text-gray-500">
+                                Dokumen PDF Pengajuan
                             </label>
                             <label for="file"
-                                class="flex items-center space-x-3 p-4 border border-gray-300 rounded-md cursor-pointer hover:bg-[#003A8F]/5 hover:border-[#003A8F] transition-colors bg-gray-50">
+                                class="flex cursor-pointer items-center space-x-3 rounded-md border border-gray-300 bg-gray-50 p-4 transition-colors hover:border-[#003A8F] hover:bg-[#003A8F]/5">
                                 <div
-                                    class="flex-shrink-0 w-10 h-10 bg-[#003A8F] rounded-md flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                    class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-[#003A8F]">
+                                    <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -103,9 +107,9 @@
                                     <p id="filename" class="text-sm font-medium text-gray-700">
                                         Pilih berkas pengajuan...
                                     </p>
-                                    <p class="text-xs text-gray-500 mt-0.5">Format: PDF | Maksimal: 50MB</p>
+                                    <p class="mt-0.5 text-xs text-gray-500">Format: PDF | Maksimal: 50MB</p>
                                 </div>
-                                <span class="text-sm font-medium text-[#003A8F] bg-[#003A8F]/10 px-4 py-2 rounded-md">
+                                <span class="rounded-md bg-[#003A8F]/10 px-4 py-2 text-sm font-medium text-[#003A8F]">
                                     Browse
                                 </span>
                             </label>
@@ -117,16 +121,16 @@
                         </div>
 
                         {{-- Divider --}}
-                        <div class="border-t border-gray-200 pt-6"></div>
+                        <div class="border-t border-gray-200"></div>
 
                         {{-- Submit Button --}}
                         <div class="flex items-center justify-end space-x-3">
-                            <a href="{{ route('user.dashboard') }}"
-                                class="px-6 py-2.5 border border-gray-300 rounded-md text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                            <a href="{{ route('submit.index') }}"
+                                class="rounded-md border border-gray-300 px-6 py-2.5 font-medium text-gray-700 transition-colors hover:bg-gray-50">
                                 Batal
                             </a>
                             <button type="submit"
-                                class="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-md font-medium transition-colors shadow-sm">
+                                class="rounded-md bg-green-600 px-6 py-2.5 font-medium text-white shadow-sm transition-colors hover:bg-green-700">
                                 Kirim Pengajuan
                             </button>
                         </div>

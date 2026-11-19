@@ -12,6 +12,11 @@ use Mpdf\Mpdf;
 
 class UserController extends Controller
 {
+
+    public function __construct(
+        protected SubmissionService $service
+    ) {}
+
     public function index() // dashboard pengajuan
     {
         $userId = Auth::id();
@@ -51,14 +56,16 @@ class UserController extends Controller
 
     public function worklist()
     {
+        $user = Auth::user();
+
         $proses_submissions = BudgetSubmission::with('user')
             ->where('user_id', Auth::id())
             ->where('requirements_status', 'Belum Lengkap')
             ->where('verification_status', 0)
             ->get();
 
-        $service = new SubmissionService();
-        $all_submissions = $service->getAllSubmissions()->paginate(10, ['*'], 'all_submit');
+        // $service = new SubmissionService();
+        $all_submissions = $this->service->getAllSubmissions($user->id)->paginate(10, ['*'], 'all_submit');
 
         $archive_submit = BudgetSubmission::with('user')
             ->where('user_id', Auth::id())

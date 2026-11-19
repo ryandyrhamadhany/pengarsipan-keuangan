@@ -10,15 +10,16 @@ use Illuminate\Support\Facades\Storage;
 
 class PDFHandler
 {
+    private string $directory = 'private';
 
     public function savePDF(?UploadedFile $file): ?string
     {
         if (! $file) {
             return null;
         }
-        // 2. Jika ada file, simpan dan langsung return path-nya
+
         $filename = time() . '_' . $file->getClientOriginalName();
-        return $file->storeAs('pengajuan', $filename, 'private');
+        return $file->storeAs('pengajuan', $filename, $this->directory);
     }
 
     public function updatePDF(BudgetSubmission $budgetSubmission, ?UploadedFile $file): ?string

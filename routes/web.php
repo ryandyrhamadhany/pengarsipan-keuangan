@@ -24,7 +24,9 @@ use App\Http\Controllers\Features\File_Access\FileAccessController;
 use App\Http\Controllers\Features\Final_Verification\FinalVerificationController;
 use App\Http\Controllers\Features\Final_Verification\SearchFinalVerificationController;
 use App\Http\Controllers\Features\domain\Pengajuan\ReturnSubmissionController;
+use App\Http\Controllers\Features\domain\Pengajuan\SubmissionApiController;
 use App\Http\Controllers\Features\domain\Pengajuan\SubmissionController;
+use App\Http\Controllers\Features\domain\Pengajuan\SubmissionWebController;
 use App\Http\Controllers\Features\domain\Report\ReportController;
 use App\Http\Controllers\Features\domain\Verification\VerificationController;
 use App\Http\Controllers\Features\PPSPM_Verification\PPSPMVerificationController;
@@ -95,13 +97,15 @@ require __DIR__ . '/auth.php';
 
 Route::middleware('auth', 'verified')->group(function () {
     // =============================================================== api Submission
-    Route::resource("/submit", SubmissionController::class);
+    Route::resource('/submit', SubmissionApiController::class)
+        ->only(['store', 'update', 'destroy']);
+    // Route::resource("/submit", SubmissionController::class);
     Route::put('/submit/fixing/{id}', [SubmissionController::class, 'fixing'])->name('submit.fixing');
     Route::get('/divisi/report/laporan_pengajuan', [ReportController::class, 'report_submission'])->name('laporan.all.divisi');
     Route::get('/divisi/report/laporan_pengajuan_nominal', [ReportController::class, 'report_submit_nominal'])->name('laporan.all.nominal');
 
     // =============================================================== api Verification
-    Route::get('/verification/search', [SearchVerificationController::class, 'search'])->name('verification.search');
+    // Route::get('/verification/search', [SearchVerificationController::class, 'search'])->name('verification.search');
     Route::put('/verification/keuangan/item/verify/{id}', [VerificationController::class, 'verify_keuangan'])->name('verify.keuangan');
     Route::get('/keuangan/report/laporan_pengajuan', [ReportController::class, 'report_submit_nominal'])->name('laporan.all.keuangan');
     Route::get('/keuangan/report/laporan_pengajuan_verifikasi', [ReportController::class, 'report_submit_nominal'])->name('laporan.keuangan.verify');
@@ -112,14 +116,14 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/bendahara/report/laporan_pengajuan', [ReportController::class, 'report_sign_submission'])->name('laporan.all.bendahara');
     Route::get('/bendahara/report/nominal', [ReportController::class, 'report_sign_submission_nominal'])->name('laporan.nominal.bendahara');
     Route::get('/bendahara/report/sign', [ReportController::class, 'report_all_sign_submission'])->name('laporan.sign.bendahara');
-    Route::get('/final/search', [SearchFinalVerificationController::class, 'search'])->name('final.search');
-    Route::resource('/final', FinalVerificationController::class);
+    // Route::get('/final/search', [SearchFinalVerificationController::class, 'search'])->name('final.search');
+    // Route::resource('/final', FinalVerificationController::class);
 
     // =============================================================== api Verification PPSPM
     Route::get('/verification/ppspm/item/verify/{id}', [VerificationController::class, 'verify_ppspm'])->name('verify.ppspm');
-    Route::get('/validation/search', [SearchPPSPMController::class, 'search'])->name('validation.search');
-    Route::put('/validation/return/{id}', [PPSPMVerificationController::class, 'return'])->name('validation.return');
-    Route::resource('/validation', PPSPMVerificationController::class);
+    // Route::get('/validation/search', [SearchPPSPMController::class, 'search'])->name('validation.search');
+    // Route::put('/validation/return/{id}', [PPSPMVerificationController::class, 'return'])->name('validation.return');
+    // Route::resource('/validation', PPSPMVerificationController::class);
 
     // =============================================================== api file access
     Route::get('/file/stream/{id}', [FileAccessController::class, 'stream'])->name('file.stream');
@@ -155,6 +159,10 @@ Route::middleware('auth', 'verified')->group(function () {
 // route tampilan
 Route::middleware('auth', 'verified')->group(function () {
     // route tampilan user
+    Route::resource('/submit', SubmissionWebController::class)
+        ->only(['index', 'create', 'show', 'edit']);
+    Route::get('/submit/type/{type}', [SubmissionWebController::class, 'getItemByType'])->name('submit.type');
+
     Route::get('/divisi/monitor', [UserController::class, 'worklist'])->name('user.monitoring');
 
     // route tampilan keuangan
@@ -293,7 +301,7 @@ Route::get('/administrator/report', [AdminController::class, 'report'])->name('a
 // ==================================================================== Route Keuangan
 Route::get('/keuangan/input', [KeuanganController::class, 'input_arsip'])->name('keuangan.input');
 // Route::get('/keuangan/check/{id}', [KeuanganController::class, 'check_pengajuan'])->name('keuangan.check'); // diganti verif show
-Route::put('/keuangan/update/{id}', [BudgetSubmissionController::class, 'update_check'])->name('keuangan.checkandupate');
+// Route::put('/keuangan/update/{id}', [BudgetSubmissionController::class, 'update_check'])->name('keuangan.checkandupate');
 // Route::put('/keuangan/perbaiki/{id}', [BudgetSubmissionController::class, 'perbaikan'])->name('keuangan.perbaiki');
 // Route::get('/keuangan/pengajuan', [KeuanganController::class, 'all_submit'])->name('keuangan.pengajuan');
 // Route::get('/keuangan/search', [KeuanganController::class, 'search_pengajuan'])->name('keuangan.search');
@@ -303,7 +311,7 @@ Route::put('/keuangan/update/{id}', [BudgetSubmissionController::class, 'update_
 
 // ===================================================================== Route Bendahara
 Route::get('/bendahara/sign/{id}', [BendaharaController::class, 'document_sign'])->name('bendahara.sign');
-Route::put('/bendahara/verifikasi/{id}', [BudgetSubmissionController::class, 'final_verification'])->name('bendahara.verification');
+// Route::put('/bendahara/verifikasi/{id}', [BudgetSubmissionController::class, 'final_verification'])->name('bendahara.verification');
 // Route::get('/archive/pengajuan/{id}', [DigitalArchiveController::class, 'show_in_year'])->name('digital.archive');
 // Route::get('/archive/pengajuan/show/{id}', [DigitalArchiveController::class, 'show_digital_archive'])->name('digital.archive.show');
 // Route::get('/bendahara/pengajuan', [BendaharaController::class, 'pengajuan'])->name('bendahara.pengajuan');

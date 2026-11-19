@@ -193,7 +193,7 @@ new class extends Component {
 
                 $route = [
                     'home' => route('user.dashboard'),
-                    'pengajuan' => route('submit.create'),
+                    'pengajuan' => route('submit.index'),
                     'monitor' => route('user.monitoring'),
                     'notification' => route('notifications.index'),
                     'report' => route('report.submiter'),
