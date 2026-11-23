@@ -54,9 +54,9 @@
                                 </label>
                                 <div class="border-b-2 border-gray-300">
                                     <select name="payment_method" id="payment_method"
-                                        class="w-full border-none bg-transparent p-0 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
+                                        class="w-full border-none bg-transparent px-1 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
                                         required>
-                                        <option value="" class="px-4" selected disabled> Pilih metode pembayaran
+                                        <option value="" selected disabled> Pilih metode pembayaran
                                         </option>
                                         @foreach ($payment_method as $payment)
                                             <option value="{{ $payment->id }}" class="px-4">
@@ -74,9 +74,9 @@
                                 </label>
                                 <div class="border-b-2 border-gray-300">
                                     <select name="funding_source" id="funding_source"
-                                        class="w-full border-none bg-transparent p-0 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
+                                        class="w-full border-none bg-transparent px-1 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
                                         required>
-                                        <option value="" class="px-4" selected disabled>Pilih sumber dana
+                                        <option value="" selected disabled>Pilih sumber dana
                                         </option>
                                         @foreach ($funding_source as $funding)
                                             <option value="{{ $funding->id }}" class="px-4">

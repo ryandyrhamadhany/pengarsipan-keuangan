@@ -5,7 +5,6 @@ namespace App\service\features\domain\pengajuan;
 use App\Models\BudgetSubmission;
 use App\Models\User;
 use App\service\features\handler\checklist_factory\ChecklistFactory;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 use App\service\features\handler\pdf_handler\PDFHandler;
@@ -72,7 +71,7 @@ class SubmissionService
 
     public function getSubmissionById(int $id): ?BudgetSubmission
     {
-        $submission = BudgetSubmission::with('finance_officer')->with('revenue_officer')
+        $submission = BudgetSubmission::with('user')->with('finance_officer')->with('revenue_officer')
             ->with('payment_method')
             ->with('funding_source')
             ->findOrFail($id);
@@ -118,6 +117,52 @@ class SubmissionService
         return $items;
     }
 
+    public function getFileSize(string $path): string
+    {
+        return $this->pdfHandler->getFileSize($path);
+    }
+
+    public function getChecklistValueBySubmission(BudgetSubmission $submit): ?array
+    {
+        return $this->checklistFactory->getChecklistValue($submit);
+    }
+
+    // ---
+
+    public function getSubmitCountByMounth(int $id): int
+    {
+        return BudgetSubmission::with('user')
+            ->where('user_id', $id)
+            ->whereMonth('updated_at', now()->month)
+            ->whereYear('updated_at', now()->year)
+            ->count();
+    }
+
+    public function getSubmitWaitingVerifyCount(int $id): int
+    {
+        return BudgetSubmission::with('user')
+            ->where('user_id', $id)
+            ->where('verification_status', 0)
+            ->where('is_return', 0)
+            ->count();
+    }
+
+    public function getSubmitNeedFixCount(int $id): int
+    {
+        return BudgetSubmission::with('user')
+            ->where('user_id', $id)
+            ->where('is_return', 1)
+            ->count();
+    }
+
+    public function getSubmitIsDone(int $id): int
+    {
+        return BudgetSubmission::with('user')
+            ->where('user_id', $id)
+            ->where('is_archive', 1)
+            ->count();
+    }
+
     // ---------------------------------------------------------------------------------------------------
 
     public function updateSubmission(Request $request, string $id): void
@@ -152,12 +197,5 @@ class SubmissionService
         }
 
         $pengajuan->delete();
-    }
-
-
-
-    public function getChecklistValueSubmission(): ?array
-    {
-        return [];
     }
 }

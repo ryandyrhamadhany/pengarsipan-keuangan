@@ -7,6 +7,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 // use App\service\features\handler\pdf_handler\PDFHandler;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Number;
+use PhpParser\Node\Expr\Cast\Double;
 
 class PDFHandler
 {
@@ -55,5 +57,20 @@ class PDFHandler
         Storage::disk('private')->copy($path, $newPath);
         Log::info('File pengajuan berhasil disalin ke folder arsip: ' . $newPath);
         return $newPath;
+    }
+
+    public function getFileSize(string $path): string
+    {
+        $bytes = Storage::disk($this->directory)->size($path);
+
+        if ($bytes >= 1048576) {
+            $size = number_format($bytes / 1048576, 2) . ' MB';
+        } elseif ($bytes >= 1024) {
+            $size = number_format($bytes / 1024, 2) . ' KB';
+        } else {
+            $size = $bytes . ' B';
+        }
+
+        return $size;
     }
 }

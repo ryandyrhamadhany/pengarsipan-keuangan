@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Features\domain\Pengajuan;
 
 use App\Http\Controllers\Controller;
-use App\Models\BudgetSubmission;
 use App\Models\FundingSource;
 use App\Models\PaymentMethod;
 use App\service\features\domain\pengajuan\SubmissionService;
 use App\service\features\handler\checklist_factory\ChecklistFactory;
-use App\service\features\handler\pdf_handler\PDFHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,27 +24,10 @@ class SubmissionWebController extends Controller
         $items = $this->service->getAllSubmissions($user->id)->paginate(10, ['*'], 'semua');
         $type = 'semua';
 
-        $bulanini = BudgetSubmission::with('user')
-            ->where('user_id', $user->id)
-            ->whereMonth('updated_at', now()->month)
-            ->whereYear('updated_at', now()->year)
-            ->count();
-
-        $menunggu = BudgetSubmission::with('user')
-            ->where('user_id', $user->id)
-            ->where('verification_status', 0)
-            ->where('is_return', 0)
-            ->count();
-
-        $perbaiki = BudgetSubmission::with('user')
-            ->where('user_id', $user->id)
-            ->where('is_return', 1)
-            ->count();
-
-        $selesai = BudgetSubmission::with('user')
-            ->where('user_id', $user->id)
-            ->where('is_archive', 1)
-            ->count();
+        $bulanini = $this->service->getSubmitCountByMounth($user->id);
+        $menunggu = $this->service->getSubmitWaitingVerifyCount($user->id);
+        $perbaiki = $this->service->getSubmitNeedFixCount($user->id);
+        $selesai = $this->service->getSubmitIsDone($user->id);
 
         return view('features.pengajuan.home', compact('items', 'type', 'bulanini', 'menunggu', 'perbaiki', 'selesai'));
     }
@@ -56,27 +37,10 @@ class SubmissionWebController extends Controller
         $user = Auth::user();
         $items = $this->service->getSubmissionByType($user->id, $type)->paginate(10, ['*'], $type);
 
-        $bulanini = BudgetSubmission::with('user')
-            ->where('user_id', $user->id)
-            ->whereMonth('updated_at', now()->month)
-            ->whereYear('updated_at', now()->year)
-            ->count();
-
-        $menunggu = BudgetSubmission::with('user')
-            ->where('user_id', $user->id)
-            ->where('verification_status', 0)
-            ->where('is_return', 0)
-            ->count();
-
-        $perbaiki = BudgetSubmission::with('user')
-            ->where('user_id', $user->id)
-            ->where('is_return', 1)
-            ->count();
-
-        $selesai = BudgetSubmission::with('user')
-            ->where('user_id', $user->id)
-            ->where('is_archive', 1)
-            ->count();
+        $bulanini = $this->service->getSubmitCountByMounth($user->id);
+        $menunggu = $this->service->getSubmitWaitingVerifyCount($user->id);
+        $perbaiki = $this->service->getSubmitNeedFixCount($user->id);
+        $selesai = $this->service->getSubmitIsDone($user->id);
 
         return view('features.pengajuan.home', compact('items', 'type', 'bulanini', 'menunggu', 'perbaiki', 'selesai'));
     }
@@ -101,9 +65,6 @@ class SubmissionWebController extends Controller
      */
     public function show(string $id)
     {
-        // $submit_service = new SubmissionService();
-        $checklistFactory = new ChecklistFactory();
-
         $payment_method = PaymentMethod::all();
         $funding_source = FundingSource::all();
         $pengajuan = $this->service->getSubmissionById($id);
@@ -112,7 +73,9 @@ class SubmissionWebController extends Controller
             return redirect()->route('user.monitoring')->with('error', 'Pengajuan tidak ditemukan.');
         }
 
-        $result = $checklistFactory->getChecklistValue($pengajuan);
+        $filesize = $this->service->getFileSize($pengajuan->path_file_submission);
+
+        $result = $this->service->getChecklistValueBySubmission($pengajuan);
 
         $namaKegiatan   = $result['nama_kegiatan'] ?? '-';
         $no             = $result['no'] ?? '-';
@@ -131,6 +94,7 @@ class SubmissionWebController extends Controller
             "features.pengajuan.show",
             compact(
                 'pengajuan',
+                'filesize',
                 'namaKegiatan',
                 'no',
                 'syaratDoc',
