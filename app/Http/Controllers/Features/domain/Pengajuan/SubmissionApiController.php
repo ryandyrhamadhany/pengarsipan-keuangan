@@ -17,6 +17,34 @@ class SubmissionApiController extends Controller
      */
     public function index() {}
 
+    public function stream(string $id)
+    {
+        $submit = $this->service->getSubmissionById($id);
+        $path = $this->service->getPathSubmission($submit->path_file_submission);
+
+        return response()->file($path);
+    }
+
+    public function donwload(string $id)
+    {
+        $submit = $this->service->getSubmissionById($id);
+        $path = $this->service->getPathSubmission($submit->path_file_submission);
+
+        $fileName = basename($submit->path_file_submission);
+
+        return response()->download($path, $fileName);
+    }
+
+    public function donwload_metadata(string $id)
+    {
+        $submit = $this->service->getSubmissionById($id);
+        $path = $this->service->getPathSubmission($submit->path_file_requirements_status);
+
+        $fileName = basename($submit->path_file_requirements_status);
+
+        return response()->download($path, $fileName);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

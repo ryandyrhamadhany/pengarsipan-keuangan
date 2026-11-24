@@ -55,14 +55,15 @@
                                 </label>
                                 <div class="border-b-2 border-gray-300">
                                     <select name="payment_method" id="payment_method"
-                                        class="w-full border-none bg-transparent p-0 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
+                                        class="w-full border-none bg-transparent p-1 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
                                         required>
                                         <option value="" selected disabled> Pilih metode pembayaran
                                         </option>
                                         @foreach ($payment_method as $payment)
                                             <option value="{{ $payment->id }}"
                                                 {{ $submission->assigned_payment_method == $payment->id ? 'selected' : '' }}>
-                                                {{ $payment->payment_method_name }} - {{ $payment->sub_category }}
+                                                {{ $payment->payment_method_name }}
+                                                {{ isset($payment->sub_category) ? ' - ' . $payment->sub_category : ' ' }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -91,14 +92,15 @@
                                 </label>
                                 <div class="border-b-2 border-gray-300">
                                     <select name="funding_source" id="funding_source"
-                                        class="w-full border-none bg-transparent p-0 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
+                                        class="w-full border-none bg-transparent p-1 py-2 text-base text-gray-500 focus:outline-none focus:ring-0"
                                         required>
                                         <option value="" selected disabled>Pilih sumber dana
                                         </option>
                                         @foreach ($funding_source as $funding)
                                             <option value="{{ $funding->id }}"
                                                 {{ $submission->assigned_funding_source == $funding->id ? 'selected' : '' }}>
-                                                {{ $funding->funding_source_name }} - {{ $funding->sub_category }}
+                                                {{ $funding->funding_source_name }}
+                                                {{ isset($funding->sub_category) ? ' - ' . $funding->sub_category : ' ' }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -134,7 +136,7 @@
                                                 {{ basename($submission->path_file_submission) }}
                                             </p>
                                         </div>
-                                        <a href="{{ route('file.stream', $submission->id) }}" target="_blank"
+                                        <a href="{{ route('submit.stream', $submission->id) }}" target="_blank"
                                             class="ml-4 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700">
                                             Lihat File
                                         </a>
@@ -185,7 +187,7 @@
                         {{-- Buttons --}}
                         <div class="flex items-center justify-end space-x-3">
                             <a href="{{ route('submit.index') }}"
-                                class="rounded-md border border-gray-300 px-6 py-2.5 font-medium text-gray-700 transition-colors hover:bg-gray-50">
+                                class="rounded-md border border-gray-300 px-6 py-2.5 font-medium text-gray-700 transition-colors  hover:bg-gray-100 ">
                                 Batal
                             </a>
                             <button type="submit"

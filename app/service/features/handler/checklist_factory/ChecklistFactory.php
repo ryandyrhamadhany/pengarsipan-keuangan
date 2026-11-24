@@ -205,6 +205,10 @@ class ChecklistFactory
     }
 
     // ======================================================================= FITUR TAMBAHAN
+    public function getPath(string $path)
+    {
+        return Storage::disk('private')->path($path);
+    }
     // set nama pengajuan di checklist
     public function setSubmitNameInChecklist(string $submit_name): void
     {

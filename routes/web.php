@@ -20,10 +20,10 @@ use App\Http\Controllers\Features\domain\Arsip\Rack\RackController;
 use App\Http\Controllers\Features\domain\Arsip\SubCategory\SubCategoryController;
 use App\Http\Controllers\Features\domain\Arsip\Year\YearController;
 use App\Http\Controllers\Features\File_Access\ArchiveFileAccessController;
-use App\Http\Controllers\Features\File_Access\FileAccessController;
+// use App\Http\Controllers\Features\File_Access\FileAccessController;
 use App\Http\Controllers\Features\Final_Verification\FinalVerificationController;
 use App\Http\Controllers\Features\Final_Verification\SearchFinalVerificationController;
-use App\Http\Controllers\Features\domain\Pengajuan\ReturnSubmissionController;
+// use App\Http\Controllers\Features\domain\Pengajuan\ReturnSubmissionController;
 use App\Http\Controllers\Features\domain\Pengajuan\SubmissionApiController;
 use App\Http\Controllers\Features\domain\Pengajuan\SubmissionController;
 use App\Http\Controllers\Features\domain\Pengajuan\SubmissionWebController;
@@ -36,7 +36,7 @@ use App\Http\Controllers\Features\Verifikasi\SearchVerificationController;
 use App\Http\Controllers\Kepala\KepalaController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PPSPM\PPSPMController;
-use App\Http\Controllers\User\BudgetSubmissionController;
+// use App\Http\Controllers\User\BudgetSubmissionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -98,9 +98,13 @@ require __DIR__ . '/auth.php';
 Route::middleware('auth', 'verified')->group(function () {
     // =============================================================== api Submission
     Route::resource('/submit', SubmissionApiController::class)
-        ->only(['store', 'update', 'destroy']);
-    // Route::resource("/submit", SubmissionController::class);
+        ->only(['store', 'update', 'destroy', 'stream', 'download']);
     Route::put('/submit/fixing/{id}', [SubmissionController::class, 'fixing'])->name('submit.fixing');
+    Route::get('/submit/file/stream/{id}', [SubmissionApiController::class, 'stream'])->name('submit.stream');
+    Route::get('/submit/file/download/{id}', [SubmissionApiController::class, 'download'])->name('submit.download');
+    Route::get('/submit/file_metadata/download/{id}', [SubmissionApiController::class, 'donwload_metadata'])->name('submit.donwload_metadata');
+    // Route::resource("/submit", SubmissionController::class);
+
     Route::get('/divisi/report/laporan_pengajuan', [ReportController::class, 'report_submission'])->name('laporan.all.divisi');
     Route::get('/divisi/report/laporan_pengajuan_nominal', [ReportController::class, 'report_submit_nominal'])->name('laporan.all.nominal');
 
@@ -126,9 +130,9 @@ Route::middleware('auth', 'verified')->group(function () {
     // Route::resource('/validation', PPSPMVerificationController::class);
 
     // =============================================================== api file access
-    Route::get('/file/stream/{id}', [FileAccessController::class, 'stream'])->name('file.stream');
-    Route::get('/file/download/{id}', [FileAccessController::class, 'download'])->name('file.download');
-    Route::get('/file/metadata/{id}', [FileAccessController::class, 'download_metadata'])->name('file.access.metadata');
+    // Route::get('/file/stream/{id}', [FileAccessController::class, 'stream'])->name('file.stream');
+    // Route::get('/file/download/{id}', [FileAccessController::class, 'download'])->name('file.download');
+    // Route::get('/file/metadata/{id}', [FileAccessController::class, 'download_metadata'])->name('file.access.metadata');
     Route::get('/file/stream/digital/{id}', [ArchiveFileAccessController::class, 'stream_digital_archive'])->name('archive.digital.stream');
     Route::get('/file/download/digital/{id}', [ArchiveFileAccessController::class, 'download_digital_archive'])->name('archive.digital.download');
     Route::get('/file/stream/archive/{id}', [ArchiveFileAccessController::class, 'stream_archive'])->name('archive.stream');
@@ -338,7 +342,7 @@ Route::resource('/document/file', ArchiveFileController::class);
 Route::resource('/account', AccountManageController::class);
 
 
-Route::resource('/pengajuan', BudgetSubmissionController::class);
+// Route::resource('/pengajuan', BudgetSubmissionController::class);
 // Route::resource('/archive/digital', DigitalArchiveController::class);
 
 Route::get('register', [RegisteredUserController::class, 'create'])->name('register');

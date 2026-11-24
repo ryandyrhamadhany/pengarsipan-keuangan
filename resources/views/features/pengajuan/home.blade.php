@@ -307,7 +307,7 @@
 
                         {{-- panduan singkat --}}
                         <div class="space-y-2">
-                            <div class="text-lg font-bold text-gray-600">
+                            <div class="text-lg font-bold text-gray-700">
                                 Panduan Singkat
                             </div>
                             <div class="rounded-lg border border-gray-200 p-2 text-xs text-gray-500">
@@ -390,6 +390,18 @@
                                 </div>
                                 <div class="flex gap-2">
                                     <span
+                                        class="inline-flex items-center rounded-md bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
+                                        <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        Selesai
+                                    </span>
+                                    <p class="text-xs text-gray-500"> pengajuan selesai melalui proses administrasi</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span
                                         class="inline-flex items-center rounded-md bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
                                         <svg class="mr-1 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
                                             <circle cx="10" cy="10" r="3" />
@@ -412,18 +424,6 @@
                                 </div>
                                 <div class="flex gap-2">
                                     <span
-                                        class="inline-flex items-center rounded-md bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
-                                        <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        Selesai
-                                    </span>
-                                    <p class="text-xs text-gray-500"> pengajuan selesai melalui proses administrasi</p>
-                                </div>
-                                <div class="flex gap-2">
-                                    <span
                                         class="inline-flex items-center rounded-md bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
                                         <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
@@ -433,6 +433,18 @@
                                         Diarsipkan
                                     </span>
                                     <p class="text-xs text-gray-500"> pengajuan diarsipkan</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <div
+                                        class="flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700">
+                                        <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                        </svg>
+                                        Belum Diarsipkan
+                                    </div>
+                                    <p class="text-xs text-gray-500"> pengajuan belum diarsipkan</p>
                                 </div>
                             </div>
                         </div>

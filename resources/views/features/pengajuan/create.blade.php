@@ -20,7 +20,7 @@
                         </p>
                     </div>
                     <form action="{{ route('submit.store') }}" method="POST" enctype="multipart/form-data"
-                        class="space-y-6 mt-10">
+                        class="mt-10 space-y-6">
                         @csrf
 
                         {{-- <div class="rounded-md border-2 border-yellow-500 bg-yellow-100 p-2">   // masih penting !!
@@ -60,7 +60,8 @@
                                         </option>
                                         @foreach ($payment_method as $payment)
                                             <option value="{{ $payment->id }}" class="px-4">
-                                                {{ $payment->payment_method_name }} - {{ $payment->sub_category }}
+                                                {{ $payment->payment_method_name }}
+                                                {{ isset($payment->sub_category) ? ' - ' . $payment->sub_category : ' ' }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -80,7 +81,8 @@
                                         </option>
                                         @foreach ($funding_source as $funding)
                                             <option value="{{ $funding->id }}" class="px-4">
-                                                {{ $funding->funding_source_name }} - {{ $funding->sub_category }}
+                                                {{ $funding->funding_source_name }}
+                                                {{ isset($funding->sub_category) ? ' - ' . $funding->sub_category : ' ' }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -126,7 +128,7 @@
                         {{-- Submit Button --}}
                         <div class="flex items-center justify-end space-x-3">
                             <a href="{{ route('submit.index') }}"
-                                class="rounded-md border border-gray-300 px-6 py-2.5 font-medium text-gray-700 transition-colors hover:bg-gray-50">
+                                class="rounded-md border border-gray-300 px-6 py-2.5 font-medium text-gray-700 transition-colors hover:bg-gray-100">
                                 Batal
                             </a>
                             <button type="submit"

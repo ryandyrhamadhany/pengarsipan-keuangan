@@ -82,8 +82,7 @@ class SubmissionService
 
     public function getAllSubmissions(int $id): Builder
     {
-        $all_submissions = BudgetSubmission::where('user_id', $id)
-            ->latest();
+        $all_submissions = BudgetSubmission::with('user')->where('user_id', $id)->latest();
         return $all_submissions;
     }
 
@@ -120,6 +119,16 @@ class SubmissionService
     public function getFileSize(string $path): string
     {
         return $this->pdfHandler->getFileSize($path);
+    }
+
+    public function getPathSubmission(string $path): string
+    {
+        return $this->pdfHandler->getPath($path);
+    }
+
+    public function getPathChecklistFile(string $path): string
+    {
+        return $this->checklistFactory->getPath($path);
     }
 
     public function getChecklistValueBySubmission(BudgetSubmission $submit): ?array

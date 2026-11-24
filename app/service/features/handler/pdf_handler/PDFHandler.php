@@ -73,4 +73,8 @@ class PDFHandler
 
         return $size;
     }
+
+    public function getPath($path) : string {
+        return Storage::disk('private')->path($path);
+    }
 }
